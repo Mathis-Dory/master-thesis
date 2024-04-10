@@ -1,0 +1,4 @@
+*.iml
+.idea/
+/sqli_server/backend/venv/
+/sqli_server/backend/.env
