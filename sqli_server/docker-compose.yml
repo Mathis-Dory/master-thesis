@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - FLASK_APP=app/app.py
+    ports:
+      - "5959:5959"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
