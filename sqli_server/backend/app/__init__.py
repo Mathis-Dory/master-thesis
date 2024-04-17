@@ -8,7 +8,7 @@ from flask import Flask, jsonify, current_app
 from app.challenges.generator import generate_challenges
 from app.config import Config
 from challenges.models import populate_db
-from database import configure_database_uri, db, wait_for_db
+from database import configure_database_uri, wait_for_db, db
 
 
 def create_app() -> Flask:
