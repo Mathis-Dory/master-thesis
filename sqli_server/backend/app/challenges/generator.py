@@ -1,10 +1,9 @@
 import logging
 import random
 import secrets
-import string
-from typing import List
+from typing import List, Tuple
 
-# Choice of SQLi vulnerabilities
+# Choices of SQLi vulnerabilities
 SQLI_ARCHETYPES = [
     "Error-based SQL Injection",
     "Union-based SQL Injection",
@@ -14,18 +13,19 @@ SQLI_ARCHETYPES = [
     "No vulnerabilities",
 ]
 
+TEMPLATES = ["auth", "filter"]
 
-def generate_challenges(nbr: int = 10) -> List[str]:
-    """Generates a list of SQLi challenges."""
-    challenges = random.choices(SQLI_ARCHETYPES, k=nbr)
-    flags = []
-    for challenge in challenges:
-        if challenge != "No vulnerabilities":
-            random_string = "".join(secrets.choice(string.ascii_letters) for _ in range(32))
-            flag = "flag{" + random_string + "}"
-            flags.append(flag)
-        else:
-            flags.append(None)
 
+def generate_challenges(nbr: int) -> Tuple[List[str], List[str]]:
+    """
+    Generates a list of SQLi vulnerabilities and associated flags.
+    :param nbr: Number of challenges to generate
+    :return: Tuple of challenges types and flags
+    """
+    vulns = random.choices(SQLI_ARCHETYPES, k=nbr)
+    flags = [
+        f"flag{{{secrets.token_hex(16)}}}" if v != "No vulnerabilities" else None for v in vulns
+    ]
+    logging.debug(f"Generated vulnerabilities: {vulns}")
     logging.debug(f"Flags are {flags}")
-    return challenges
+    return vulns, flags

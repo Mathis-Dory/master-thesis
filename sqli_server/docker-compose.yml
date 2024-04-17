@@ -10,3 +10,16 @@ services:
       - "5959:5959"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - ./backend/.env
+    networks:
+      internal:
+         ipv4_address: 172.20.0.2
+
+networks:
+  internal:
+      ipam:
+        driver: bridge
+        config:
+          - subnet: 172.20.0.0/16
+            gateway: 172.20.0.1
