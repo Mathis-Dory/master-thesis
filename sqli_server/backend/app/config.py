@@ -12,6 +12,7 @@ from challenges.models import (
     Book,
     Music,
     Equipment,
+    AuthBypass,
 )
 
 
@@ -22,6 +23,7 @@ class Config:
     DB_PASSWORD = os.getenv("DB_PASSWORD", "password")
     # Defined tables in the models.py file
     DEFINED_TABLES = [
+        AuthBypass,
         User,
         Product,
         Order,
@@ -34,4 +36,4 @@ class Config:
         Music,
         Equipment,
     ]
-    SEED = os.getenv("SEED", 0)
+    SEED = os.getenv("SEED", 42)
