@@ -19,6 +19,7 @@ def create_app() -> Flask:
     app = Flask(__name__)
     app.config.from_object(Config)
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    random.seed(app.config["SEED"])
 
     # Setup logging based on configuration
     logging.basicConfig(
@@ -42,8 +43,7 @@ def create_app() -> Flask:
             return app
         app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
         db.init_app(app)
-        db.create_all()
-        populate_db()
+        populate_db(templates=init_data["templates"], flags=init_data["flags"])
 
     @app.route("/", methods=["GET"])
     def root() -> jsonify:
@@ -79,12 +79,16 @@ def initialize_environment(app: Flask) -> dict or None:
     else:
         logging.error(f"Unable to start DBMS: {selected_dbms}")
         return None
-    vulns, flags = generate_challenges(nbr=10)
-    logging.info(f"{len(vulns)} challenges generated and database started with ID: {container.id}")
+    challenges, flags, templates = generate_challenges(nbr=10)
+    logging.info(
+        f"{len(challenges)} challenges generated and database started with ID: {container.id}"
+    )
 
     return {
         "dbms": selected_dbms,
-        "challenges": vulns,
+        "challenges": challenges,
+        "flags": flags,
+        "templates": templates,
         "container_id": container.id,
     }
 

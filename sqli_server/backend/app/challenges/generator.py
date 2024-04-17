@@ -13,19 +13,28 @@ SQLI_ARCHETYPES = [
     "No vulnerabilities",
 ]
 
-TEMPLATES = ["auth", "filter"]
+TEMPLATES = [
+    "auth",
+    "filter",
+    "filter",
+    "filter",
+]  # Boost the probability of filter challenges to 75%
 
 
-def generate_challenges(nbr: int) -> Tuple[List[str], List[str]]:
+def generate_challenges(nbr: int) -> Tuple[List[str], List[str], List[str]]:
     """
     Generates a list of SQLi vulnerabilities and associated flags.
     :param nbr: Number of challenges to generate
     :return: Tuple of challenges types and flags
     """
-    vulns = random.choices(SQLI_ARCHETYPES, k=nbr)
+    challenges = random.choices(SQLI_ARCHETYPES, k=nbr)
+    templates = random.choices(TEMPLATES, k=nbr)
     flags = [
-        f"flag{{{secrets.token_hex(16)}}}" if v != "No vulnerabilities" else None for v in vulns
+        f"flag_challenge_{idx + 1}{{{secrets.token_hex(16)}}}"
+        if v != "No vulnerabilities"
+        else None
+        for idx, v in enumerate(challenges)
     ]
-    logging.debug(f"Generated vulnerabilities: {vulns}")
+    logging.debug(f"Generated vulnerabilities: {challenges}")
     logging.debug(f"Flags are {flags}")
-    return vulns, flags
+    return challenges, flags, templates
