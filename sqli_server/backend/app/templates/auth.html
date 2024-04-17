@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login Page Vulnerable</title>
+  </head>
+  <body>
+    <h1>Login Page</h1>
+    <form method="POST">
+      Username: <label>
+      <input type="text" name="user_input" placeholder="Enter username">
+    </label>
+      Password: <label>
+      <input type="text" name="password_input" placeholder="Enter password">
+    </label>
+      <button type="submit">Login</button>
+    </form>
+    {% if result %}
+    <h2>Results</h2>
+    <p>{{ result }}</p>
+    {% endif %}
+    {% if error %}
+    <h3>Error</h3>
+    <p>{{ error }}</p>
+    {% endif %}
+  </body>
+</html>
