@@ -38,3 +38,11 @@ def generate_challenges(nbr: int) -> Tuple[List[str], List[str], List[str]]:
     logging.debug(f"Generated vulnerabilities: {challenges}")
     logging.debug(f"Flags are {flags}")
     return challenges, flags, templates
+
+
+def generate_auth_queries(payload_1, payload_2):
+    return f"SELECT * FROM user WHERE username = '{payload_1}' AND password = '{payload_2}'"
+
+
+def generate_filter_queries():
+    return

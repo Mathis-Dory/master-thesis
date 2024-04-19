@@ -215,7 +215,7 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
     logging.debug(f"Tables created for {len(selected_models)} models.")
 
     for model in selected_models:
-        num_entries = random.randint(30, 100)
+        num_entries = random.randint(50, 100)
         populate_model(model, num_entries, faker)
         logging.debug(f"Populated {model.__name__} with {num_entries} entries.")
 
