@@ -79,7 +79,7 @@ def initialize_environment(app: Flask) -> dict or None:
     else:
         logging.error(f"Unable to start DBMS: {selected_dbms}")
         return None
-    challenges, flags, templates = generate_challenges(nbr=10)
+    challenges, flags, templates = generate_challenges(nbr=app.config["CHALLENGES_EPISODES"])
     logging.info(
         f"{len(challenges)} challenges generated and database started with ID: {container.id}"
     )
