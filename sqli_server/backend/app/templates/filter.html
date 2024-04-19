@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Filter Page Vulnerable</title>
-  </head>
-  <body>
-    <h1>Data Filter Page</h1>
-    <form method="POST">
-      Filter: <label>
-      <input type="text" name="user_input" placeholder="Filter data">
-    </label>
-      <button type="submit">Filter</button>
-    </form>
-    {% if result %}
-    <h2>Filtered Results</h2>
-    <p>{{ result }}</p>
-    {% endif %}
-    {% if error %}
-    <h3>Error</h3>
-    <p>{{ error }}</p>
-    {% endif %}
-    </body>
+<head>
+  <title>Filter Page Vulnerable</title>
+</head>
+<body>
+  <h1>Product Filter</h1>
+  <form method="POST">
+    Product Name: <input type="text" name="user_input" placeholder="Search products">
+    <button type="submit">Search</button>
+  </form>
+  {% if result %}
+  <ul>
+    {% for product in result %}
+    <li>{{ product.name }} - ${{ product.price }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% if error %}
+  <h3>{{ error }}</h3>
+  {% endif %}
+</body>
 </html>
