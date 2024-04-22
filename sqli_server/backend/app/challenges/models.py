@@ -1,15 +1,13 @@
 import logging
 import random
-from typing import List, Type
+from typing import List
 
 from faker import Faker
 from flask import current_app
 from sqlalchemy import MetaData
-from sqlalchemy.ext.declarative import declarative_base
 
+from challenges.generator import generate_filter_default_queries
 from database import db
-
-Base: Type[declarative_base()] = db.Model
 
 
 class AuthBypass(db.Model):
@@ -113,7 +111,7 @@ class Equipment(db.Model):
     description = db.Column(db.String(120), nullable=False)
 
 
-def create_selected_tables(selected_models: list[Type[Base]]) -> None:
+def create_selected_tables(selected_models: List[db.Model]) -> None:
     """Create tables for the selected models only."""
     # Create a new metadata instance
     meta = MetaData()
@@ -125,7 +123,7 @@ def create_selected_tables(selected_models: list[Type[Base]]) -> None:
     meta.create_all(bind=db.engine)
 
 
-def populate_model(model: Type[Base], num_entries: int, faker: Faker) -> None:
+def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
     for _ in range(num_entries):
         if model == User:
             entry = User(
@@ -136,7 +134,9 @@ def populate_model(model: Type[Base], num_entries: int, faker: Faker) -> None:
             )
         elif model == Product:
             entry = Product(
-                name=faker.word(), price=random.uniform(1, 1000), description=faker.sentence()
+                name=faker.word(),
+                price=random.uniform(1, 1000),
+                description=faker.sentence(),
             )
         elif model == Order:
             entry = Order(
@@ -156,7 +156,9 @@ def populate_model(model: Type[Base], num_entries: int, faker: Faker) -> None:
             )
         elif model == Menu:
             entry = Menu(
-                name=faker.word(), price=random.uniform(1, 100), description=faker.sentence()
+                name=faker.word(),
+                price=random.uniform(1, 100),
+                description=faker.sentence(),
             )
         elif model == Car:
             entry = Car(
@@ -193,6 +195,8 @@ def populate_model(model: Type[Base], num_entries: int, faker: Faker) -> None:
                 price=random.uniform(1, 1000),
                 description=faker.sentence(),
             )
+        elif model == AuthBypass:
+            continue
         else:
             logging.error(f"Error when faking data because of unknown model: {model}")
             return
@@ -209,22 +213,32 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
     )  # Exclude the User table initially and the AuthBypass table
     n = random.randint(1, len(indices_tables))
     selected_indices = random.sample(indices_tables, n)
-    selected_models = [tables[i] for i in selected_indices] + [User, AuthBypass]
+    selected_tables = [tables[i] for i in selected_indices] + [User, AuthBypass]
 
-    create_selected_tables(selected_models)
-    logging.debug(f"Tables created for {len(selected_models)} models.")
+    create_selected_tables(selected_tables)
+    logging.debug(f"Tables created for {len(selected_tables)} models.")
 
-    for model in selected_models:
+    for model in selected_tables:
         num_entries = random.randint(50, 100)
         populate_model(model, num_entries, faker)
         logging.debug(f"Populated {model.__name__} with {num_entries} entries.")
 
     db.session.commit()
-    insert_flags(selected_models, templates, flags)
+    insert_flags(selected_tables, templates, flags)
     logging.info("Database population complete and flags inserted.")
+    logging.info("Generating default queries...")
+    filter_queries = generate_filter_default_queries(available_tables=selected_tables)
+    current_app.config["FILTER_QUERIES"] = dict(
+        zip(
+            [i + 1 for i, template in enumerate(templates) if template == "filter"],
+            filter_queries,
+        )
+    )
 
 
-def insert_flags(selected_tables: List, templates: List[str], flags: List[str]) -> None:
+def insert_flags(
+    selected_tables: List[db.Model], templates: List[str], flags: List[str]
+) -> None:
     """
     Randomly insert flags into the database but if it is an auth challenge, insert the
     relevant flag to AuthBypasss table.
@@ -232,7 +246,7 @@ def insert_flags(selected_tables: List, templates: List[str], flags: List[str]) 
     :param templates: List of templates
     :param flags: List of flags to insert
     """
-    logging.info(f"Inserting flags into the database... {flags}")
+    logging.info(f"Inserting flags into the database...")
     for idx, flag in enumerate(flags):
         if flag is not None:
             if templates[idx] == "auth":
@@ -258,7 +272,9 @@ def insert_flags(selected_tables: List, templates: List[str], flags: List[str]) 
                         row = random.choice(rows)
                         # Check if the selected cell already contains a flag
                         if getattr(row, column.name) in flags:
-                            logging.debug("Selected cell already contains a flag, retrying...")
+                            logging.debug(
+                                "Selected cell already contains a flag, retrying..."
+                            )
                         else:
                             setattr(row, column.name, flag)
                             db.session.add(row)

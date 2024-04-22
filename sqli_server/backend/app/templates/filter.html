@@ -2,22 +2,49 @@
 <html lang="en">
 <head>
   <title>Filter Page Vulnerable</title>
+  <style>
+      table {
+          width: 100%;
+          border-collapse: collapse;
+      }
+      th, td {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+      }
+      th {
+          background-color: #f2f2f2;
+      }
+  </style>
 </head>
 <body>
-  <h1>Product Filter</h1>
-  <form method="POST">
-    Product Name: <input type="text" name="user_input" placeholder="Search products">
-    <button type="submit">Search</button>
-  </form>
-  {% if result %}
-  <ul>
-    {% for product in result %}
-    <li>{{ product.name }} - ${{ product.price }}</li>
+<h1>Product Filter</h1>
+<form method="POST">
+  Product Name: <input type="text" name="user_input" placeholder="Search products">
+  <button type="submit">Search</button>
+</form>
+{% if items %}
+<table>
+  <thead>
+  <tr>
+    {% for header in items[0].keys() %}
+    <th>{{ header }}</th>
     {% endfor %}
-  </ul>
-  {% endif %}
-  {% if error %}
-  <h3>{{ error }}</h3>
-  {% endif %}
+  </tr>
+  </thead>
+  <tbody>
+  {% for item in items %}
+  <tr>
+    {% for value in item.values() %}
+    <td>{{ value }}</td>
+    {% endfor %}
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% if error %}
+<h3>{{ error }}</h3>
+{% endif %}
 </body>
 </html>
