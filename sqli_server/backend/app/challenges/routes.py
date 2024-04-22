@@ -5,7 +5,9 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 from app import db
-from challenges.generator import generate_auth_queries, generate_filter_queries
+from challenges.generator import (
+    generate_auth_queries,
+)
 
 challenges_bp = Blueprint("challenges", __name__)
 
@@ -18,6 +20,7 @@ def challenge(challenge_number: int) -> str:
     if challenge_number < 1 or challenge_number > episodes:
         abort(404)
     selected_template = templates[challenge_number - 1]
+    logging.debug(f"Selected template: {selected_template}")
     error = None
     result = None
 
@@ -31,11 +34,27 @@ def challenge(challenge_number: int) -> str:
                 result = db.session.execute(text(query))
                 logging.debug(result)
             elif selected_template == "filter":
-                query = generate_filter_queries()
+                pass
                 # send the payload using a randomly vulnerable query logic when POST
             else:
                 logging.error(f"Unknown template: {selected_template}")
         except SQLAlchemyError as e:
             logging.error(str(e.__dict__["orig"]))
 
-    return render_template(f"{selected_template}.html")
+    elif request.method == "GET":
+        try:
+            if selected_template == "filter":
+                filter_queries = current_app.config.get("FILTER_QUERIES", {})
+                logging.debug(f"Filter queries: {filter_queries}")
+                query = filter_queries[challenge_number]
+                result_proxy = db.session.execute(text(query))
+                result = result_proxy.fetchall()
+                # Get column names from the result set
+                columns = result_proxy.keys()
+                # Create a list of dictionaries for each row in the result set
+                items = [{col: val for col, val in zip(columns, row)} for row in result]
+
+        except SQLAlchemyError as e:
+            logging.error(str(e.__dict__["orig"]))
+
+    return render_template(f"{selected_template}.html", items=items)
