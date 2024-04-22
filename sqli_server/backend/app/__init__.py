@@ -7,8 +7,8 @@ from flask import Flask, jsonify, current_app
 
 from app.challenges.generator import generate_challenges
 from app.config import Config
-from challenges.models import populate_db
-from database import configure_database_uri, wait_for_db, db
+from challenges.models import populate_db, db
+from .database import configure_database_uri, wait_for_db
 
 
 def create_app() -> Flask:
@@ -27,6 +27,10 @@ def create_app() -> Flask:
         format="%(asctime)s - %(levelname)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
+    sqlalchemy_logger = logging.getLogger("sqlalchemy")
+    sqlalchemy_logger.setLevel(logging.ERROR)
+    faker_logger = logging.getLogger("faker")
+    faker_logger.setLevel(logging.ERROR)
 
     with app.app_context():
         init_data = app.config["INIT_DATA"] = initialize_environment(app)
@@ -79,7 +83,9 @@ def initialize_environment(app: Flask) -> dict or None:
     else:
         logging.error(f"Unable to start DBMS: {selected_dbms}")
         return None
-    challenges, flags, templates = generate_challenges(nbr=app.config["CHALLENGES_EPISODES"])
+    challenges, flags, templates = generate_challenges(
+        nbr=app.config["CHALLENGES_EPISODES"]
+    )
     logging.info(
         f"{len(challenges)} challenges generated and database started with ID: {container.id}"
     )
