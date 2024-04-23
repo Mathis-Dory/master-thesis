@@ -27,10 +27,12 @@ def create_app() -> Flask:
         format="%(asctime)s - %(levelname)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
-    sqlalchemy_logger = logging.getLogger("sqlalchemy")
-    sqlalchemy_logger.setLevel(logging.ERROR)
-    faker_logger = logging.getLogger("faker")
-    faker_logger.setLevel(logging.ERROR)
+
+    logging.getLogger("sqlalchemy").setLevel(logging.ERROR)
+    logging.getLogger("faker").setLevel(logging.ERROR)
+    logging.getLogger("docker").setLevel(logging.WARNING)
+    logging.getLogger("requests").setLevel(logging.ERROR)
+    logging.getLogger("urllib3").setLevel(logging.ERROR)
 
     with app.app_context():
         init_data = app.config["INIT_DATA"] = initialize_environment(app)
