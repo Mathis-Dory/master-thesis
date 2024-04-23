@@ -201,6 +201,7 @@ def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
             logging.error(f"Error when faking data because of unknown model: {model}")
             return
         db.session.add(entry)
+    db.session.commit()
 
 
 def populate_db(templates: List[str], flags: List[str]) -> None:
@@ -221,12 +222,10 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
     for model in selected_tables:
         num_entries = random.randint(50, 100)
         populate_model(model, num_entries, faker)
-        logging.debug(f"Populated {model.__name__} with {num_entries} entries.")
 
-    db.session.commit()
     insert_flags(selected_tables, templates, flags)
-    logging.info("Database population complete and flags inserted.")
-    logging.info("Generating default queries...")
+    logging.info("Random data and flags inserted.")
+    logging.info("Generating default queries ...")
     filter_queries = generate_filter_default_queries(available_tables=selected_tables)
     current_app.config["FILTER_QUERIES"] = dict(
         zip(
@@ -241,7 +240,7 @@ def insert_flags(
 ) -> None:
     """
     Randomly insert flags into the database but if it is an auth challenge, insert the
-    relevant flag to AuthBypasss table.
+    relevant flag to AuthBypass table.
     :param selected_tables: List of all tables
     :param templates: List of templates
     :param flags: List of flags to insert
