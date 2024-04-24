@@ -37,3 +37,4 @@ class Config:
         Equipment,
     ]
     SEED = os.getenv("SEED", 42)
+    NULL_FREQUENCY = float(os.getenv("NULL_FREQUENCY", 0.1))

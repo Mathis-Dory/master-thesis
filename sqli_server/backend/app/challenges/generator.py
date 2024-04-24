@@ -4,6 +4,7 @@ import re
 import secrets
 from typing import List, Tuple, Any
 
+from faker import Faker
 from flask import current_app
 from sqlalchemy import inspect, String, Text, Integer, Float
 
@@ -28,14 +29,13 @@ TEMPLATES = [
 # Define SQL functions and operators
 NUMERIC_FUNCTIONS = ["MAX", "SUM", "AVG", "MIN", "COUNT"]
 TEXT_FUNCTIONS = ["CONCAT", "SUBSTRING", "REPLACE"]
-COMPARE_OPERATORS = [
-    ">",
-    "<",
-    "=",
-    "LIKE",
-    "NOT LIKE",
-]
-CONDITIONAL_OPERATORS = ["AND", "OR"]
+COMPARE_OPERATORS = {
+    "numeric": ["=", "!=", ">", "<", ">=", "<="],
+    "text": ["=", "!=", "LIKE", "NOT LIKE"],
+    "null": ["IS NULL", "IS NOT NULL"],
+}
+
+LOGICAL_OPERATORS = ["AND", "OR"]
 END_OPERATORS = ["HAVING", "ORDER BY", "LIMIT", "DISTINCT"]
 
 
@@ -86,6 +86,7 @@ def generate_filter_default_queries(
 
     for _ in filter_templates:
         if available_tables:
+            flag_condition = False
             table = random.choice(available_tables)
             columns = get_columns(table)
             if random.choice([True, True, False]):
@@ -122,10 +123,24 @@ def generate_filter_default_queries(
             query += f' FROM "{table.__tablename__}"'
             # Add a WHERE clause to remove any flag pattern
             for idx, col in enumerate(text_columns):
+                flag_condition = True
                 if idx == 0:
                     query += f" WHERE {col} NOT LIKE '%flag_challenge%'"
                 else:
                     query += f" AND {col} NOT LIKE '%flag_challenge%'"
+            if flag_condition:
+                query += f" AND "
+            else:
+                query += f" WHERE "
+            query = generate_conditional_query(
+                columns, text_columns, numeric_columns, query
+            )
+            if random.choice([True, False]):
+                # Add a logical operator
+                query += f" {random.choice(LOGICAL_OPERATORS)} "
+                query = generate_conditional_query(
+                    columns, text_columns, numeric_columns, query
+                )
 
             # Inspect the query to check if we applied a numerical function and if yes, add a GROUP BY clause
             if find_numerical_functions(query):
@@ -155,9 +170,10 @@ def apply_sql_function(
             numeric_functions, numeric_columns
         )
     # Concat the rest of the columns to the query without the column used in the function
-    if len(columns) > 1:
+    if len(columns) > 1 and "(" in query:
         query += f", {', '.join([c for c in columns if c not in used_columns])}"
-
+    elif len(columns) > 1 and not "(" in query:
+        query += f"{', '.join([c for c in columns if c not in used_columns])}"
     return query, used_columns
 
 
@@ -196,7 +212,10 @@ def get_column_type(table: Any, columns: List[str]) -> Tuple[List[str], List[str
 
 def generate_text_function(
     text_functions: List[str], text_columns: List[str]
-) -> Tuple[str, List[str]] or None:
+) -> Tuple[str, List[str]]:
+    if not text_columns:
+        logging.debug("No text columns available to apply a function.")
+        return "SELECT ", []
     text_function = random.choice(text_functions)
     if text_function == "CONCAT":
         if len(text_columns) > 1:
@@ -206,27 +225,30 @@ def generate_text_function(
             return query, columns
         else:
             # Select one random text column and concatenate it with a string
-            column = random.sample(text_columns, 1)
-            query = f"SELECT {text_function}({column[0]}, '_I_AM_CONCATENATE')"
+            column = random.choice(text_columns)
+            query = f"SELECT {text_function}({column}, '_I_AM_CONCATENATE')"
             return query, column
     elif text_function == "SUBSTRING":
         # Select a random text column and apply the SUBSTRING function
-        column = random.sample(text_columns, 1)
-        query = f"SELECT {text_function}({column[0]}, 1, {len(column[0]) // 2})"
+        column = random.choice(text_columns)
+        query = f"SELECT {text_function}({column}, 1, {len(column[0]) // 2})"
         return query, column
     elif text_function == "REPLACE":
         # Select a random text column and apply the REPLACE function
-        column = random.sample(text_columns, 1)
-        query = f"SELECT {text_function}({column[0]}, 'a', 'b')"
+        column = random.choice(text_columns)
+        query = f"SELECT {text_function}({column}, 'a', 'b')"
         return query, column
 
     logging.error("Unknown text function !")
-    return
+    return "SELECT ", []
 
 
 def generate_numeric_function(
     numeric_functions: List[str], numeric_columns: List[str]
-) -> Tuple[str, List[str]] or None:
+) -> Tuple[str, List[str]]:
+    if not numeric_columns:
+        logging.debug("No numeric columns available to apply a function.")
+        return "SELECT ", []
     numeric_function = random.choice(numeric_functions)
     if numeric_function == "SUM":
         if len(numeric_columns) > 1:
@@ -236,27 +258,27 @@ def generate_numeric_function(
             return query, columns
         else:
             # Select one random numeric column and sum it
-            column = random.sample(numeric_columns, 1)
-            query = f"SELECT {numeric_function}({column[0]})"
+            column = random.choice(numeric_columns)
+            query = f"SELECT {numeric_function}({column})"
             return query, column
     elif numeric_function == "AVG":
-        column = random.sample(numeric_columns, 1)
-        query = f"SELECT {numeric_function}({column[0]})"
+        column = random.choice(numeric_columns)
+        query = f"SELECT {numeric_function}({column})"
         return query, column
     elif numeric_function == "MAX":
-        column = random.sample(numeric_columns, 1)
-        query = f"SELECT {numeric_function}({column[0]})"
+        column = random.choice(numeric_columns)
+        query = f"SELECT {numeric_function}({column})"
         return query, column
     elif numeric_function == "MIN":
-        column = random.sample(numeric_columns, 1)
-        query = f"SELECT {numeric_function}({column[0]})"
+        column = random.choice(numeric_columns)
+        query = f"SELECT {numeric_function}({column})"
         return query, column
     elif numeric_function == "COUNT":
-        column = random.sample(numeric_columns, 1)
-        query = f"SELECT {numeric_function}({column[0]})"
+        column = random.choice(numeric_columns)
+        query = f"SELECT {numeric_function}({column})"
         return query, column
     logging.error("Unknown numeric function !")
-    return
+    return "SELECT ", []
 
 
 def find_numerical_functions(query: str) -> bool:
@@ -270,6 +292,37 @@ def find_numerical_functions(query: str) -> bool:
     # Find all occurrences of numerical functions in the query
     matches = re.findall(pattern, query)
     return bool(matches)
+
+
+def generate_conditional_query(
+    columns: List[str],
+    text_columns: List[str],
+    numeric_columns: List[str],
+    query: str,
+) -> str:
+    column = random.choice(columns)
+    if column in text_columns:
+        if random.choice([True, True, False]):
+            # Add a text comparison
+            query += (
+                f"{column} {random.choice(COMPARE_OPERATORS['text'])}"
+                f" '{random.choice(['%', ''])}{Faker().random_letter()}{random.choice(['%', ''])}'"
+            )
+        else:
+            # Add a NULL comparison
+            query += f"{column} {random.choice(COMPARE_OPERATORS['null'])}"
+
+    elif column in numeric_columns:
+        if random.choice([True, True, False]):
+            # Add a numeric comparison
+            query += f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} {random.randint(0, 100)}"
+        else:
+            # Add a NULL comparison
+            query += f"{column} {random.choice(COMPARE_OPERATORS['null'])}"
+    else:
+        query += f"{column} {random.choice(COMPARE_OPERATORS['null'])}"
+
+    return query
 
 
 def transform_get_to_post(query: str, payload: str) -> None or str:

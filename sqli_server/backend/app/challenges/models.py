@@ -19,18 +19,18 @@ class AuthBypass(db.Model):
 class Customers(db.Model):
     __tablename__ = "customers"
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    username = db.Column(db.String(80), nullable=False)
     password = db.Column(db.String(80), nullable=False)
     age = db.Column(db.Integer, nullable=True)
-    email = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(80), nullable=True)
 
 
 class Product(db.Model):
     __tablename__ = "product"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    description = db.Column(db.String(120), nullable=False)
+    price = db.Column(db.Float, nullable=True)
+    description = db.Column(db.String(120), nullable=True)
 
 
 class Order(db.Model):
@@ -38,15 +38,15 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String(120), nullable=False)
     product = db.Column(db.String(80), nullable=False)
-    destination = db.Column(db.String(80), nullable=False)
-    amount = db.Column(db.Integer, nullable=False)
-    price = db.Column(db.Float, nullable=False)
+    destination = db.Column(db.String(80), nullable=True)
+    amount = db.Column(db.Integer, nullable=True)
+    price = db.Column(db.Float, nullable=True)
 
 
 class Comment(db.Model):
     __tablename__ = "comment"
     id = db.Column(db.Integer, primary_key=True)
-    opinion = db.Column(db.String(120), nullable=False)
+    opinion = db.Column(db.String(120), nullable=True)
     username = db.Column(db.String(80), nullable=False)
 
 
@@ -55,7 +55,7 @@ class Grade(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     grade = db.Column(db.Float, nullable=False)
     student = db.Column(db.String(80), nullable=False)
-    classroom = db.Column(db.Integer, nullable=False)
+    classroom = db.Column(db.Integer, nullable=True)
 
 
 class Menu(db.Model):
@@ -63,15 +63,15 @@ class Menu(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     price = db.Column(db.Float, nullable=False)
-    description = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.String(120), nullable=True)
 
 
 class Car(db.Model):
     __tablename__ = "car"
     id = db.Column(db.Integer, primary_key=True)
-    model = db.Column(db.String(80), nullable=False)
+    model = db.Column(db.String(80), nullable=True)
     brand = db.Column(db.String(80), nullable=False)
-    year = db.Column(db.Integer, nullable=False)
+    year = db.Column(db.Integer, nullable=True)
     price = db.Column(db.Float, nullable=False)
 
 
@@ -80,7 +80,7 @@ class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
     year = db.Column(db.Integer, nullable=False)
-    genre = db.Column(db.String(80), nullable=False)
+    genre = db.Column(db.String(80), nullable=True)
     rating = db.Column(db.Float, nullable=False)
 
 
@@ -89,8 +89,8 @@ class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
     author = db.Column(db.String(80), nullable=False)
-    year = db.Column(db.Integer, nullable=False)
-    price = db.Column(db.Float, nullable=False)
+    year = db.Column(db.Integer, nullable=True)
+    price = db.Column(db.Float, nullable=True)
 
 
 class Music(db.Model):
@@ -98,17 +98,17 @@ class Music(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
     artist = db.Column(db.String(80), nullable=False)
-    year = db.Column(db.Integer, nullable=False)
-    genre = db.Column(db.String(80), nullable=False)
+    year = db.Column(db.Integer, nullable=True)
+    genre = db.Column(db.String(80), nullable=True)
 
 
 class Equipment(db.Model):
     __tablename__ = "equipment"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
-    brand = db.Column(db.String(80), nullable=False)
+    brand = db.Column(db.String(80), nullable=True)
     price = db.Column(db.Float, nullable=False)
-    description = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.String(120), nullable=True)
 
 
 def create_selected_tables(selected_models: List[db.Model]) -> None:
@@ -124,76 +124,116 @@ def create_selected_tables(selected_models: List[db.Model]) -> None:
 
 
 def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
+    null_frequency = current_app.config["NULL_FREQUENCY"]
     for _ in range(num_entries):
         if model == Customers:
             entry = Customers(
                 username=faker.user_name(),
                 password=faker.password(),
-                age=random.randint(12, 99),
-                email=faker.email(),
+                age=(
+                    random.randint(1, 99) if random.random() > null_frequency else None
+                ),
+                email=faker.email() if random.random() > null_frequency else None,
             )
         elif model == Product:
             entry = Product(
                 name=faker.word(),
-                price=random.uniform(1, 1000),
-                description=faker.sentence(),
+                price=(
+                    random.uniform(1, 1000)
+                    if random.random() > null_frequency
+                    else None
+                ),
+                description=(
+                    faker.sentence() if random.random() > null_frequency else None
+                ),
             )
         elif model == Order:
             entry = Order(
                 url=faker.url(),
                 product=faker.word(),
-                destination=faker.city(),
-                amount=random.randint(1, 100),
-                price=random.uniform(1, 1000),
+                destination=faker.city() if random.random() > null_frequency else None,
+                amount=(
+                    random.randint(1, 100) if random.random() > null_frequency else None
+                ),
+                price=(
+                    random.uniform(1, 1000)
+                    if random.random() > null_frequency
+                    else None
+                ),
             )
         elif model == Comment:
-            entry = Comment(opinion=faker.sentence(), username=faker.user_name())
+            entry = Comment(
+                opinion=faker.sentence() if random.random() > null_frequency else None,
+                username=faker.user_name(),
+            )
         elif model == Grade:
             entry = Grade(
                 grade=random.uniform(0, 10),
                 student=faker.user_name(),
-                classroom=random.randint(1, 15),
+                classroom=(
+                    random.randint(1, 15) if random.random() > null_frequency else None
+                ),
             )
         elif model == Menu:
             entry = Menu(
                 name=faker.word(),
                 price=random.uniform(1, 100),
-                description=faker.sentence(),
+                description=(
+                    faker.sentence() if random.random() > null_frequency else None
+                ),
             )
         elif model == Car:
             entry = Car(
-                model=faker.word(),
+                model=faker.word() if random.random() > null_frequency else None,
                 brand=faker.word(),
-                year=random.randint(1990, 2024),
-                price=random.uniform(1000, 100000),
+                year=(
+                    random.randint(1, 2024)
+                    if random.random() > null_frequency
+                    else None
+                ),
+                price=random.uniform(1, 100000),
             )
         elif model == Movie:
             entry = Movie(
                 title=faker.word(),
-                year=random.randint(1900, 2024),
-                genre=faker.word(),
+                year=random.randint(1, 2024),
+                genre=faker.word() if random.random() > null_frequency else None,
                 rating=random.uniform(0, 10),
             )
         elif model == Book:
             entry = Book(
                 title=faker.word(),
                 author=faker.name(),
-                year=random.randint(1900, 2024),
-                price=random.uniform(1, 1000),
+                year=(
+                    random.randint(1, 2024)
+                    if random.random() > null_frequency
+                    else None
+                ),
+                price=(
+                    random.uniform(1, 1000)
+                    if random.random() > null_frequency
+                    else None
+                ),
             )
         elif model == Music:
             entry = Music(
                 title=faker.word(),
                 artist=faker.name(),
-                year=random.randint(1900, 2024),
-                genre=faker.word(),
+                year=(
+                    random.randint(1, 2024)
+                    if random.random() > null_frequency
+                    else None
+                ),
+                genre=faker.word() if random.random() > null_frequency else None,
             )
         elif model == Equipment:
             entry = Equipment(
                 name=faker.word(),
-                brand=faker.word(),
+                brand=faker.word() if random.random() > null_frequency else None,
                 price=random.uniform(1, 1000),
-                description=faker.sentence(),
+                description=(
+                    faker.sentence() if random.random() > null_frequency else None
+                ),
             )
         elif model == AuthBypass:
             continue
@@ -223,7 +263,7 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
     logging.debug(f"Tables created for {len(selected_tables)} models.")
 
     for model in selected_tables:
-        num_entries = random.randint(50, 100)
+        num_entries = random.randint(500, 1000)
         populate_model(model, num_entries, faker)
 
     insert_flags(selected_tables, templates, flags)
