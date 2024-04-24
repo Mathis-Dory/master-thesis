@@ -16,8 +16,8 @@ class AuthBypass(db.Model):
     flag = db.Column(db.String(80), nullable=False)
 
 
-class User(db.Model):
-    __tablename__ = "user"
+class Customers(db.Model):
+    __tablename__ = "customers"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
@@ -46,8 +46,8 @@ class Order(db.Model):
 class Comment(db.Model):
     __tablename__ = "comment"
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(120), nullable=False)
-    user = db.Column(db.String(80), nullable=False)
+    opinion = db.Column(db.String(120), nullable=False)
+    username = db.Column(db.String(80), nullable=False)
 
 
 class Grade(db.Model):
@@ -125,8 +125,8 @@ def create_selected_tables(selected_models: List[db.Model]) -> None:
 
 def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
     for _ in range(num_entries):
-        if model == User:
-            entry = User(
+        if model == Customers:
+            entry = Customers(
                 username=faker.user_name(),
                 password=faker.password(),
                 age=random.randint(12, 99),
@@ -147,7 +147,7 @@ def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
                 price=random.uniform(1, 1000),
             )
         elif model == Comment:
-            entry = Comment(text=faker.sentence(), user=faker.user_name())
+            entry = Comment(opinion=faker.sentence(), username=faker.user_name())
         elif model == Grade:
             entry = Grade(
                 grade=random.uniform(0, 10),
@@ -214,7 +214,10 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
     )  # Exclude the User table initially and the AuthBypass table
     n = random.randint(1, len(indices_tables))
     selected_indices = random.sample(indices_tables, n)
-    selected_tables = [tables[i] for i in selected_indices] + [User, AuthBypass]
+    selected_tables = [tables[i] for i in selected_indices] + [
+        Customers,
+        AuthBypass,
+    ]
 
     create_selected_tables(selected_tables)
     logging.debug(f"Tables created for {len(selected_tables)} models.")
