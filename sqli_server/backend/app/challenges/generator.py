@@ -1,5 +1,6 @@
 import logging
 import random
+import re
 import secrets
 from typing import List, Tuple, Any
 
@@ -19,11 +20,23 @@ SQLI_ARCHETYPES = [
 ]
 
 TEMPLATES = [
-    "auth",
     "filter",
     "filter",
     "filter",
-]  # Boost the probability of filter challenges to 75%
+]  # Remove auth challenges for the moment
+
+# Define SQL functions and operators
+NUMERIC_FUNCTIONS = ["MAX", "SUM", "AVG", "MIN", "COUNT"]
+TEXT_FUNCTIONS = ["CONCAT", "SUBSTRING", "REPLACE"]
+COMPARE_OPERATORS = [
+    ">",
+    "<",
+    "=",
+    "LIKE",
+    "NOT LIKE",
+]
+CONDITIONAL_OPERATORS = ["AND", "OR"]
+END_OPERATORS = ["HAVING", "ORDER BY", "LIMIT", "DISTINCT"]
 
 
 def generate_challenges(nbr: int) -> Tuple[List[str], List[str], List[str]]:
@@ -64,19 +77,6 @@ def generate_filter_default_queries(
     templates = current_app.config["INIT_DATA"]["templates"]
     filter_templates = [t for t in templates if t == "filter"]
 
-    # Define SQL functions and operators
-    numeric_functions = ["MAX", "SUM", "AVG", "MIN", "COUNT"]
-    text_functions = ["CONCAT", "SUBSTRING", "REPLACE"]
-    compare_operators = [
-        ">",
-        "<",
-        "=",
-        "LIKE",
-        "NOT LIKE",
-    ]
-    conditional_operators = ["AND", "OR"]
-    end_operators = ["HAVING", "ORDER BY", "GROUP BY", "LIMIT", "DISTINCT"]
-
     # Exclude 'Customer' and 'AuthBypass' tables
     available_tables = [
         t
@@ -85,30 +85,20 @@ def generate_filter_default_queries(
     ]
 
     for _ in filter_templates:
-        group_by = False
         if available_tables:
             table = random.choice(available_tables)
             columns = get_columns(table)
             if random.choice([True, True, False]):
                 # Select all columns
+                text_columns, numeric_columns = get_column_type(table, columns)
                 if random.choice([True, True, True, False]):
-                    # Include a function, but first we check which columns are numeric or text
-                    text_columns, numeric_columns = get_column_type(table, columns)
-                    if random.choice([True, False]):
-                        # Apply the function to a text column
-                        query, used_columns = generate_text_function(
-                            text_functions, text_columns
-                        )
-                    else:
-                        # Apply the function to a numeric column
-                        query, used_columns = generate_numeric_function(
-                            numeric_functions, numeric_columns
-                        )
-                        # Indicate we need a group by clause
-                        group_by = True
-                    # Concat the rest of the columns to the query without the column used in the function
-                    if len(columns) > 1:
-                        query += f", {', '.join([c for c in columns if c not in used_columns])}"
+                    query, used_columns = apply_sql_function(
+                        columns=columns,
+                        text_functions=TEXT_FUNCTIONS,
+                        numeric_functions=NUMERIC_FUNCTIONS,
+                        text_columns=text_columns,
+                        numeric_columns=numeric_columns,
+                    )
                 else:
                     # Do not include a function
                     query = f"SELECT *"
@@ -116,40 +106,59 @@ def generate_filter_default_queries(
             else:
                 # Select random columns
                 columns = random.sample(columns, random.randint(1, len(columns)))
+                text_columns, numeric_columns = get_column_type(table, columns)
                 if random.choice([True, True, True, False]):
-                    # Include a function, but first we check which columns are numeric or text
-                    text_columns, numeric_columns = get_column_type(table, columns)
-                    if random.choice([True, False]):
-                        # Apply the function to a text column
-                        query, used_columns = generate_text_function(
-                            text_functions, text_columns
-                        )
-                    else:
-                        # Apply the function to a numeric column
-                        query, used_columns = generate_numeric_function(
-                            numeric_functions, numeric_columns
-                        )
-                        # Indicate we need a group by clause
-                        group_by = True
-                    if len(columns) > 1:
-                        query += f", {', '.join([c for c in columns if c not in used_columns])}"
+                    query, used_columns = apply_sql_function(
+                        columns=columns,
+                        text_functions=TEXT_FUNCTIONS,
+                        numeric_functions=NUMERIC_FUNCTIONS,
+                        text_columns=text_columns,
+                        numeric_columns=numeric_columns,
+                    )
                 else:
                     # Do not include a function
                     query = f"SELECT {', '.join(columns)}"
 
             query += f' FROM "{table.__tablename__}"'
-            # Add GROUP BY clause if we used a numerical function
-            if group_by:
-                query += f" GROUP BY {', '.join(c for c in columns)}"
-            # Add a WHERE clause
-            queries.append(query)
+            # Add a WHERE clause to remove any flag pattern
+            for idx, col in enumerate(text_columns):
+                if idx == 0:
+                    query += f" WHERE {col} NOT LIKE '%flag_challenge%'"
+                else:
+                    query += f" AND {col} NOT LIKE '%flag_challenge%'"
 
+            # Inspect the query to check if we applied a numerical function and if yes, add a GROUP BY clause
+            if find_numerical_functions(query):
+                query += f" GROUP BY {', '.join(columns)}"
+            queries.append(query)
         else:
             logging.error("No tables available for filter challenges !")
             return
 
     logging.debug(f"Generated following filter queries: {queries}")
     return queries
+
+
+def apply_sql_function(
+    columns: List[str],
+    text_functions: List[str],
+    numeric_functions: List[str],
+    text_columns: List[str] or None = None,
+    numeric_columns: List[str] or None = None,
+) -> Tuple[str, List[str]]:
+    if random.choice([True, False]):
+        # Apply the function to a text column
+        query, used_columns = generate_text_function(text_functions, text_columns)
+    else:
+        # Apply the function to a numeric column
+        query, used_columns = generate_numeric_function(
+            numeric_functions, numeric_columns
+        )
+    # Concat the rest of the columns to the query without the column used in the function
+    if len(columns) > 1:
+        query += f", {', '.join([c for c in columns if c not in used_columns])}"
+
+    return query, used_columns
 
 
 def get_columns(table: db.Model) -> List[str]:
@@ -248,6 +257,19 @@ def generate_numeric_function(
         return query, column
     logging.error("Unknown numeric function !")
     return
+
+
+def find_numerical_functions(query: str) -> bool:
+    """
+    Try to find if the query contains a numerical function
+    :param query: the actual query to test
+    :return: boolean
+    """
+    pattern = r"(\b" + r"\b|\b".join(NUMERIC_FUNCTIONS) + r"\b)\s*\(\s*([^)]+)\s*\)"
+
+    # Find all occurrences of numerical functions in the query
+    matches = re.findall(pattern, query)
+    return bool(matches)
 
 
 def transform_get_to_post(query: str, payload: str) -> None or str:
