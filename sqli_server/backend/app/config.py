@@ -1,7 +1,7 @@
 import os
 
 from challenges.models import (
-    User,
+    Customers,
     Product,
     Order,
     Comment,
@@ -24,7 +24,7 @@ class Config:
     # Defined tables in the models.py file
     DEFINED_TABLES = [
         AuthBypass,
-        User,
+        Customers,
         Product,
         Order,
         Comment,

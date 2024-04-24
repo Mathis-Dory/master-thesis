@@ -57,7 +57,7 @@ def generate_filter_default_queries(
     to display default data in the template, ensuring that all generated queries are valid
     and adhere to SQL syntax and logic, particularly in relation to GROUP BY, ORDER BY
     clauses, and the use of logical operators in WHERE clauses.
-    :param available_tables: List of available tables excluding 'user' and 'auth_bypass'
+    :param available_tables: List of available tables excluding 'customer' and 'auth_bypass'
     :return: List of complex queries
     """
     queries = []
@@ -65,9 +65,8 @@ def generate_filter_default_queries(
     filter_templates = [t for t in templates if t == "filter"]
 
     # Define SQL functions and operators
-    numeric_functions = ["MAX", "SUM", "AVG", "MIN"]
+    numeric_functions = ["MAX", "SUM", "AVG", "MIN", "COUNT"]
     text_functions = ["CONCAT", "SUBSTRING", "REPLACE"]
-    other_functions = ["COUNT"]
     compare_operators = [
         ">",
         "<",
@@ -78,78 +77,76 @@ def generate_filter_default_queries(
     conditional_operators = ["AND", "OR"]
     end_operators = ["HAVING", "ORDER BY", "GROUP BY", "LIMIT", "DISTINCT"]
 
-    # Exclude 'Users' and 'AuthBypass' tables
+    # Exclude 'Customer' and 'AuthBypass' tables
     available_tables = [
-        t for t in available_tables if t.__tablename__ not in ["user", "auth_bypass"]
+        t
+        for t in available_tables
+        if t.__tablename__ not in ["customer", "auth_bypass"]
     ]
 
     for _ in filter_templates:
+        group_by = False
         if available_tables:
-            if random.choice([True, False]):
-                # We join tables
-                tables = random.sample(available_tables, len(available_tables))
-                # TODO
-            else:
-                # We do not join tables
-                table = random.choice(available_tables)
-                columns = get_columns(table)
-                if random.choice([True, True, False]):
-                    # Select all columns
-                    if random.choice([True, True, True, False]):
-                        # Include a function, but first we check which columns are numeric or text
-                        text_columns, numeric_columns = get_column_type(table, columns)
-                        if random.choice([True, False]):
-                            # Apply the function to a text column
-                            generate_text_function(text_functions, text_columns)
-                        else:
-                            # Apply the function to a numeric column
-                            generate_numeric_function(
-                                numeric_functions, numeric_columns
-                            )
-                    else:
-                        # Do not include a function
-                        query = f"SELECT * FROM {table.__tablename__}"
-
-                else:
-                    # Select random columns
-                    columns = random.sample(columns, random.randint(1, len(columns)))
+            table = random.choice(available_tables)
+            columns = get_columns(table)
+            if random.choice([True, True, False]):
+                # Select all columns
+                if random.choice([True, True, True, False]):
+                    # Include a function, but first we check which columns are numeric or text
+                    text_columns, numeric_columns = get_column_type(table, columns)
                     if random.choice([True, False]):
-                        # Include a function, but first we check which columns are numeric or text
-                        text_columns, numeric_columns = get_column_type(table, columns)
-                        if random.choice([True, False]):
-                            # Apply the function to a text column
-                            generate_text_function(text_functions, text_columns)
-                        else:
-                            # Apply the function to a numeric column
-                            generate_numeric_function(
-                                numeric_functions, numeric_columns
-                            )
-                    else:
-                        # Do not include a function
-                        query = (
-                            f"SELECT {', '.join(columns)} FROM {table.__tablename__}"
+                        # Apply the function to a text column
+                        query, used_columns = generate_text_function(
+                            text_functions, text_columns
                         )
-                if random.choice([True, False]):
-                    # Add a general function
-                    function = random.choice(other_functions)
-                    if function == "COUNT":
-                        # TODO
-                        pass
                     else:
-                        logging.error("Unknown function !")
+                        # Apply the function to a numeric column
+                        query, used_columns = generate_numeric_function(
+                            numeric_functions, numeric_columns
+                        )
+                        # Indicate we need a group by clause
+                        group_by = True
+                    # Concat the rest of the columns to the query without the column used in the function
+                    if len(columns) > 1:
+                        query += f", {', '.join([c for c in columns if c not in used_columns])}"
                 else:
-                    # TODO
-                    pass
-            if random.choice([True, False]):
-                # We do a UNION clause
-                pass
+                    # Do not include a function
+                    query = f"SELECT *"
+
             else:
-                # We do not do a UNION clause
-                pass
+                # Select random columns
+                columns = random.sample(columns, random.randint(1, len(columns)))
+                if random.choice([True, True, True, False]):
+                    # Include a function, but first we check which columns are numeric or text
+                    text_columns, numeric_columns = get_column_type(table, columns)
+                    if random.choice([True, False]):
+                        # Apply the function to a text column
+                        query, used_columns = generate_text_function(
+                            text_functions, text_columns
+                        )
+                    else:
+                        # Apply the function to a numeric column
+                        query, used_columns = generate_numeric_function(
+                            numeric_functions, numeric_columns
+                        )
+                        # Indicate we need a group by clause
+                        group_by = True
+                    if len(columns) > 1:
+                        query += f", {', '.join([c for c in columns if c not in used_columns])}"
+                else:
+                    # Do not include a function
+                    query = f"SELECT {', '.join(columns)}"
+
+            query += f' FROM "{table.__tablename__}"'
+            # Add GROUP BY clause if we used a numerical function
+            if group_by:
+                query += f" GROUP BY {', '.join(c for c in columns)}"
+            # Add a WHERE clause
+            queries.append(query)
+
         else:
             logging.error("No tables available for filter challenges !")
             return
-    queries.append(query)
 
     logging.debug(f"Generated following filter queries: {queries}")
     return queries
@@ -190,57 +187,67 @@ def get_column_type(table: Any, columns: List[str]) -> Tuple[List[str], List[str
 
 def generate_text_function(
     text_functions: List[str], text_columns: List[str]
-) -> str or None:
+) -> Tuple[str, List[str]] or None:
     text_function = random.choice(text_functions)
     if text_function == "CONCAT":
         if len(text_columns) > 1:
             # Select two random text columns and concatenate them
             columns = random.sample(text_columns, 2)
             query = f"SELECT {text_function}({columns[0]}, '_', {columns[1]})"
+            return query, columns
         else:
             # Select one random text column and concatenate it with a string
             column = random.sample(text_columns, 1)
             query = f"SELECT {text_function}({column[0]}, '_I_AM_CONCATENATE')"
+            return query, column
     elif text_function == "SUBSTRING":
         # Select a random text column and apply the SUBSTRING function
         column = random.sample(text_columns, 1)
         query = f"SELECT {text_function}({column[0]}, 1, {len(column[0]) // 2})"
+        return query, column
     elif text_function == "REPLACE":
         # Select a random text column and apply the REPLACE function
         column = random.sample(text_columns, 1)
-        query = f"SELECT {text_function}({column[0]}, 'A', 'B')"
-    else:
-        logging.error("Unknown text function !")
-        return
-    return query
+        query = f"SELECT {text_function}({column[0]}, 'a', 'b')"
+        return query, column
+
+    logging.error("Unknown text function !")
+    return
 
 
 def generate_numeric_function(
     numeric_functions: List[str], numeric_columns: List[str]
-) -> str or None:
+) -> Tuple[str, List[str]] or None:
     numeric_function = random.choice(numeric_functions)
     if numeric_function == "SUM":
         if len(numeric_columns) > 1:
             # Select two random numeric columns and sum them
             columns = random.sample(numeric_columns, 2)
             query = f"SELECT {numeric_function}({columns[0]}) + {numeric_function}({columns[1]})"
+            return query, columns
         else:
             # Select one random numeric column and sum it
             column = random.sample(numeric_columns, 1)
             query = f"SELECT {numeric_function}({column[0]})"
+            return query, column
     elif numeric_function == "AVG":
         column = random.sample(numeric_columns, 1)
         query = f"SELECT {numeric_function}({column[0]})"
+        return query, column
     elif numeric_function == "MAX":
         column = random.sample(numeric_columns, 1)
         query = f"SELECT {numeric_function}({column[0]})"
+        return query, column
     elif numeric_function == "MIN":
         column = random.sample(numeric_columns, 1)
         query = f"SELECT {numeric_function}({column[0]})"
-    else:
-        logging.error("Unknown numeric function !")
-        return
-    return query
+        return query, column
+    elif numeric_function == "COUNT":
+        column = random.sample(numeric_columns, 1)
+        query = f"SELECT {numeric_function}({column[0]})"
+        return query, column
+    logging.error("Unknown numeric function !")
+    return
 
 
 def transform_get_to_post(query: str, payload: str) -> None or str:
