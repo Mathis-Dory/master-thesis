@@ -89,7 +89,7 @@ def generate_default_queries_filter(
                 query += " WHERE"
 
             # Add extra WHERE clause for future filtering
-            query += "( "
+            query += " ( "
             query = generate_conditional_query(
                 columns=columns,
                 text_columns=text_columns,
@@ -429,7 +429,16 @@ def generate_union_query(
                     (col for col in columns_union if col in text_columns_union),
                     None,
                 )
-                query_parts.append(f"CAST({col2} AS NUMERIC)")
+                if current_app.config["INIT_DATA"]["dbms"] == "postgres:latest":
+                    query_parts.append(
+                        f"CASE WHEN {col2} ~ '^[0-9]+(\.[0-9]+)?$' THEN  CAST({col2} AS NUMERIC) ELSE NULL END"
+                    )
+                elif current_app.config["INIT_DATA"]["dbms"] == "mysql:latest":
+                    query_parts.append(
+                        f"IF({col2} REGEXP '^-?[0-9]+(\\.[0-9]+)?$',  CAST({col2} AS DECIMAL), NULL)"
+                    )
+                else:
+                    logging.error("Unknown DBMS !")
 
     table_format = display_table(union_table)
     query_union += f"{', '.join(query_parts)} FROM {table_format}"
