@@ -10,7 +10,7 @@ from app.database import db
 from challenges.utils import (
     get_columns,
     get_column_type,
-    find_numerical_functions,
+    find_group_functions,
     find_columns_in_query,
     LOGICAL_OPERATORS,
     END_OPERATORS,
@@ -19,6 +19,7 @@ from challenges.utils import (
     filter_flags,
     NUMERIC_FUNCTIONS,
     TEXT_FUNCTIONS,
+    display_table,
 )
 
 # Choices of SQLi vulnerabilities
@@ -76,14 +77,19 @@ def generate_default_queries_filter(
 
     for _ in filter_templates:
         if available_tables:
-            # Create a basic query of form "SELECT column1, column2 FROM table"
+            # Create a basic query like "SELECT column1, column2 FROM table"
             query, text_columns, numeric_columns, columns = basic_query(
                 available_tables
             )
             # Add a WHERE clause to remove any flag pattern in the query
-            query = filter_flags(query, text_columns)
+            if text_columns:
+                query = filter_flags(query, text_columns)
+            else:
+                # The WHERE is initially added in the filter_flags function
+                query += " WHERE"
 
             # Add extra WHERE clause for future filtering
+            query += "( "
             query = generate_conditional_query(
                 columns=columns,
                 text_columns=text_columns,
@@ -97,9 +103,9 @@ def generate_default_queries_filter(
                 numeric_columns=numeric_columns,
                 query=query,
             )
-
+            query += " )"
             # Inspect the query to check if we applied a numerical function and if yes, add a GROUP BY clause
-            if find_numerical_functions(query):
+            if find_group_functions(query):
                 query += f" GROUP BY {', '.join(columns)}"
 
             query = generate_end_operator(
@@ -159,7 +165,9 @@ def basic_query(
             else:
                 query = f"SELECT {columns[0]}"
 
-    query += f' FROM "{table.__tablename__}"'
+    table_format = display_table(table)
+    query += f" FROM {table_format}"
+
     return query, text_columns, numeric_columns, columns
 
 
@@ -182,8 +190,11 @@ def apply_sql_function(
         # Apply the function to a numeric column
         query, used_columns = generate_numeric_function(numeric_columns)
     # Concat the rest of the columns to the query without the column used in the function
-    if len(columns) > 1 and "(" in query:
+    if 1 < len(columns) != len(used_columns) and "(" in query:
         query += f", {', '.join([c for c in columns if c not in used_columns])}"
+    elif 1 < len(columns) == len(used_columns) and "(" in query:
+        return query, used_columns
+
     elif len(columns) > 1 and "(" not in query:
         query += f"{', '.join([c for c in columns if c not in used_columns])}"
     else:
@@ -286,7 +297,7 @@ def generate_conditional_query(
     """
     column = random.choice(columns)
     if column in text_columns:
-        if random.choice([True, True, False]):
+        if random.choice([True, True, True, False]):
             # Add a text comparison
             query += (
                 f"{column} {random.choice(COMPARE_OPERATORS['text'])}"
@@ -297,7 +308,7 @@ def generate_conditional_query(
             query += f"{column} {random.choice(COMPARE_OPERATORS['null'])}"
 
     elif column in numeric_columns:
-        if random.choice([True, True, False]):
+        if random.choice([True, True, True, False]):
             # Add a numeric comparison
             query += f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} {random.randint(0, 100)}"
         else:
@@ -305,7 +316,6 @@ def generate_conditional_query(
             query += f"{column} {random.choice(COMPARE_OPERATORS['null'])}"
     else:
         query += f"{column} {random.choice(COMPARE_OPERATORS['null'])}"
-
     return query
 
 
@@ -356,8 +366,6 @@ def generate_end_operator(
             query += f" {operator} {random.randint(1, 20)}"
         elif operator == "DISTINCT":
             query = query.replace("SELECT", "SELECT DISTINCT")
-        elif operator == "HAVING":
-            query += f" {operator} {random.choice(columns)} IS NOT NULL"
         elif operator == "UNION":
             query += generate_union_query(
                 query, available_tables, text_columns, numeric_columns
@@ -423,14 +431,17 @@ def generate_union_query(
                 )
                 query_parts.append(f"CAST({col2} AS NUMERIC)")
 
-    query_union += f"{', '.join(query_parts)} FROM {union_table.__tablename__}"
+    table_format = display_table(union_table)
+    query_union += f"{', '.join(query_parts)} FROM {table_format}"
     query_union = filter_flags(query_union, text_columns_union)
+    query_union += " ( "
     query_union = generate_conditional_query(
         columns=columns_union,
         text_columns=text_columns_union,
         numeric_columns=numeric_columns_union,
         query=query_union,
     )
+    query_union += " ) "
 
     return query_union
 
