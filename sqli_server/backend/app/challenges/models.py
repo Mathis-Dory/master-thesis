@@ -6,7 +6,7 @@ from faker import Faker
 from flask import current_app
 from sqlalchemy import MetaData
 
-from challenges.generator import generate_filter_default_queries
+from challenges.generator import generate_default_queries_filter
 from database import db
 
 
@@ -269,7 +269,7 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
     insert_flags(selected_tables, templates, flags)
     logging.info("Random data and flags inserted.")
     logging.info("Generating default queries ...")
-    filter_queries = generate_filter_default_queries(available_tables=selected_tables)
+    filter_queries = generate_default_queries_filter(available_tables=selected_tables)
     current_app.config["FILTER_QUERIES"] = dict(
         zip(
             [i + 1 for i, template in enumerate(templates) if template == "filter"],
