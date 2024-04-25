@@ -1,14 +1,25 @@
 import logging
 import random
-import re
 import secrets
 from typing import List, Tuple, Any
 
 from faker import Faker
 from flask import current_app
-from sqlalchemy import inspect, String, Text, Integer, Float
 
 from app.database import db
+from challenges.utils import (
+    get_columns,
+    get_column_type,
+    find_numerical_functions,
+    find_columns_in_query,
+    LOGICAL_OPERATORS,
+    END_OPERATORS,
+    COMPARE_OPERATORS,
+    exclude_tables,
+    filter_flags,
+    NUMERIC_FUNCTIONS,
+    TEXT_FUNCTIONS,
+)
 
 # Choices of SQLi vulnerabilities
 SQLI_ARCHETYPES = [
@@ -20,23 +31,7 @@ SQLI_ARCHETYPES = [
     "No vulnerabilities",
 ]
 
-TEMPLATES = [
-    "filter",
-    "filter",
-    "filter",
-]  # Remove auth challenges for the moment
-
-# Define SQL functions and operators
-NUMERIC_FUNCTIONS = ["MAX", "SUM", "AVG", "MIN", "COUNT"]
-TEXT_FUNCTIONS = ["CONCAT", "SUBSTRING", "REPLACE"]
-COMPARE_OPERATORS = {
-    "numeric": ["=", "!=", ">", "<", ">=", "<="],
-    "text": ["=", "!=", "LIKE", "NOT LIKE"],
-    "null": ["IS NULL", "IS NOT NULL"],
-}
-
-LOGICAL_OPERATORS = ["AND", "OR"]
-END_OPERATORS = ["HAVING", "ORDER BY", "LIMIT", "DISTINCT", "UNION"]
+TEMPLATES = ["filter"]  # Remove auth challenges for the moment
 
 
 def generate_challenges(nbr: int) -> Tuple[List[str], List[str], List[str]]:
@@ -62,14 +57,11 @@ def generate_challenges(nbr: int) -> Tuple[List[str], List[str], List[str]]:
     return challenges, flags, templates
 
 
-def generate_filter_default_queries(
+def generate_default_queries_filter(
     available_tables: List[db.Model],
 ) -> List[str] or None:
     """
-    Generate GET queries dynamically based on available tables and columns in order
-    to display default data in the template, ensuring that all generated queries are valid
-    and adhere to SQL syntax and logic, particularly in relation to GROUP BY, ORDER BY
-    clauses, and the use of logical operators in WHERE clauses.
+    Generate a list of default filter queries.
     :param available_tables: List of available tables excluding 'customer' and 'auth_bypass'
     :return: List of complex queries
     """
@@ -78,97 +70,45 @@ def generate_filter_default_queries(
     filter_templates = [t for t in templates if t == "filter"]
 
     # Exclude 'Customer' and 'AuthBypass' tables
-    available_tables = [
-        t
-        for t in available_tables
-        if t.__tablename__ not in ["customer", "auth_bypass"]
-    ]
+    available_tables = exclude_tables(
+        available_tables, excluded_tables=["customer", "auth_bypass"]
+    )
 
     for _ in filter_templates:
         if available_tables:
-            flag_condition = False
-            table = random.choice(available_tables)
-            columns = get_columns(table)
-            if random.choice([True, True, False]):
-                # Select all columns
-                text_columns, numeric_columns = get_column_type(table, columns)
-                if random.choice([True, True, False]):
-                    query, used_columns = apply_sql_function(
-                        columns=columns,
-                        text_functions=TEXT_FUNCTIONS,
-                        numeric_functions=NUMERIC_FUNCTIONS,
-                        text_columns=text_columns,
-                        numeric_columns=numeric_columns,
-                    )
-                else:
-                    # Do not include a function
-                    query = f"SELECT {', '.join(columns)}"
-
-            else:
-                # Select random columns
-                columns = random.sample(columns, random.randint(1, len(columns)))
-                text_columns, numeric_columns = get_column_type(table, columns)
-                if random.choice([True, True, False]):
-                    query, used_columns = apply_sql_function(
-                        columns=columns,
-                        text_functions=TEXT_FUNCTIONS,
-                        numeric_functions=NUMERIC_FUNCTIONS,
-                        text_columns=text_columns,
-                        numeric_columns=numeric_columns,
-                    )
-                else:
-                    # Do not include a function
-                    if len(columns) > 1:
-                        query = f"SELECT {', '.join(columns)}"
-                    else:
-                        query = f"SELECT {columns[0]}"
-
-            query += f' FROM "{table.__tablename__}"'
-            # Add a WHERE clause to remove any flag pattern
-            for idx, col in enumerate(text_columns):
-                flag_condition = True
-                if idx == 0:
-                    query += f" WHERE {col} NOT LIKE '%flag_challenge%'"
-                else:
-                    query += f" AND {col} NOT LIKE '%flag_challenge%'"
-            if flag_condition:
-                query += f" AND "
-            else:
-                query += f" WHERE "
-
-            # Add a WHERE clause for future filtering
-            query = generate_conditional_query(
-                columns, text_columns, numeric_columns, query
+            # Create a basic query of form "SELECT column1, column2 FROM table"
+            query, text_columns, numeric_columns, columns = basic_query(
+                available_tables
             )
+            # Add a WHERE clause to remove any flag pattern in the query
+            query = filter_flags(query, text_columns) + " AND "
 
-            if random.choice([True, False]):
-                # Add a logical operator
-                query += f" {random.choice(LOGICAL_OPERATORS)} "
-                query = generate_conditional_query(
-                    columns, text_columns, numeric_columns, query
-                )
+            # Add extra WHERE clause for future filtering
+            query = generate_conditional_query(
+                columns=columns,
+                text_columns=text_columns,
+                numeric_columns=numeric_columns,
+                query=query,
+            )
+            # Add extra logical operators to the query
+            query = add_logical_operator(
+                columns=columns,
+                text_columns=text_columns,
+                numeric_columns=numeric_columns,
+                query=query,
+            )
 
             # Inspect the query to check if we applied a numerical function and if yes, add a GROUP BY clause
             if find_numerical_functions(query):
                 query += f" GROUP BY {', '.join(columns)}"
 
-            if random.choice([True, False]):
-                # Use one of the end operators
-                operator = random.choice(END_OPERATORS)
-                if operator == "ORDER BY":
-                    query += f" {operator} {random.choice(columns)}"
-                elif operator == "LIMIT":
-                    query += f" {operator} {random.randint(1, 20)}"
-                elif operator == "DISTINCT":
-                    query = query.replace("SELECT", "SELECT DISTINCT")
-                elif operator == "HAVING":
-                    query += f" {operator} {random.choice(columns)} IS NOT NULL"
-                elif operator == "UNION":
-                    query += generate_union_query(
-                        query, available_tables, text_columns, numeric_columns
-                    )
-                else:
-                    logging.error("Unknown end operator !")
+            query = generate_end_operator(
+                query=query,
+                columns=columns,
+                available_tables=available_tables,
+                text_columns=text_columns,
+                numeric_columns=numeric_columns,
+            )
 
             queries.append(query)
         else:
@@ -179,71 +119,88 @@ def generate_filter_default_queries(
     return queries
 
 
+def basic_query(
+    available_tables: List[db.Model],
+) -> Tuple[str, List[str], List[str], List[str]]:
+    """
+    Generate a basic query with a random table and columns.
+    :param available_tables: List of available tables
+    :return: Query, text columns, numeric columns, columns
+    """
+    table = random.choice(available_tables)
+    columns = get_columns(table)
+    if random.choice([True, True, False]):
+        # Select all columns
+        text_columns, numeric_columns = get_column_type(table, columns)
+        if random.choice([True, True, False]):
+            query, used_columns = apply_sql_function(
+                columns=columns,
+                text_columns=text_columns,
+                numeric_columns=numeric_columns,
+            )
+        else:
+            # Do not include a function
+            query = f"SELECT {', '.join(columns)}"
+
+    else:
+        # Select random columns
+        columns = random.sample(columns, random.randint(1, len(columns)))
+        text_columns, numeric_columns = get_column_type(table, columns)
+        if random.choice([True, True, False]):
+            query, used_columns = apply_sql_function(
+                columns=columns,
+                text_columns=text_columns,
+                numeric_columns=numeric_columns,
+            )
+        else:
+            # Do not include a function
+            if len(columns) > 1:
+                query = f"SELECT {', '.join(columns)}"
+            else:
+                query = f"SELECT {columns[0]}"
+
+    query += f' FROM "{table.__tablename__}"'
+    return query, text_columns, numeric_columns, columns
+
+
 def apply_sql_function(
     columns: List[str],
-    text_functions: List[str],
-    numeric_functions: List[str],
     text_columns: List[str] or None = None,
     numeric_columns: List[str] or None = None,
 ) -> Tuple[str, List[str]]:
+    """
+    Apply a SQL function to a column.
+    :param columns: List of columns
+    :param text_columns: List of text columns
+    :param numeric_columns: List of numeric columns
+    :return: Query with a SQL function
+    """
     if random.choice([True, False]):
         # Apply the function to a text column
-        query, used_columns = generate_text_function(text_functions, text_columns)
+        query, used_columns = generate_text_function(text_columns)
     else:
         # Apply the function to a numeric column
-        query, used_columns = generate_numeric_function(
-            numeric_functions, numeric_columns
-        )
+        query, used_columns = generate_numeric_function(numeric_columns)
     # Concat the rest of the columns to the query without the column used in the function
     if len(columns) > 1 and "(" in query:
         query += f", {', '.join([c for c in columns if c not in used_columns])}"
-    elif len(columns) > 1 and not "(" in query:
+    elif len(columns) > 1 and "(" not in query:
         query += f"{', '.join([c for c in columns if c not in used_columns])}"
     else:
         query += f"{columns[0]}"
     return query, used_columns
 
 
-def get_columns(table: db.Model) -> List[str]:
+def generate_text_function(text_columns: List[str]) -> Tuple[str, List[str]]:
     """
-    Get the column names of a table except the id one.
-    :param table: Table object
-    :return: List of column names
+    Generate a text function query.
+    :param text_columns: List of text columns
+    :return: Query with a text function
     """
-    return [
-        column.key
-        for column in inspect(table).mapper.column_attrs
-        if column.key.lower() not in ["id"]
-    ]
-
-
-def get_column_type(table: Any, columns: List[str]) -> Tuple[List[str], List[str]]:
-    """
-    Helper function to determine the type of column
-    :param table: Table object
-    :param columns: List of column names
-    :return: Tuple of text and numeric columns
-    """
-    text_columns = [
-        c
-        for c in columns
-        if (isinstance(table.__table__.columns[c].type, (String, Text)))
-    ]
-    numeric_columns = [
-        c
-        for c in columns
-        if (isinstance(table.__table__.columns[c].type, (Integer, Float)))
-    ]
-    return text_columns, numeric_columns
-
-
-def generate_text_function(
-    text_functions: List[str], text_columns: List[str]
-) -> Tuple[str, List[str]]:
     if not text_columns:
         logging.debug("No text columns available to apply a function.")
         return "SELECT ", []
-    text_function = random.choice(text_functions)
+    text_function = random.choice(TEXT_FUNCTIONS)
     if text_function == "CONCAT":
         if len(text_columns) > 1:
             # Select two random text columns and concatenate them
@@ -270,13 +227,16 @@ def generate_text_function(
     return "SELECT ", []
 
 
-def generate_numeric_function(
-    numeric_functions: List[str], numeric_columns: List[str]
-) -> Tuple[str, List[str]]:
+def generate_numeric_function(numeric_columns: List[str]) -> Tuple[str, List[str]]:
+    """
+    Generate a numeric function query.
+    :param numeric_columns: List of numeric columns
+    :return: Query with a numeric function
+    """
     if not numeric_columns:
         logging.debug("No numeric columns available to apply a function.")
         return "SELECT ", []
-    numeric_function = random.choice(numeric_functions)
+    numeric_function = random.choice(NUMERIC_FUNCTIONS)
     if numeric_function == "SUM":
         if len(numeric_columns) > 1:
             # Select two random numeric columns and sum them
@@ -308,25 +268,20 @@ def generate_numeric_function(
     return "SELECT ", []
 
 
-def find_numerical_functions(query: str) -> bool:
-    """
-    Try to find if the query contains a numerical function
-    :param query: the actual query to test
-    :return: boolean
-    """
-    pattern = r"(\b" + r"\b|\b".join(NUMERIC_FUNCTIONS) + r"\b)\s*\(\s*([^)]+)\s*\)"
-
-    # Find all occurrences of numerical functions in the query
-    matches = re.findall(pattern, query)
-    return bool(matches)
-
-
 def generate_conditional_query(
     columns: List[str],
     text_columns: List[str],
     numeric_columns: List[str],
     query: str,
 ) -> str:
+    """
+    Generate a conditional query based on the column type.
+    :param columns: List of columns
+    :param text_columns: List of text columns
+    :param numeric_columns: List of numeric columns
+    :param query: Original query
+    :return: The query with a conditional operator
+    """
     column = random.choice(columns)
     if column in text_columns:
         if random.choice([True, True, False]):
@@ -352,17 +307,59 @@ def generate_conditional_query(
     return query
 
 
-def find_columns_in_query(query: str) -> List[str]:
+def add_logical_operator(
+    columns: List[str], text_columns: List[str], numeric_columns: List[str], query: str
+) -> str:
     """
-    Find all columns in a query
-    :param query:  to parse
-    :return: List of columns
+    Add a logical operator to the query.
+    :param columns: List of columns
+    :param text_columns: List of text columns
+    :param numeric_columns: List of numeric columns
+    :param query: Original query
+    :return: The query with a logical operator
     """
-    pattern = r"(?<=SELECT\s)(.*?)(?=\sFROM)"
-    matches = re.search(pattern, query)
-    if matches:
-        return [col.strip() for col in matches.group(0).split(",")]
-    return []
+    if random.choice([True, False]):
+        # Add a logical operator
+        query += f" {random.choice(LOGICAL_OPERATORS)} "
+        query = generate_conditional_query(
+            columns, text_columns, numeric_columns, query
+        )
+    return query
+
+
+def generate_end_operator(
+    query: str,
+    columns: List[str],
+    available_tables: List[Any],
+    text_columns: List[str],
+    numeric_columns: List[str],
+) -> str:
+    """
+    Add an end operator to the query.
+    :param query: Original query
+    :param columns: List of columns
+    :param available_tables: List of available tables
+    :param text_columns: List of text columns
+    :param numeric_columns: List of numeric columns
+    :return: Query with end operator
+    """
+    if random.choice([True, False]):
+        operator = random.choice(END_OPERATORS)
+        if operator == "ORDER BY":
+            query += f" {operator} {random.choice(columns)}"
+        elif operator == "LIMIT":
+            query += f" {operator} {random.randint(1, 20)}"
+        elif operator == "DISTINCT":
+            query = query.replace("SELECT", "SELECT DISTINCT")
+        elif operator == "HAVING":
+            query += f" {operator} {random.choice(columns)} IS NOT NULL"
+        elif operator == "UNION":
+            query += generate_union_query(
+                query, available_tables, text_columns, numeric_columns
+            )
+        else:
+            logging.error("Unknown end operator !")
+    return query
 
 
 def generate_union_query(
@@ -417,10 +414,8 @@ def generate_union_query(
                 )
                 query_parts.append(f"CAST({col2} AS NUMERIC)")
 
-    query_union += ", ".join(query_parts)
-    query_union += f' FROM "{union_table.__tablename__}" WHERE ' + " AND ".join(
-        f"{col} NOT LIKE '%flag_challenge%'" for col in text_columns_union
-    )
+    query_union += f"{', '.join(query_parts)} FROM {union_table.__tablename__}"
+    query_union = filter_flags(query_union, text_columns_union)
 
     return query_union
 
