@@ -22,10 +22,10 @@ END_OPERATORS = ["ORDER BY", "LIMIT", "DISTINCT", "UNION"]
 
 def find_columns_in_query(query: str) -> List[str]:
     """
-    Find the base column names in a SQL query's SELECT clause, focusing on extracting the first column name
-    from any functions used in the SELECT list.
+    Extracts the column names or the first argument of SQL functions from the SELECT clause of a SQL query,
+    handling nested functions and multiple layers of parentheses.
     :param query: SQL query string to parse.
-    :return: List of simple column names.
+    :return: List of column or expression names.
     """
     pattern = r"SELECT\s+(.*?)\s+FROM"
     match = re.search(pattern, query, re.IGNORECASE | re.DOTALL)
@@ -37,46 +37,55 @@ def find_columns_in_query(query: str) -> List[str]:
 
 def parse_columns(columns_part: str) -> List[str]:
     """
-    Parses the columns part of a SQL query to extract individual column expressions, handling nested functions, aliases,
-    and simplifying to the first column name within any function where possible.
+    Parses the SELECT clause to extract columns or the first argument from functions,
+    accounting for nested parentheses and aliases.
     :param columns_part: The part of the query string that lists the columns.
-    :return: A list of simplified column names.
+    :return: A list of base column names or the first argument of functions.
     """
     columns = []
-    bracket_level = 0
     current_col = []
-
-    for char in columns_part:
+    bracket_level = 0
+    i = 0
+    while i < len(columns_part):
+        char = columns_part[i]
         if char == "," and bracket_level == 0:
-            columns.append(clean_column("".join(current_col).strip()))
+            columns.append(extract_first_column("".join(current_col).strip()))
             current_col = []
-        else:
-            if char == "(":
-                bracket_level += 1
-            elif char == ")":
-                bracket_level -= 1
+        elif char == "(":
+            bracket_level += 1
             current_col.append(char)
+        elif char == ")":
+            bracket_level -= 1
+            current_col.append(char)
+        else:
+            current_col.append(char)
+        i += 1
 
     if current_col:  # Add the last column if there's any residue
-        columns.append(clean_column("".join(current_col).strip()))
+        columns.append(extract_first_column("".join(current_col).strip()))
 
     return columns
 
 
-def clean_column(column: str) -> str:
+def extract_first_column(column: str) -> str:
     """
-    Cleans a column string to extract the first base column name by removing functions and extraneous spaces,
-    and handling aliases if present inside the function.
-    :param column: The raw column string from the query.
-    :return: The simplified base column name if wrapped in a function.
+    Extracts the first column or argument from a given SQL expression, especially useful for SQL functions.
+    :param column: The column expression or function from the query.
+    :return: The base column name or the first argument inside the function.
     """
-    # Find and extract the first column name inside any function
+    # Remove nested functions and subqueries by focusing on the first complete segment inside any outermost parentheses
     if "(" in column:
-        first_param = re.search(r"\(([^,]*)", column)
-        if first_param:
-            column = first_param.group(1).strip()
-
-    return column.split()[-1]
+        start = column.find("(") + 1
+        end = start
+        depth = 1
+        while end < len(column) and depth > 0:
+            if column[end] == "(":
+                depth += 1
+            elif column[end] == ")":
+                depth -= 1
+            end += 1
+        return column[start : end - 1].split(",")[0].strip().split()[0]
+    return column.split(",")[0].strip().split()[0]
 
 
 def find_group_functions(query: str) -> bool:
