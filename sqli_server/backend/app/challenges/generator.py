@@ -81,7 +81,7 @@ def generate_default_queries_filter(
                 available_tables
             )
             # Add a WHERE clause to remove any flag pattern in the query
-            query = filter_flags(query, text_columns) + " AND "
+            query = filter_flags(query, text_columns)
 
             # Add extra WHERE clause for future filtering
             query = generate_conditional_query(
@@ -227,7 +227,9 @@ def generate_text_function(text_columns: List[str]) -> Tuple[str, List[str]]:
     return "SELECT ", []
 
 
-def generate_numeric_function(numeric_columns: List[str]) -> Tuple[str, List[str]]:
+def generate_numeric_function(
+    numeric_columns: List[str],
+) -> Tuple[str, List[str]]:
     """
     Generate a numeric function query.
     :param numeric_columns: List of numeric columns
@@ -308,7 +310,10 @@ def generate_conditional_query(
 
 
 def add_logical_operator(
-    columns: List[str], text_columns: List[str], numeric_columns: List[str], query: str
+    columns: List[str],
+    text_columns: List[str],
+    numeric_columns: List[str],
+    query: str,
 ) -> str:
     """
     Add a logical operator to the query.
@@ -392,30 +397,40 @@ def generate_union_query(
         if col1 in text_columns:
             # If the column in the first table is a text type, find a text type column in the second table or cast
             col2 = next(
-                (col for col in columns_union if col in text_columns_union), None
+                (col for col in columns_union if col in text_columns_union),
+                None,
             )
             if col2:
                 query_parts.append(f"{col2}")
             else:
                 col2 = next(
-                    (col for col in columns_union if col in numeric_columns_union), None
+                    (col for col in columns_union if col in numeric_columns_union),
+                    None,
                 )
                 query_parts.append(f"CAST({col2} AS VARCHAR)")
         elif col1 in numeric_columns:
             # If the column in the first table is a numeric type, find a numeric type column in the second table or cast
             col2 = next(
-                (col for col in columns_union if col in numeric_columns_union), None
+                (col for col in columns_union if col in numeric_columns_union),
+                None,
             )
             if col2:
                 query_parts.append(f"{col2}")
             else:
                 col2 = next(
-                    (col for col in columns_union if col in text_columns_union), None
+                    (col for col in columns_union if col in text_columns_union),
+                    None,
                 )
                 query_parts.append(f"CAST({col2} AS NUMERIC)")
 
     query_union += f"{', '.join(query_parts)} FROM {union_table.__tablename__}"
     query_union = filter_flags(query_union, text_columns_union)
+    query_union = generate_conditional_query(
+        columns=columns_union,
+        text_columns=text_columns_union,
+        numeric_columns=numeric_columns_union,
+        query=query_union,
+    )
 
     return query_union
 

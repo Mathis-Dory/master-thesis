@@ -112,4 +112,4 @@ def filter_flags(query, columns):
         # No WHERE clause yet, start one
         query += f" WHERE {conditions}"
 
-    return query
+    return query + " AND "
