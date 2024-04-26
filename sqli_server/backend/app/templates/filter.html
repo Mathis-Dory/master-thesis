@@ -18,33 +18,40 @@
   </style>
 </head>
 <body>
-  <h1>Filter</h1>
-  <form method="POST">
-    Filter: <input type="text" name="payload" placeholder="Payload">
-    <button type="submit">Search</button>
-  </form>
-  {% if items %}
-  <table>
-    <thead>
-      <tr>
-        {% for header in items[0].keys() %}
-        <th>{{ header }}</th>
-        {% endfor %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in items %}
-      <tr>
-        {% for value in item.values() %}
-        <td>{{ value }}</td>
-        {% endfor %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% endif %}
-  {% if error %}
-  <h3>{{ error }}</h3>
-  {% endif %}
+<h1>Filter</h1>
+{% if column == "LIMIT" %}
+<form method="POST">
+  Choose a number of max results: <input type="number" name="payload" placeholder="Max Results">
+  <button type="submit">Set Limit</button>
+</form>
+{% elif column %}
+<form method="POST">
+  Filter the column {{ column }}: <input type="text" name="payload" placeholder="Enter filter value">
+  <button type="submit">Search</button>
+</form>
+{% endif %}
+{% if items %}
+<table>
+  <thead>
+  <tr>
+    {% for header in items[0].keys() %}
+    <th>{{ header }}</th>
+    {% endfor %}
+  </tr>
+  </thead>
+  <tbody>
+  {% for item in items %}
+  <tr>
+    {% for value in item.values() %}
+    <td>{{ value }}</td>
+    {% endfor %}
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% if error %}
+<h3>{{ error }}</h3>
+{% endif %}
 </body>
 </html>

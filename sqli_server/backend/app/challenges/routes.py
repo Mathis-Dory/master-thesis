@@ -5,7 +5,7 @@ from sqlalchemy import text
 
 from app import db
 from challenges.generator import (
-    transform_get_to_post,
+    generate_vulnerable_request,
 )
 
 challenges_bp = Blueprint("challenges", __name__)
@@ -15,52 +15,45 @@ challenges_bp = Blueprint("challenges", __name__)
 def challenge(challenge_number: int) -> str:
     episodes = int(current_app.config["CHALLENGES_EPISODES"])
     templates = current_app.config["INIT_DATA"]["templates"]
+    challenges = current_app.config["INIT_DATA"]["challenges"]
+    filter_queries = current_app.config.get("FILTER_QUERIES", {})
+    extracted_queries = current_app.config.get("EXTRACTED_QUERIES", {})
 
     if challenge_number < 1 or challenge_number > episodes:
         abort(404)
+
     selected_template = templates[challenge_number - 1]
     logging.debug(f"Selected template: {selected_template}")
-    filter_queries = current_app.config.get("FILTER_QUERIES", {})
+
+    sqli_archetype = challenges[challenge_number - 1]
     query = filter_queries[challenge_number]
-    if request.method == "GET":
-        if selected_template == "filter":
-            result_proxy = db.session.execute(text(query))
-            response = result_proxy.fetchall()
-            # Get column names from the response set
-            columns = result_proxy.keys()
-            # Create a list of dictionaries for each row in the response set
-            items = [{col: val for col, val in zip(columns, row)} for row in response]
-
-            # Generate the input fields for the filter form
-            input_fields = []
-            for col in columns:
-                if "price" in col:
-                    input_fields.append(
-                        {
-                            "name": col,
-                            "type": "number",
-                            "placeholder": "Enter price range",
-                            "attributes": {"min": 0, "step": 0.01},
-                        }
-                    )
-        return render_template(f"{selected_template}.html", items=items)
-
-    elif request.method == "POST":
-        username_payload = request.form.get("username_payload", "")
-        password_payload = request.form.get("password_payload", "")
+    [column, value, condition] = extracted_queries[challenge_number - 1]
+    logging.debug(f"COLUMN: {column}, VALUE: {value}, CONDITION: {condition}")
+    if request.method == "POST":
         payload = request.form.get("payload", "")
-
-        if selected_template == "auth":
-            # send the payload using a randomly vulnerable query logic when POST
-            pass
-        elif selected_template == "filter":
-            query = transform_get_to_post(query, payload)
+        logging.debug(f"Payload: {payload}")
+        if selected_template == "filter":
+            query = generate_vulnerable_request(query, value, condition, payload)
+            logging.debug(f"Sending query: {query}")
             result_proxy = db.session.execute(text(query))
             response = result_proxy.fetchall()
-            logging.debug(response)
-
+            columns = result_proxy.keys()
+            items = [{col: val for col, val in zip(columns, row)} for row in response]
+            return render_template(
+                f"{selected_template}.html", items=items, column=column, value=value
+            )
         else:
             logging.error(f"Unknown template: {selected_template}")
+            abort(404)
+
+    elif request.method == "GET":
+        result_proxy = db.session.execute(text(query))
+        response = result_proxy.fetchall()
+        columns = result_proxy.keys()
+        items = [{col: val for col, val in zip(columns, row)} for row in response]
+        return render_template(
+            f"{selected_template}.html", items=items, column=column, value=value
+        )
 
     else:
         abort(404)
