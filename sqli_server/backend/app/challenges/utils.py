@@ -3,7 +3,7 @@ import re
 from typing import Tuple, List, Any
 
 from flask import current_app
-from sqlalchemy import String, Text, inspect, Integer, Float
+from sqlalchemy import String, Text, inspect, Integer, Float, DateTime, Date, Time
 
 from app.database import db
 
@@ -102,12 +102,14 @@ def find_group_functions(query: str) -> bool:
     return bool(matches)
 
 
-def get_column_type(table: Any, columns: List[str]) -> Tuple[List[str], List[str]]:
+def get_column_type(
+    table: Any, columns: List[str]
+) -> Tuple[List[str], List[str], List[str]]:
     """
     Helper function to determine the type of column
     :param table: Table object
     :param columns: List of column names
-    :return: Tuple of text and numeric columns
+    :return: Tuple of text columns, numeric columns and date time columns
     """
     text_columns = [
         c
@@ -119,7 +121,12 @@ def get_column_type(table: Any, columns: List[str]) -> Tuple[List[str], List[str
         for c in columns
         if (isinstance(table.__table__.columns[c].type, (Integer, Float)))
     ]
-    return text_columns, numeric_columns
+    date_time_columns = [
+        c
+        for c in columns
+        if (isinstance(table.__table__.columns[c].type, (DateTime, Date, Time)))
+    ]
+    return text_columns, numeric_columns, date_time_columns
 
 
 def get_columns(table: db.Model) -> List[str]:
