@@ -1,5 +1,6 @@
 import logging
 import random
+import re
 import secrets
 from typing import List, Tuple, Any
 
@@ -78,8 +79,8 @@ def generate_default_queries_filter(
     for _ in filter_templates:
         if available_tables:
             # Create a basic query like "SELECT column1, column2 FROM table"
-            query, text_columns, numeric_columns, columns = basic_query(
-                available_tables
+            query, text_columns, numeric_columns, date_time_columns, columns = (
+                basic_query(available_tables)
             )
             # Add a WHERE clause to remove any flag pattern in the query
             if text_columns:
@@ -94,6 +95,7 @@ def generate_default_queries_filter(
                 columns=columns,
                 text_columns=text_columns,
                 numeric_columns=numeric_columns,
+                date_time_columns=date_time_columns,
                 query=query,
             )
             # Add extra logical operators to the query
@@ -101,6 +103,7 @@ def generate_default_queries_filter(
                 columns=columns,
                 text_columns=text_columns,
                 numeric_columns=numeric_columns,
+                date_time_columns=date_time_columns,
                 query=query,
             )
             query += " )"
@@ -127,7 +130,7 @@ def generate_default_queries_filter(
 
 def basic_query(
     available_tables: List[db.Model],
-) -> Tuple[str, List[str], List[str], List[str]]:
+) -> Tuple[str, List[str], List[str], List[str], List[str]]:
     """
     Generate a basic query with a random table and columns.
     :param available_tables: List of available tables
@@ -137,7 +140,11 @@ def basic_query(
     columns = get_columns(table)
     if random.choice([True, True, False]):
         # Select all columns
-        text_columns, numeric_columns = get_column_type(table, columns)
+        (
+            text_columns,
+            numeric_columns,
+            date_time_columns,
+        ) = get_column_type(table, columns)
         if random.choice([True, True, False]):
             query, used_columns = apply_sql_function(
                 columns=columns,
@@ -151,7 +158,9 @@ def basic_query(
     else:
         # Select random columns
         columns = random.sample(columns, random.randint(1, len(columns)))
-        text_columns, numeric_columns = get_column_type(table, columns)
+        text_columns, numeric_columns, date_time_columns = get_column_type(
+            table, columns
+        )
         if random.choice([True, True, False]):
             query, used_columns = apply_sql_function(
                 columns=columns,
@@ -168,7 +177,7 @@ def basic_query(
     table_format = display_table(table)
     query += f" FROM {table_format}"
 
-    return query, text_columns, numeric_columns, columns
+    return query, text_columns, numeric_columns, date_time_columns, columns
 
 
 def apply_sql_function(
@@ -189,16 +198,21 @@ def apply_sql_function(
     else:
         # Apply the function to a numeric column
         query, used_columns = generate_numeric_function(numeric_columns)
-    # Concat the rest of the columns to the query without the column used in the function
+    # If the amount of available columns is greater than the amount of used columns and the query contains a function
     if 1 < len(columns) != len(used_columns) and "(" in query:
         query += f", {', '.join([c for c in columns if c not in used_columns])}"
+    # If more than one column is used, and it was the amount of available columns
     elif 1 < len(columns) == len(used_columns) and "(" in query:
         return query, used_columns
-
+    # If we did not apply a function, and we have more than one column
     elif len(columns) > 1 and "(" not in query:
-        query += f"{', '.join([c for c in columns if c not in used_columns])}"
-    else:
+        query += f"{', '.join([c for c in columns])}"
+    # If we have only one column without a function
+    elif len(columns) == 1 and "(" not in query:
         query += f"{columns[0]}"
+    # If we have only one column, but we applied a function on it and then select it again
+    else:
+        query += f", {columns[0]}"
     return query, used_columns
 
 
@@ -285,6 +299,7 @@ def generate_conditional_query(
     columns: List[str],
     text_columns: List[str],
     numeric_columns: List[str],
+    date_time_columns: List[str],
     query: str,
 ) -> str:
     """
@@ -292,28 +307,26 @@ def generate_conditional_query(
     :param columns: List of columns
     :param text_columns: List of text columns
     :param numeric_columns: List of numeric columns
+    :param date_time_columns: List of date time columns
     :param query: Original query
     :return: The query with a conditional operator
     """
     column = random.choice(columns)
     if column in text_columns:
-        if random.choice([True, True, True, False]):
-            # Add a text comparison
-            query += (
-                f"{column} {random.choice(COMPARE_OPERATORS['text'])}"
-                f" '{random.choice(['%', ''])}{Faker().random_letter()}{random.choice(['%', ''])}'"
-            )
-        else:
-            # Add a NULL comparison
-            query += f"{column} {random.choice(COMPARE_OPERATORS['null'])}"
+
+        # Add a text comparison
+        query += (
+            f"{column} {random.choice(COMPARE_OPERATORS['text'])}"
+            f" '{random.choice(['%', ''])}{Faker().random_letter()}{random.choice(['%', ''])}'"
+        )
 
     elif column in numeric_columns:
-        if random.choice([True, True, True, False]):
-            # Add a numeric comparison
-            query += f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} {random.randint(0, 100)}"
-        else:
-            # Add a NULL comparison
-            query += f"{column} {random.choice(COMPARE_OPERATORS['null'])}"
+
+        # Add a numeric comparison
+        query += f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} {random.randint(0, 100)}"
+    elif column in date_time_columns:
+        # Add a date comparison
+        query += f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} '{Faker().date_time_this_year()}'"
     else:
         query += f"{column} {random.choice(COMPARE_OPERATORS['null'])}"
     return query
@@ -323,6 +336,7 @@ def add_logical_operator(
     columns: List[str],
     text_columns: List[str],
     numeric_columns: List[str],
+    date_time_columns: List[str],
     query: str,
 ) -> str:
     """
@@ -330,6 +344,7 @@ def add_logical_operator(
     :param columns: List of columns
     :param text_columns: List of text columns
     :param numeric_columns: List of numeric columns
+    :param date_time_columns: List of date time columns
     :param query: Original query
     :return: The query with a logical operator
     """
@@ -337,7 +352,11 @@ def add_logical_operator(
         # Add a logical operator
         query += f" {random.choice(LOGICAL_OPERATORS)} "
         query = generate_conditional_query(
-            columns, text_columns, numeric_columns, query
+            columns=columns,
+            text_columns=text_columns,
+            numeric_columns=numeric_columns,
+            date_time_columns=date_time_columns,
+            query=query,
         )
     return query
 
@@ -392,7 +411,7 @@ def generate_union_query(
     # Choosing another random table
     union_table = random.choice(available_tables)
     columns_union = get_columns(union_table)
-    text_columns_union, numeric_columns_union = get_column_type(
+    text_columns_union, numeric_columns_union, date_time_columns = get_column_type(
         union_table, columns_union
     )
 
@@ -448,6 +467,7 @@ def generate_union_query(
         columns=columns_union,
         text_columns=text_columns_union,
         numeric_columns=numeric_columns_union,
+        date_time_columns=date_time_columns,
         query=query_union,
     )
     query_union += " ) "
@@ -455,5 +475,101 @@ def generate_union_query(
     return query_union
 
 
-def transform_get_to_post(query: str, payload: str) -> None or str:
-    return ""
+def extract_random_condition(
+    query: str,
+) -> List[Any] or List[None]:
+    """
+    Extract a random condition from the query.
+    :param query: SQL query
+    :return: Column name and comparison value
+    """
+    conditions = []
+    parts = re.split(r"\bUNION\b", query, flags=re.IGNORECASE)
+
+    for part in parts:
+        where_parts = re.split(r"\bWHERE\b", part, flags=re.IGNORECASE)
+        if len(where_parts) < 2:
+            continue
+
+        where_clause = where_parts[-1]
+        # Remove GROUP BY and ORDER BY for now, but keep LIMIT for separate processing
+        limit_match = re.search(r"\bLIMIT\s+\d+", where_clause, flags=re.IGNORECASE)
+        if limit_match:
+            conditions.append(limit_match.group(0))
+
+        # Clean the where clause from GROUP BY, ORDER BY and LIMIT
+        clean_where_clause = re.sub(
+            r"GROUP BY.*|ORDER BY.*|LIMIT.*", "", where_clause, flags=re.IGNORECASE
+        )
+
+        # Split the remaining part of the where clause to get conditions
+        potential_conditions = re.split(
+            r"\sAND\s|\sOR\s", clean_where_clause, flags=re.IGNORECASE
+        )
+
+        for condition in potential_conditions:
+            if "%flag_challenge%" not in condition:
+                # Further strip and clean each condition to remove extra spaces and parentheses
+                clean_condition = re.sub(
+                    r"\(|\)", "", condition, flags=re.IGNORECASE
+                ).strip()
+                if (
+                    "IS NULL" in clean_condition.upper()
+                    or "IS NOT NULL" in clean_condition.upper()
+                ):
+                    continue
+                if clean_condition:
+                    conditions.append(clean_condition)
+
+    logging.debug(f"the query is {query}")
+    logging.debug(f"the conditions are {conditions}")
+    if conditions:
+        chosen_condition = random.choice(conditions)
+        logging.debug(f"Randomly chosen condition: {chosen_condition}")
+        if "LIMIT" in chosen_condition:
+            # Handle LIMIT specially, there is no column
+            limit_value = re.search(
+                r"\bLIMIT\s+(\d+)", chosen_condition, flags=re.IGNORECASE
+            ).group(1)
+            logging.debug(
+                f"Extracted limit value: {limit_value} from the condition: {chosen_condition}"
+            )
+            return ["LIMIT", limit_value, chosen_condition]
+
+        # Extract column name and comparison value using improved regex
+        match = re.match(
+            r"\s*([\w\.]+)\s*([=!<>]{1,2}|LIKE|IN)\s*(.*?)(?:\s*)$",
+            chosen_condition,
+            re.IGNORECASE,
+        )
+        if match:
+            column_name = match.group(1)
+            operator = match.group(2)
+            comparison_value = (
+                match.group(3).strip("()'\"")
+                if match.group(3)
+                else "NULL" if "NULL" in operator else "No explicit value"
+            )
+            logging.debug(
+                f"Extracted column: {column_name} and value: {comparison_value}"
+            )
+            return [column_name, comparison_value, chosen_condition]
+        else:
+            logging.error("Error when extracting column and value from the condition.")
+            return [None, None, None]
+    else:
+        logging.error("No suitable condition found in the query.")
+        return [None, None, None]
+
+
+def generate_vulnerable_request(query, value, condition, payload) -> str:
+    """
+    Generate a vulnerable request based on the query and the payload.
+    """
+    logging.debug(f"Generating a vulnerable request with payload: {payload}")
+    if "LIMIT" in condition:
+        query = query.replace(condition, f"LIMIT {payload}")
+    else:
+        condition = condition.replace(value, payload)
+        query = query.replace(condition, f"{condition}")
+    return query
