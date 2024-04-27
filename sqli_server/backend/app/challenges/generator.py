@@ -525,7 +525,7 @@ def extract_random_condition(
     logging.debug(f"the conditions are {conditions}")
     if conditions:
         chosen_condition = random.choice(conditions)
-        logging.debug(f"Randomly chosen condition: {chosen_condition}")
+        logging.info(f"Randomly chosen condition: {chosen_condition}")
         if "LIMIT" in chosen_condition:
             # Handle LIMIT specially, there is no column
             limit_value = re.search(
@@ -538,7 +538,7 @@ def extract_random_condition(
 
         # Extract column name and comparison value using improved regex
         match = re.match(
-            r"\s*([\w\.]+)\s*([=!<>]{1,2}|LIKE|IN)\s*(.*?)(?:\s*)$",
+            r"\s*([\w\.]+)\s*((?:NOT\s+)?(?:LIKE|IN)|[=!<>]{1,2})\s*(.*?)(?:\s*)$",
             chosen_condition,
             re.IGNORECASE,
         )
@@ -566,10 +566,9 @@ def generate_vulnerable_request(query, value, condition, payload) -> str:
     """
     Generate a vulnerable request based on the query and the payload.
     """
-    logging.debug(f"Generating a vulnerable request with payload: {payload}")
     if "LIMIT" in condition:
         query = query.replace(condition, f"LIMIT {payload}")
     else:
-        condition = condition.replace(value, payload)
-        query = query.replace(condition, f"{condition}")
+        query = query.replace(value, payload)
+    logging.debug(f"Generated request with the new payload: {query}")
     return query
