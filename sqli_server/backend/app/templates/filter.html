@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Filter Page Vulnerable</title>
+  <title>Filter Page</title>
   <style>
       table {
           width: 100%;
@@ -21,12 +21,18 @@
 <h1>Filter</h1>
 {% if column == "LIMIT" %}
 <form method="POST">
-  Choose a number of max results: <input type="number" name="payload" placeholder="Max Results">
+  Choose a number of max results:
+  <input type="number" name="payload" placeholder="Max Results">
   <button type="submit">Set Limit</button>
 </form>
 {% elif column %}
 <form method="POST">
-  Filter the column {{ column }}: <input type="text" name="payload" placeholder="Enter filter value">
+  Filter the column {{ column }}:
+  {% if numerical_condition %}
+  <input type="number" name="payload" placeholder="Enter a number">
+  {% else %}
+  <input type="text" name="payload" placeholder="Enter value">
+  {% endif %}
   <button type="submit">Search</button>
 </form>
 {% endif %}
