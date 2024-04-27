@@ -28,19 +28,25 @@ def challenge(challenge_number: int) -> str:
     sqli_archetype = challenges[challenge_number - 1]
     query = filter_queries[challenge_number]
     [column, value, condition] = extracted_queries[challenge_number - 1]
+    if ("<" or ">" or "<=" or ">=") in condition:
+        numerical_condition = True
+    else:
+        numerical_condition = False
     logging.debug(f"COLUMN: {column}, VALUE: {value}, CONDITION: {condition}")
     if request.method == "POST":
         payload = request.form.get("payload", "")
-        logging.debug(f"Payload: {payload}")
         if selected_template == "filter":
             query = generate_vulnerable_request(query, value, condition, payload)
-            logging.debug(f"Sending query: {query}")
             result_proxy = db.session.execute(text(query))
             response = result_proxy.fetchall()
             columns = result_proxy.keys()
             items = [{col: val for col, val in zip(columns, row)} for row in response]
             return render_template(
-                f"{selected_template}.html", items=items, column=column, value=value
+                f"{selected_template}.html",
+                items=items,
+                column=column,
+                value=value,
+                numerical_condition=numerical_condition,
             )
         else:
             logging.error(f"Unknown template: {selected_template}")
@@ -52,7 +58,11 @@ def challenge(challenge_number: int) -> str:
         columns = result_proxy.keys()
         items = [{col: val for col, val in zip(columns, row)} for row in response]
         return render_template(
-            f"{selected_template}.html", items=items, column=column, value=value
+            f"{selected_template}.html",
+            items=items,
+            column=column,
+            value=value,
+            numerical_condition=numerical_condition,
         )
 
     else:
