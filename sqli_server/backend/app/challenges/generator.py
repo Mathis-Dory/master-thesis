@@ -21,28 +21,20 @@ from challenges.utils import (
     NUMERIC_FUNCTIONS,
     TEXT_FUNCTIONS,
     display_table,
+    SQLI_ARCHETYPES,
+    TEMPLATES,
+    add_parenthesis,
+    add_quotes,
 )
-
-# Choices of SQLi vulnerabilities
-SQLI_ARCHETYPES = [
-    "Error-based SQL Injection",
-    "Union-based SQL Injection",
-    "Stacked Queries",
-    "Time-based Blind SQL Injection",
-    "Boolean-based Blind SQL Injection",
-    "No vulnerabilities",
-]
-
-TEMPLATES = ["filter"]  # Remove auth challenges for the moment
 
 
 def generate_challenges(nbr: int) -> Tuple[List[str], List[str], List[str]]:
     """
     Generates a list of SQLi vulnerabilities and associated flags.
-    :param nbr: Number of challenges to generate
-    :return: Tuple of challenges types and flags
+    :param nbr: Number of archetypes to generate
+    :return: Tuple of archetypes types and flags
     """
-    challenges = random.choices(SQLI_ARCHETYPES, k=nbr)
+    archetypes = random.choices(SQLI_ARCHETYPES, k=nbr)
     templates = random.choices(TEMPLATES, k=nbr)
     flags = [
         (
@@ -50,13 +42,9 @@ def generate_challenges(nbr: int) -> Tuple[List[str], List[str], List[str]]:
             if v != "No vulnerabilities"
             else None
         )
-        for idx, v in enumerate(challenges)
+        for idx, v in enumerate(archetypes)
     ]
-    for idx, _ in enumerate(challenges):
-        logging.debug(
-            f"Generated vulnerabilities: {challenges[idx]} with flag: {flags[idx]} and template: {templates[idx]}"
-        )
-    return challenges, flags, templates
+    return archetypes, flags, templates
 
 
 def generate_default_queries_filter(
@@ -68,7 +56,7 @@ def generate_default_queries_filter(
     :return: List of complex queries
     """
     queries = []
-    templates = current_app.config["INIT_DATA"]["templates"]
+    templates = current_app.config["INIT_DATA"]["TEMPLATES"]
     filter_templates = [t for t in templates if t == "filter"]
 
     # Exclude 'Customer' and 'AuthBypass' tables
@@ -78,6 +66,7 @@ def generate_default_queries_filter(
 
     for _ in filter_templates:
         if available_tables:
+
             # Create a basic query like "SELECT column1, column2 FROM table"
             query, text_columns, numeric_columns, date_time_columns, columns = (
                 basic_query(available_tables)
@@ -124,7 +113,6 @@ def generate_default_queries_filter(
             logging.error("No tables available for filter challenges !")
             return
 
-    logging.debug(f"Generated following filter queries: {queries}")
     return queries
 
 
@@ -313,22 +301,27 @@ def generate_conditional_query(
     """
     column = random.choice(columns)
     if column in text_columns:
-
         # Add a text comparison
-        query += (
-            f"{column} {random.choice(COMPARE_OPERATORS['text'])}"
-            f" '{random.choice(['%', ''])}{Faker().random_letter()}{random.choice(['%', ''])}'"
+        payload = add_parenthesis(
+            f"'{random.choice(['%', '']) + Faker().random_letter() + random.choice(['%', ''])}'"
         )
+        query += f"{column} {random.choice(COMPARE_OPERATORS['text'])} {payload}"
 
     elif column in numeric_columns:
-
         # Add a numeric comparison
-        query += f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} {random.randint(0, 100)}"
+        payload = add_quotes(random.randint(0, 1000))
+        payload = add_parenthesis(random.randint(0, 1000))
+        query += f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} {payload}"
+
     elif column in date_time_columns:
         # Add a date comparison
-        query += f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} '{Faker().date_time_this_year()}'"
+        payload = add_quotes(Faker().date_time_this_year())
+        payload = add_parenthesis(payload)
+        query += f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} {payload}"
+
     else:
         query += f"{column} {random.choice(COMPARE_OPERATORS['null'])}"
+
     return query
 
 
@@ -521,19 +514,16 @@ def extract_random_condition(
                 if clean_condition:
                     conditions.append(clean_condition)
 
-    logging.debug(f"the query is {query}")
-    logging.debug(f"the conditions are {conditions}")
     if conditions:
         chosen_condition = random.choice(conditions)
-        logging.info(f"Randomly chosen condition: {chosen_condition}")
+        logging.debug(
+            f"Randomly chosen condition: {chosen_condition} in the query: {query}"
+        )
         if "LIMIT" in chosen_condition:
             # Handle LIMIT specially, there is no column
             limit_value = re.search(
                 r"\bLIMIT\s+(\d+)", chosen_condition, flags=re.IGNORECASE
             ).group(1)
-            logging.debug(
-                f"Extracted limit value: {limit_value} from the condition: {chosen_condition}"
-            )
             return ["LIMIT", limit_value, chosen_condition]
 
         # Extract column name and comparison value using improved regex
@@ -550,9 +540,6 @@ def extract_random_condition(
                 if match.group(3)
                 else "NULL" if "NULL" in operator else "No explicit value"
             )
-            logging.debug(
-                f"Extracted column: {column_name} and value: {comparison_value}"
-            )
             return [column_name, comparison_value, chosen_condition]
         else:
             logging.error("Error when extracting column and value from the condition.")
@@ -562,13 +549,37 @@ def extract_random_condition(
         return [None, None, None]
 
 
-def generate_vulnerable_request(query, value, condition, payload) -> str:
+def regenerate_filter_with_payload(query, value, condition, payload) -> str:
     """
-    Generate a vulnerable request based on the query and the payload.
+    Generate a new query with the payload according to the SQLi vulnerability.
+    :param query: SQL query
+    :param value: Column name
+    :param condition: Comparison operator
+    :param payload: Payload to inject
+    :return: New SQL query
     """
     if "LIMIT" in condition:
         query = query.replace(condition, f"LIMIT {payload}")
     else:
         query = query.replace(value, payload)
+
     logging.debug(f"Generated request with the new payload: {query}")
     return query
+
+
+def generate_default_queries_auth() -> List[str] or None:
+    """
+    Generate query SELECT username, password FROM customers WHERE username = payload1 AND password = payload2 LIMIT 0,1
+    :return: List of queries
+    """
+    queries = []
+    templates = current_app.config["INIT_DATA"]["TEMPLATES"]
+    auth_templates = [t for t in templates if t == "auth"]
+
+    for _ in auth_templates:
+        # Enter the username and password
+        username_payload = add_parenthesis("payload1")
+        password_payload = add_parenthesis("payload2")
+        query = f"SELECT username, password FROM customers WHERE username = {username_payload} AND password = {password_payload} LIMIT 0,1"
+        queries.append(query)
+    return queries

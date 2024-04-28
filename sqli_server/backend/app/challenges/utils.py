@@ -1,4 +1,5 @@
 import logging
+import random
 import re
 from typing import Tuple, List, Any
 
@@ -18,6 +19,17 @@ COMPARE_OPERATORS = {
 
 LOGICAL_OPERATORS = ["AND", "OR"]
 END_OPERATORS = ["ORDER BY", "LIMIT", "DISTINCT", "UNION"]
+
+# Choices of SQLi vulnerabilities
+SQLI_ARCHETYPES = [
+    "In-band SQL Injection",
+    "Stacked Queries",
+    "Time-based Blind SQL Injection",
+    "Boolean-based Blind SQL Injection",
+    "No vulnerabilities",
+]
+
+TEMPLATES = ["filter", "filter", "filter", "auth"]  # 75% filter, 25% auth_bypass
 
 
 def find_columns_in_query(query: str) -> List[str]:
@@ -186,9 +198,51 @@ def display_table(table: Any) -> str:
     :param table: Table object
     :return: Table name string
     """
-    if current_app.config["INIT_DATA"]["dbms"] == "mysql:latest":
+    if current_app.config["INIT_DATA"]["DBMS"] == "mysql:latest":
         return f"`{table.__tablename__}`"
-    elif current_app.config["INIT_DATA"]["dbms"] == "postgres:latest":
+    elif current_app.config["INIT_DATA"]["DBMS"] == "postgres:latest":
         return f'"{table.__tablename__}"'
     else:
         logging.error("Unknown DBMS !")
+
+
+def log_challenges(templates: List[str], queries: List[str]) -> None:
+    """
+    Log the challenges generated
+    :param templates: List of templates
+    :param queries: List of queries
+    """
+
+    archetypes = current_app.config["INIT_DATA"]["ARCHETYPES"]
+    for idx, template in enumerate(templates):
+        logging.info(
+            f"Challenge number {idx + 1} has template {template} with query {queries[idx]} and SQLi archetype {archetypes[idx]}."
+        )
+
+
+def add_quotes(payload) -> str:
+    """
+    Add quotes around the payload
+    :param payload: to add quotes
+    :return: The payload with or without quotes
+    """
+    quotes = random.choice(["'", '"', None])
+    if quotes == "'":
+        return f"'{payload}'"
+    elif quotes == '"' and current_app.config["INIT_DATA"]["DBMS"] != "postgres:latest":
+        return f'"{payload}"'
+    return payload
+
+
+def add_parenthesis(payload) -> str:
+    """
+    Add parenthesis around the payload
+    :param payload: to add parenthesis
+    :return: The payload with or without parenthesis
+    """
+    parenthesis = random.choice([1, 2, None])
+    if parenthesis == 1:
+        return f"({payload})"
+    elif parenthesis == 2:
+        return f"(({payload}))"
+    return payload
