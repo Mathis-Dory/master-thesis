@@ -9,7 +9,9 @@ from sqlalchemy import MetaData
 from challenges.generator import (
     generate_default_queries_filter,
     extract_random_condition,
+    generate_default_queries_auth,
 )
+from challenges.utils import log_challenges
 from database import db
 
 
@@ -248,7 +250,11 @@ def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
 
 
 def populate_db(templates: List[str], flags: List[str]) -> None:
-    """Populate the database with dummy data for selected models."""
+    """
+    Populate the database with random data and flags.
+    :param templates: List of templates
+    :param flags: List of flags
+    """
     extracted_queries = []
     faker = Faker(["en_US"])
     Faker.seed(current_app.config["SEED"])
@@ -273,17 +279,37 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
     insert_flags(selected_tables, templates, flags)
     logging.info("Random data and flags inserted.")
     logging.info("Generating default queries ...")
+
     filter_queries = generate_default_queries_filter(available_tables=selected_tables)
-    queries = dict(
-        zip(
-            [i + 1 for i, template in enumerate(templates) if template == "filter"],
-            filter_queries,
-        )
-    )
-    current_app.config["FILTER_QUERIES"] = queries
-    for query in queries.values():
-        extracted_queries.append(extract_random_condition(query))
-    current_app.config["EXTRACTED_QUERIES"] = extracted_queries
+    auth_queries = generate_default_queries_auth()
+
+    current_app.config["AUTH_QUERIES"] = auth_queries
+
+    queries = []
+    filter_index = 0
+    auth_index = 0
+
+    for template in templates:
+        if template == "filter":
+            # Add the next filter query if available
+            if filter_index < len(filter_queries):
+                queries.append(filter_queries[filter_index])
+                extracted_queries.append(
+                    extract_random_condition(filter_queries[filter_index])
+                )
+                filter_index += 1
+        elif template == "auth":
+            # Add the next auth query if available
+            if auth_index < len(auth_queries):
+                queries.append(auth_queries[auth_index])
+                extracted_queries.append(None)
+                auth_index += 1
+
+    current_app.config["QUERIES"] = queries
+
+    current_app.config["EXTRACTED_FILTER_QUERIES"] = extracted_queries
+
+    log_challenges(templates=templates, queries=queries)
 
 
 def insert_flags(
@@ -322,7 +348,7 @@ def insert_flags(
                         row = random.choice(rows)
                         # Check if the selected cell already contains a flag
                         if getattr(row, column.name) in flags:
-                            logging.debug(
+                            logging.warning(
                                 "Selected cell already contains a flag, retrying..."
                             )
                         else:
