@@ -42,14 +42,14 @@ def create_app() -> Flask:
             return app
 
         app.config.update(init_data)
-        dbms = init_data["dbms"]
+        dbms = init_data["DBMS"]
         db_uri = configure_database_uri(dbms)
         if not db_uri:
             logging.error("Failed to configure database URI")
             return app
         app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
         db.init_app(app)
-        populate_db(templates=init_data["templates"], flags=init_data["flags"])
+        populate_db(templates=init_data["TEMPLATES"], flags=init_data["FLAGS"])
 
     @app.route("/", methods=["GET"])
     def root() -> jsonify:
@@ -71,7 +71,7 @@ def initialize_environment(app: Flask) -> dict or None:
     """
     Initialize the challenge environment.
     :param app: Flask application
-    :return: Dictionary with the DBMS, challenges types, and container ID
+    :return: Dictionary with the DBMS, archetypes types, and container ID
     """
     logging.info("Initializing the challenge environment...")
     client = docker.from_env()
@@ -85,19 +85,19 @@ def initialize_environment(app: Flask) -> dict or None:
     else:
         logging.error(f"Unable to start DBMS: {selected_dbms}")
         return None
-    challenges, flags, templates = generate_challenges(
+    archetypes, flags, templates = generate_challenges(
         nbr=app.config["CHALLENGES_EPISODES"]
     )
     logging.info(
-        f"{len(challenges)} challenges generated and database started with ID: {container.id}"
+        f"{len(archetypes)} challenges generated and database started with ID: {container.id}"
     )
 
     return {
-        "dbms": selected_dbms,
-        "challenges": challenges,
-        "flags": flags,
-        "templates": templates,
-        "container_id": container.id,
+        "DBMS": selected_dbms,
+        "ARCHETYPES": archetypes,
+        "FLAGS": flags,
+        "TEMPLATES": templates,
+        "CONTAINER_ID": container.id,
     }
 
 
@@ -110,13 +110,18 @@ def start_db_instance(
     :param db_image: Docker image to use
     :return Container object or None
     """
+    if db_image not in current_app.config["DBMS_IMAGES"]:
+        logging.error(f"Unsupported DBMS image: {db_image}")
+        return None
+
     container_name = "sqli-challenge-db"
     try:
         container = client.containers.get(container_name)
+        logging.info(f"Stopping and removing existing container: {container.id}")
         container.stop()
         container.remove()
     except docker.errors.NotFound:
-        pass
+        logging.info("No existing container to remove.")
 
     if db_image == "mysql:latest":
         environment = {
@@ -135,15 +140,19 @@ def start_db_instance(
         logging.error(f"Can not assign environment variables for DBMS: {db_image}")
         return None
 
-    logging.info(f"Starting database: {db_image} ...")
-    container = client.containers.run(
-        image=db_image,
-        name=container_name,
-        environment=environment,
-        ports=ports,
-        detach=True,
-        network="sqli_server_internal",
-    )
-    container.reload()
-    logging.info("Database started")
-    return container
+    try:
+        logging.info(f"Starting database: {db_image} ...")
+        container = client.containers.run(
+            image=db_image,
+            name=container_name,
+            environment=environment,
+            ports=ports,
+            detach=True,
+            network="sqli_server_internal",
+        )
+        container.reload()
+        logging.info("Database started")
+        return container
+    except Exception as e:
+        logging.error(f"Failed to start database container: {e}")
+        return None

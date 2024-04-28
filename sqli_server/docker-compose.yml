@@ -1,9 +1,9 @@
 services:
   backend:
+    image: backend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: backend:latest
     environment:
       - FLASK_APP=app/app.py
     ports:
@@ -15,9 +15,6 @@ services:
     networks:
       internal:
          ipv4_address: 172.20.0.2
-
-volumes:
-  docker_sock:
 
 networks:
   internal:
