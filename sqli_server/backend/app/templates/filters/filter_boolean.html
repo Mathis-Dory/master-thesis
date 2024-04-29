@@ -37,27 +37,19 @@
 </form>
 {% endif %}
 {% if items %}
-<table>
-  <thead>
-  <tr>
-    {% for header in items[0].keys() %}
-    <th>{{ header }}</th>
-    {% endfor %}
-  </tr>
-  </thead>
-  <tbody>
-  {% for item in items %}
-  <tr>
-    {% for value in item.values() %}
-    <td>{{ value }}</td>
-    {% endfor %}
-  </tr>
-  {% endfor %}
-  </tbody>
-</table>
+<h1>
+  Success !
+</h1>
+<p>
+  We found data corresponding to your search !
+</p>
+{% else %}
+<h1>
+  No data found corresponding to your search !
+</h1>
 {% endif %}
-{% if error %}
-<h3>{{ error }}</h3>
+{% if sql_error %}
+<h3>{{ sql_error }}</h3>
 {% endif %}
 </body>
 </html>
