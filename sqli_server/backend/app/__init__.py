@@ -5,7 +5,10 @@ import docker
 from docker import DockerClient
 from flask import Flask, jsonify, current_app
 
-from app.challenges.generator import generate_challenges
+from app.challenges.generator import (
+    generate_challenges,
+    generate_random_settings,
+)
 from app.config import Config
 from challenges.models import populate_db, db
 from .database import configure_database_uri, wait_for_db
@@ -50,6 +53,7 @@ def create_app() -> Flask:
         app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
         db.init_app(app)
         populate_db(templates=init_data["TEMPLATES"], flags=init_data["FLAGS"])
+        app.config["INIT_DATA"]["LIMITATIONS"] = generate_random_settings()
 
     @app.route("/", methods=["GET"])
     def root() -> jsonify:
@@ -117,7 +121,9 @@ def start_db_instance(
     container_name = "sqli-challenge-db"
     try:
         container = client.containers.get(container_name)
-        logging.info(f"Stopping and removing existing container: {container.id}")
+        logging.info(
+            f"Stopping and removing existing container: {container.id}"
+        )
         container.stop()
         container.remove()
     except docker.errors.NotFound:
@@ -137,7 +143,9 @@ def start_db_instance(
         ports = {"5432/tcp": 5432}
 
     else:
-        logging.error(f"Can not assign environment variables for DBMS: {db_image}")
+        logging.error(
+            f"Can not assign environment variables for DBMS: {db_image}"
+        )
         return None
 
     try:
