@@ -613,3 +613,59 @@ def generate_default_queries_auth() -> List[str] or None:
             query = f"SELECT username, password FROM auth_bypass WHERE username={username_payload} AND password={password_payload} LIMIT 1"
         queries.append(query)
     return queries
+
+
+def generate_random_settings():
+    """
+    Generates random settings for the blacklist check and stores them in the session.
+    """
+    blacklist = [
+        "like",
+        "select",
+        "+",
+        "union",
+        "-",
+        "%",
+        " ",
+        "/*",
+        "*/",
+        "=",
+        ">",
+        "<",
+        "/",
+        "*",
+        "()",
+        "(",
+        ")",
+        ",",
+        ";",
+        "#",
+        "sleep",
+        "\\",
+        "between",
+    ]
+    check_count = random.randint(1, len(blacklist))
+    items_to_check = random.sample(blacklist, check_count)
+    checks = []
+    for item in items_to_check:
+        case_check = random.choice([1, 2, 3])
+        checks.append((item, case_check))
+    return checks
+
+
+def add_limitations(payload: str, settings: List[Tuple[str, int]]) -> None:
+    """
+    Add limitations to the payload based on pre-determined session settings.
+    :param payload: Payload to check
+    :param settings: List of settings
+    """
+    logging.debug(f"Blacklisted item: {settings}")
+    for item, case_check in settings:
+        if case_check == 1 and item.lower() in payload.lower():
+            raise ValueError("Payload contains a blacklisted element")
+        elif case_check == 2 and item.upper() in payload.upper():
+            raise ValueError("Payload contains a blacklisted element")
+        elif case_check == 3 and (
+            item in payload or item.lower() in payload.lower()
+        ):
+            raise ValueError("Payload contains a blacklisted element")

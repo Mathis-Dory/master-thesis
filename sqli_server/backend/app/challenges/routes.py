@@ -10,6 +10,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app import db
 from challenges.generator import (
     regenerate_filter_with_payload,
+    add_limitations,
 )
 
 challenges_bp = Blueprint("challenges", __name__)
@@ -57,6 +58,9 @@ def challenge(challenge_number: int) -> str:
             )
             logging.info(f"Generated query: {query}")
             try:
+                add_limitations(
+                    payload, current_app.config["INIT_DATA"]["LIMITATIONS"]
+                )
                 result_proxy = db.session.execute(text(query))
                 response = result_proxy.fetchall()
                 columns = result_proxy.keys()
@@ -89,6 +93,17 @@ def challenge(challenge_number: int) -> str:
                         "sql_error": error
                         if "Errors" in sqli_archetype
                         else None,
+                    },
+                )
+            except ValueError as e:
+                return select_correct_template(
+                    template=selected_template,
+                    sqli_archetype=sqli_archetype,
+                    parameters={
+                        "column": column,
+                        "value": value,
+                        "numerical_condition": numerical_condition,
+                        "sql_error": e if "Errors" in sqli_archetype else None,
                     },
                 )
 
@@ -127,6 +142,12 @@ def challenge(challenge_number: int) -> str:
             query = query.replace("payload2", payload2)
             logging.debug(f"Generated query: {query}")
             try:
+                add_limitations(
+                    payload1, current_app.config["INIT_DATA"]["LIMITATIONS"]
+                )
+                add_limitations(
+                    payload2, current_app.config["INIT_DATA"]["LIMITATIONS"]
+                )
                 result_proxy = db.session.execute(text(query))
                 response = result_proxy.fetchone()
                 if response:
@@ -153,6 +174,14 @@ def challenge(challenge_number: int) -> str:
                         "sql_error": error
                         if "Errors" in sqli_archetype
                         else None,
+                    },
+                )
+            except ValueError as e:
+                return select_correct_template(
+                    template=selected_template,
+                    sqli_archetype=sqli_archetype,
+                    parameters={
+                        "sql_error": e if "Errors" in sqli_archetype else None,
                     },
                 )
 
