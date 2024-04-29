@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login Page Vulnerable</title>
+</head>
+<body>
+<h1>Login Page</h1>
+<form method="POST">
+  Username: <input type="text" name="username_payload" placeholder="Enter username">
+  Password: <input type="password" name="password_payload" placeholder="Enter password">
+  <button type="submit">Login</button>
+</form>
+{% if value %}
+{% if value.auth == True %}
+<h3>Success</h3>
+<p>
+  User authenticated, but we can't tell you the credentials, it is a secret :)
+</p>
+{% else %}
+<h3>Failed</h3>
+<p>
+  Credentials are wrong !
+</p>
+{% endif %}
+{% if sql_error %}
+<h3>{{ sql_error }}</h3>
+{% endif %}
+{% endif %}
+</body>
+</html>

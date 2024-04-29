@@ -10,11 +10,21 @@
     Password: <input type="password" name="password_payload" placeholder="Enter password">
     <button type="submit">Login</button>
   </form>
-  {% if result %}
-  <h2>{{ result }}</h2>
-  {% endif %}
-  {% if error %}
-  <h3>{{ error }}</h3>
+  {% if value %}
+    {% if value.auth == True %}
+    <h3>Success</h3>
+    <p>
+      User authenticated: {{ value.username }} with password: {{value.password}}
+    </p>
+    {% else %}
+    <h3>Failed</h3>
+    <p>
+      Credentials are wrong !
+    </p>
+    {% endif %}
+    {% if sql_error %}
+    <h3>{{ sql_error }}</h3>
+    {% endif %}
   {% endif %}
 </body>
 </html>

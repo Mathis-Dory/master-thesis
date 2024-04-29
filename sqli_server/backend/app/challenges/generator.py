@@ -59,18 +59,21 @@ def generate_default_queries_filter(
     templates = current_app.config["INIT_DATA"]["TEMPLATES"]
     filter_templates = [t for t in templates if t == "filter"]
 
-    # Exclude 'Customer' and 'AuthBypass' tables
+    # Exclude and 'AuthBypass' tables
     available_tables = exclude_tables(
-        available_tables, excluded_tables=["customer", "auth_bypass"]
+        available_tables, excluded_tables=["auth_bypass"]
     )
 
     for _ in filter_templates:
         if available_tables:
-
             # Create a basic query like "SELECT column1, column2 FROM table"
-            query, text_columns, numeric_columns, date_time_columns, columns = (
-                basic_query(available_tables)
-            )
+            (
+                query,
+                text_columns,
+                numeric_columns,
+                date_time_columns,
+                columns,
+            ) = basic_query(available_tables)
             # Add a WHERE clause to remove any flag pattern in the query
             if text_columns:
                 query = filter_flags(query, text_columns)
@@ -305,19 +308,25 @@ def generate_conditional_query(
         payload = add_parenthesis(
             f"'{random.choice(['%', '']) + Faker().random_letter() + random.choice(['%', ''])}'"
         )
-        query += f"{column} {random.choice(COMPARE_OPERATORS['text'])} {payload}"
+        query += (
+            f"{column} {random.choice(COMPARE_OPERATORS['text'])} {payload}"
+        )
 
     elif column in numeric_columns:
         # Add a numeric comparison
         payload = add_quotes(random.randint(0, 1000))
         payload = add_parenthesis(random.randint(0, 1000))
-        query += f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} {payload}"
+        query += (
+            f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} {payload}"
+        )
 
     elif column in date_time_columns:
         # Add a date comparison
         payload = add_quotes(Faker().date_time_this_year())
         payload = add_parenthesis(payload)
-        query += f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} {payload}"
+        query += (
+            f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} {payload}"
+        )
 
     else:
         query += f"{column} {random.choice(COMPARE_OPERATORS['null'])}"
@@ -404,9 +413,11 @@ def generate_union_query(
     # Choosing another random table
     union_table = random.choice(available_tables)
     columns_union = get_columns(union_table)
-    text_columns_union, numeric_columns_union, date_time_columns = get_column_type(
-        union_table, columns_union
-    )
+    (
+        text_columns_union,
+        numeric_columns_union,
+        date_time_columns,
+    ) = get_column_type(union_table, columns_union)
 
     # Ensuring that the columns match the first query's columns
     query_union = " UNION SELECT "
@@ -424,7 +435,11 @@ def generate_union_query(
                 query_parts.append(f"{col2}")
             else:
                 col2 = next(
-                    (col for col in columns_union if col in numeric_columns_union),
+                    (
+                        col
+                        for col in columns_union
+                        if col in numeric_columns_union
+                    ),
                     None,
                 )
                 query_parts.append(f"CAST({col2} AS VARCHAR)")
@@ -486,13 +501,18 @@ def extract_random_condition(
 
         where_clause = where_parts[-1]
         # Remove GROUP BY and ORDER BY for now, but keep LIMIT for separate processing
-        limit_match = re.search(r"\bLIMIT\s+\d+", where_clause, flags=re.IGNORECASE)
+        limit_match = re.search(
+            r"\bLIMIT\s+\d+", where_clause, flags=re.IGNORECASE
+        )
         if limit_match:
             conditions.append(limit_match.group(0))
 
         # Clean the where clause from GROUP BY, ORDER BY and LIMIT
         clean_where_clause = re.sub(
-            r"GROUP BY.*|ORDER BY.*|LIMIT.*", "", where_clause, flags=re.IGNORECASE
+            r"GROUP BY.*|ORDER BY.*|LIMIT.*",
+            "",
+            where_clause,
+            flags=re.IGNORECASE,
         )
 
         # Split the remaining part of the where clause to get conditions
@@ -538,11 +558,15 @@ def extract_random_condition(
             comparison_value = (
                 match.group(3).strip("()'\"")
                 if match.group(3)
-                else "NULL" if "NULL" in operator else "No explicit value"
+                else "NULL"
+                if "NULL" in operator
+                else "No explicit value"
             )
             return [column_name, comparison_value, chosen_condition]
         else:
-            logging.error("Error when extracting column and value from the condition.")
+            logging.error(
+                "Error when extracting column and value from the condition."
+            )
             return [None, None, None]
     else:
         logging.error("No suitable condition found in the query.")
@@ -569,7 +593,7 @@ def regenerate_filter_with_payload(query, value, condition, payload) -> str:
 
 def generate_default_queries_auth() -> List[str] or None:
     """
-    Generate query SELECT username, password FROM customers WHERE username = payload1 AND password = payload2 LIMIT 0,1
+    Generate query SELECT username, password FROM customers WHERE username = payload1 AND password = payload2 LIMIT 1
     :return: List of queries
     """
     queries = []
@@ -578,8 +602,14 @@ def generate_default_queries_auth() -> List[str] or None:
 
     for _ in auth_templates:
         # Enter the username and password
-        username_payload = add_parenthesis("payload1")
-        password_payload = add_parenthesis("payload2")
-        query = f"SELECT username, password FROM customers WHERE username = {username_payload} AND password = {password_payload} LIMIT 0,1"
+        username_payload = add_quotes("payload1")
+        password_payload = add_quotes("payload2")
+        username_payload = add_parenthesis(username_payload)
+        password_payload = add_parenthesis(password_payload)
+        if random.choice([True, False]):
+            # Add parentheses around the where
+            query = f"SELECT username, password FROM auth_bypass WHERE (username={username_payload} AND password={password_payload}) LIMIT 1"
+        else:
+            query = f"SELECT username, password FROM auth_bypass WHERE username={username_payload} AND password={password_payload} LIMIT 1"
         queries.append(query)
     return queries
