@@ -125,6 +125,7 @@ def challenge(challenge_number: int) -> str:
             query = current_app.config.get("QUERIES")[challenge_number - 1]
             query = query.replace("payload1", payload1)
             query = query.replace("payload2", payload2)
+            logging.debug(f"Generated query: {query}")
             try:
                 result_proxy = db.session.execute(text(query))
                 response = result_proxy.fetchone()
@@ -247,7 +248,6 @@ def select_correct_template(
                     sql_error=parameters.get("sql_error"),
                 )
             else:
-                logging.info(f"parameters: {parameters['value']}")
                 return render_template(
                     f"auth/{template_name}.html", value=parameters["value"]
                 )
