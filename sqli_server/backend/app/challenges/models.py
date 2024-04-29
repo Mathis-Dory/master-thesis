@@ -18,7 +18,8 @@ from database import db
 class AuthBypass(db.Model):
     __tablename__ = "auth_bypass"
     id = db.Column(db.Integer, primary_key=True)
-    flag = db.Column(db.String(80), nullable=False)
+    username = db.Column(db.String(80), nullable=False)
+    password = db.Column(db.String(80), nullable=False)
 
 
 class Customers(db.Model):
@@ -326,7 +327,7 @@ def insert_flags(
     for idx, flag in enumerate(flags):
         if flag is not None:
             if templates[idx] == "auth":
-                entry = AuthBypass(flag=flag)
+                entry = AuthBypass(username=Faker().name(), password=flag)
                 db.session.add(entry)
             else:
                 # Randomly select one of the selected table, then randomly take one of the string

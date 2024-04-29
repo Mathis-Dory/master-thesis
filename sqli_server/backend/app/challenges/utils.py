@@ -22,11 +22,14 @@ END_OPERATORS = ["ORDER BY", "LIMIT", "DISTINCT", "UNION"]
 
 # Choices of SQLi vulnerabilities
 SQLI_ARCHETYPES = [
-    "In-band SQL Injection",
-    "Stacked Queries",
-    "Time-based Blind SQL Injection",
-    "Boolean-based Blind SQL Injection",
+    "In-band",
+    "Time-based",
+    "Boolean-based",
     "No vulnerabilities",
+    "In-band + Errors",
+    "Time-based + Errors",
+    "Boolean-based + Errors",
+    "No vulnerabilities + Errors",
 ]
 
 TEMPLATES = ["filter", "filter", "filter", "auth"]  # 75% filter, 25% auth_bypass
@@ -226,7 +229,7 @@ def add_quotes(payload) -> str:
     :param payload: to add quotes
     :return: The payload with or without quotes
     """
-    quotes = random.choice(["'", '"', None])
+    quotes = random.choice(["'", '"'])
     if quotes == "'":
         return f"'{payload}'"
     elif quotes == '"' and current_app.config["INIT_DATA"]["DBMS"] != "postgres:latest":
