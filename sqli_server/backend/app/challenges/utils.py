@@ -215,7 +215,6 @@ def log_challenges(templates: List[str], queries: List[str]) -> None:
     :param templates: List of templates
     :param queries: List of queries
     """
-
     archetypes = current_app.config["INIT_DATA"]["ARCHETYPES"]
     for idx, template in enumerate(templates):
         logging.info(

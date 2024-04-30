@@ -10,8 +10,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app import db
 from challenges.generator import (
     regenerate_filter_with_payload,
-    add_limitations,
-)
+    add_limitations, )
 
 challenges_bp = Blueprint("challenges", __name__)
 
@@ -42,7 +41,7 @@ def challenge(challenge_number: int) -> str:
         query = queries[challenge_number - 1]
         [column, value, condition] = extracted_filter_queries[
             challenge_number - 1
-        ]
+            ]
         if ("<" or ">" or "<=" or ">=") in condition:
             numerical_condition = True
         else:
@@ -138,9 +137,9 @@ def challenge(challenge_number: int) -> str:
             payload1 = request.form.get("username_payload")
             payload2 = request.form.get("password_payload")
             query = current_app.config.get("QUERIES")[challenge_number - 1]
-            query = query.replace("payload1", payload1)
-            query = query.replace("payload2", payload2)
-            logging.debug(f"Generated query: {query}")
+            if "No vulnerabilities" not in sqli_archetype:
+                query = query.replace("payload1", payload1)
+                query = query.replace("payload2", payload2)
             try:
                 add_limitations(
                     payload1, current_app.config["INIT_DATA"]["LIMITATIONS"]
@@ -148,7 +147,11 @@ def challenge(challenge_number: int) -> str:
                 add_limitations(
                     payload2, current_app.config["INIT_DATA"]["LIMITATIONS"]
                 )
-                result_proxy = db.session.execute(text(query))
+                logging.debug(f"Generated query: {query}")
+                if "No vulnerabilities" in sqli_archetype:
+                    result_proxy = db.session.execute(text(query), {'username': payload1, 'password': payload2})
+                else:
+                    result_proxy = db.session.execute(text(query))
                 response = result_proxy.fetchone()
                 if response:
                     user_dict = {
@@ -195,9 +198,9 @@ def challenge(challenge_number: int) -> str:
 
 
 def select_correct_template(
-    template: str,
-    sqli_archetype: str,
-    parameters: dict[str, bool | list[dict] | Any] = None,
+        template: str,
+        sqli_archetype: str,
+        parameters: dict[str, bool | list[dict] | Any] = None,
 ) -> str:
     """
     Select the correct template based on the SQLi archetype and template
