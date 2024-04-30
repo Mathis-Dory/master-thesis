@@ -7,9 +7,7 @@ from flask import current_app
 from sqlalchemy import MetaData
 
 from challenges.generator import (
-    generate_default_queries_filter,
-    extract_random_condition,
-    generate_default_queries_auth,
+    generate_default_queries,
 )
 from challenges.utils import log_challenges
 from database import db
@@ -256,7 +254,6 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
     :param templates: List of templates
     :param flags: List of flags
     """
-    extracted_queries = []
     faker = Faker(["en_US"])
     Faker.seed(current_app.config["SEED"])
     tables = current_app.config["DEFINED_TABLES"]
@@ -281,30 +278,7 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
     logging.info("Random data and flags inserted.")
     logging.info("Generating default queries ...")
 
-    filter_queries = generate_default_queries_filter(available_tables=selected_tables)
-    auth_queries = generate_default_queries_auth()
-
-    current_app.config["AUTH_QUERIES"] = auth_queries
-
-    queries = []
-    filter_index = 0
-    auth_index = 0
-
-    for template in templates:
-        if template == "filter":
-            # Add the next filter query if available
-            if filter_index < len(filter_queries):
-                queries.append(filter_queries[filter_index])
-                extracted_queries.append(
-                    extract_random_condition(filter_queries[filter_index])
-                )
-                filter_index += 1
-        elif template == "auth":
-            # Add the next auth query if available
-            if auth_index < len(auth_queries):
-                queries.append(auth_queries[auth_index])
-                extracted_queries.append(None)
-                auth_index += 1
+    queries, extracted_queries = generate_default_queries(available_tables=selected_tables)
 
     current_app.config["QUERIES"] = queries
 
@@ -314,7 +288,7 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
 
 
 def insert_flags(
-    selected_tables: List[db.Model], templates: List[str], flags: List[str]
+        selected_tables: List[db.Model], templates: List[str], flags: List[str]
 ) -> None:
     """
     Randomly insert flags into the database but if it is an auth challenge, insert the
