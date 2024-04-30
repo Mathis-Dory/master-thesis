@@ -47,76 +47,97 @@ def generate_challenges(nbr: int) -> Tuple[List[str], List[str], List[str]]:
     return archetypes, flags, templates
 
 
-def generate_default_queries_filter(
+def generate_default_queries(
     available_tables: List[db.Model],
-) -> List[str] or None:
+) -> Tuple[List[str], List[str]] or None:
     """
-    Generate a list of default filter queries.
-    :param available_tables: List of available tables excluding 'customer' and 'auth_bypass'
+    Generate a list of default queries for filter and auth challenges.
+    :param available_tables: List of available tables
     :return: List of complex queries
     """
     queries = []
+    extracted_queries = []
     templates = current_app.config["INIT_DATA"]["TEMPLATES"]
-    filter_templates = [t for t in templates if t == "filter"]
+    archetypes = current_app.config["INIT_DATA"]["ARCHETYPES"]
 
     # Exclude and 'AuthBypass' tables
     available_tables = exclude_tables(
         available_tables, excluded_tables=["auth_bypass"]
     )
 
-    for _ in filter_templates:
-        if available_tables:
-            # Create a basic query like "SELECT column1, column2 FROM table"
-            (
-                query,
-                text_columns,
-                numeric_columns,
-                date_time_columns,
-                columns,
-            ) = basic_query(available_tables)
-            # Add a WHERE clause to remove any flag pattern in the query
-            if text_columns:
-                query = filter_flags(query, text_columns)
+    for idx, t in enumerate(templates):
+        if t == "filter":
+            if available_tables:
+                query = generate_filter_query(available_tables)
+                queries.append(query)
+                extracted_queries.append(extract_random_condition(query))
             else:
-                # The WHERE is initially added in the filter_flags function
-                query += " WHERE"
+                logging.error("No tables available for filter challenges !")
+                return
+        elif t == "auth":
+            if "No vulnerabilities" in archetypes[idx]:
+                queries.append(f"SELECT username, password FROM auth_bypass WHERE (username= :username AND password= :password) LIMIT 1")
+            else:
+                queries.append(generate_default_queries_auth())
+            extracted_queries.append(None)
 
-            # Add extra WHERE clause for future filtering
-            query += " ( "
-            query = generate_conditional_query(
-                columns=columns,
-                text_columns=text_columns,
-                numeric_columns=numeric_columns,
-                date_time_columns=date_time_columns,
-                query=query,
-            )
-            # Add extra logical operators to the query
-            query = add_logical_operator(
-                columns=columns,
-                text_columns=text_columns,
-                numeric_columns=numeric_columns,
-                date_time_columns=date_time_columns,
-                query=query,
-            )
-            query += " )"
-            # Inspect the query to check if we applied a numerical function and if yes, add a GROUP BY clause
-            if find_group_functions(query):
-                query += f" GROUP BY {', '.join(columns)}"
-
-            query = generate_end_operator(
-                query=query,
-                columns=columns,
-                available_tables=available_tables,
-                text_columns=text_columns,
-                numeric_columns=numeric_columns,
-            )
-
-            queries.append(query)
         else:
-            logging.error("No tables available for filter challenges !")
+            logging.error("Unknown template !")
             return
 
-    return queries
+    return queries, extracted_queries
+
+
+def generate_filter_query(available_tables: List[db.Model]) -> str:
+    """
+    Generate a complex filter query.
+    :param available_tables: List of available tables
+    :return: Query
+    """
+    (
+        query,
+        text_columns,
+        numeric_columns,
+        date_time_columns,
+        columns,
+    ) = basic_query(available_tables)
+    # Add a WHERE clause to remove any flag pattern in the query
+    if text_columns:
+        query = filter_flags(query, text_columns)
+    else:
+        # The WHERE is initially added in the filter_flags function
+        query += " WHERE"
+
+    # Add extra WHERE clause for future filtering
+    query += " ( "
+    query = generate_conditional_query(
+        columns=columns,
+        text_columns=text_columns,
+        numeric_columns=numeric_columns,
+        date_time_columns=date_time_columns,
+        query=query,
+    )
+    # Add extra logical operators to the query
+    query = add_logical_operator(
+        columns=columns,
+        text_columns=text_columns,
+        numeric_columns=numeric_columns,
+        date_time_columns=date_time_columns,
+        query=query,
+    )
+    query += " )"
+    # Inspect the query to check if we applied a numerical function and if yes, add a GROUP BY clause
+    if find_group_functions(query):
+        query += f" GROUP BY {', '.join(columns)}"
+
+    query = generate_end_operator(
+        query=query,
+        columns=columns,
+        available_tables=available_tables,
+        text_columns=text_columns,
+        numeric_columns=numeric_columns,
+    )
+    return query
 
 
 def basic_query(
@@ -596,23 +617,17 @@ def generate_default_queries_auth() -> List[str] or None:
     Generate query SELECT username, password FROM customers WHERE username = payload1 AND password = payload2 LIMIT 1
     :return: List of queries
     """
-    queries = []
-    templates = current_app.config["INIT_DATA"]["TEMPLATES"]
-    auth_templates = [t for t in templates if t == "auth"]
-
-    for _ in auth_templates:
-        # Enter the username and password
-        username_payload = add_quotes("payload1")
-        password_payload = add_quotes("payload2")
-        username_payload = add_parenthesis(username_payload)
-        password_payload = add_parenthesis(password_payload)
-        if random.choice([True, False]):
-            # Add parentheses around the where
-            query = f"SELECT username, password FROM auth_bypass WHERE (username={username_payload} AND password={password_payload}) LIMIT 1"
-        else:
-            query = f"SELECT username, password FROM auth_bypass WHERE username={username_payload} AND password={password_payload} LIMIT 1"
-        queries.append(query)
-    return queries
+    # Enter the username and password
+    username_payload = add_quotes("payload1")
+    password_payload = add_quotes("payload2")
+    username_payload = add_parenthesis(username_payload)
+    password_payload = add_parenthesis(password_payload)
+    if random.choice([True, False]):
+        # Add parentheses around the where
+        query = f"SELECT username, password FROM auth_bypass WHERE (username={username_payload} AND password={password_payload}) LIMIT 1"
+    else:
+        query = f"SELECT username, password FROM auth_bypass WHERE username={username_payload} AND password={password_payload} LIMIT 1"
+    return query
 
 
 def generate_random_settings():
