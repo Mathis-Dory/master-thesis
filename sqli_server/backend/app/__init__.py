@@ -126,6 +126,9 @@ def start_db_instance(
         )
         container.stop()
         container.remove()
+        logging.info("Removing unused images and volumes")
+        client.images.prune()
+        client.volumes.prune()
     except docker.errors.NotFound:
         logging.info("No existing container to remove.")
 
