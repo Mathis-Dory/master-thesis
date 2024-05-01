@@ -48,44 +48,57 @@ def generate_challenges(nbr: int) -> Tuple[List[str], List[str], List[str]]:
 
 
 def generate_default_queries(
-    available_tables: List[db.Model],
+    created_tables: List[db.Model],
 ) -> Tuple[List[str], List[str]] or None:
     """
     Generate a list of default queries for filter and auth challenges.
-    :param available_tables: List of available tables
+    :param created_tables: List of available tables in the db
     :return: List of complex queries
     """
     queries = []
-    extracted_queries = []
+    decomposed_queries = []
     templates = current_app.config["INIT_DATA"]["TEMPLATES"]
     archetypes = current_app.config["INIT_DATA"]["ARCHETYPES"]
 
     # Exclude and 'AuthBypass' tables
-    available_tables = exclude_tables(
-        available_tables, excluded_tables=["auth_bypass"]
+    created_tables = exclude_tables(
+        created_tables, excluded_tables=["auth_bypass"]
     )
 
     for idx, t in enumerate(templates):
         if t == "filter":
-            if available_tables:
-                query = generate_filter_query(available_tables)
+            if created_tables:
+                query = generate_filter_query(created_tables)
                 queries.append(query)
-                extracted_queries.append(extract_random_condition(query))
+                if "No vulnerabilities" in archetypes[idx]:
+                    decomposed_query = extract_random_condition(query)
+                    decomposed_query[3] = re.sub(
+                        r"['\"]?:payload['\"]?",
+                        ":payload",
+                        decomposed_query[3],
+                    )
+                    decomposed_queries.append(decomposed_query)
+                else:
+                    decomposed_queries.append(extract_random_condition(query))
             else:
                 logging.error("No tables available for filter challenges !")
                 return
         elif t == "auth":
             if "No vulnerabilities" in archetypes[idx]:
-                queries.append(f"SELECT username, password FROM auth_bypass WHERE (username= :username AND password= :password) LIMIT 1")
+                queries.append(
+                    f"SELECT username, password FROM"
+                    f" auth_bypass WHERE (username= :username AND password= :password) LIMIT 1"
+                )
             else:
                 queries.append(generate_default_queries_auth())
-            extracted_queries.append(None)
+            # We do not need to decompose the auth queries
+            decomposed_queries.append(None)
 
         else:
             logging.error("Unknown template !")
             return
 
-    return queries, extracted_queries
+    return queries, decomposed_queries
 
 
 def generate_filter_query(available_tables: List[db.Model]) -> str:
@@ -336,7 +349,7 @@ def generate_conditional_query(
     elif column in numeric_columns:
         # Add a numeric comparison
         payload = add_quotes(random.randint(0, 1000))
-        payload = add_parenthesis(random.randint(0, 1000))
+        payload = add_parenthesis(payload)
         query += (
             f"{column} {random.choice(COMPARE_OPERATORS['numeric'])} {payload}"
         )
@@ -479,7 +492,7 @@ def generate_union_query(
                 )
                 if current_app.config["INIT_DATA"]["dbms"] == "postgres:latest":
                     query_parts.append(
-                        f"CASE WHEN {col2} ~ '^[0-9]+(\.[0-9]+)?$' THEN  CAST({col2} AS NUMERIC) ELSE NULL END"
+                        f"CASE WHEN {col2} ~ '^[0-9]+(\.[0-9]+)?$' THEN CAST({col2} AS NUMERIC) ELSE NULL END"
                     )
                 elif current_app.config["INIT_DATA"]["dbms"] == "mysql:latest":
                     query_parts.append(
@@ -506,11 +519,11 @@ def generate_union_query(
 
 def extract_random_condition(
     query: str,
-) -> List[Any] or List[None]:
+) -> List[str] | None:
     """
     Extract a random condition from the query.
     :param query: SQL query
-    :return: Column name and comparison value
+    :return: List including column name, comparison value, condition and the new POST query
     """
     conditions = []
     parts = re.split(r"\bUNION\b", query, flags=re.IGNORECASE)
@@ -543,10 +556,16 @@ def extract_random_condition(
 
         for condition in potential_conditions:
             if "%flag_challenge%" not in condition:
-                # Further strip and clean each condition to remove extra spaces and parentheses
-                clean_condition = re.sub(
-                    r"\(|\)", "", condition, flags=re.IGNORECASE
-                ).strip()
+                # Further strip and clean each condition to remove leading/trailing spaces
+                clean_condition = condition.strip()
+                # Both following conditions are to handle parentheses in the condition and keep only the ones around the
+                # comparison value
+                # Remove the parentheses in front of the condition if present
+                if clean_condition.startswith("("):
+                    clean_condition = clean_condition[1:].strip()
+                # Count the amount of opening and closing parentheses and remove the last one if it's not equal
+                if clean_condition.count("(") != clean_condition.count(")"):
+                    clean_condition = clean_condition[:-1]
                 if (
                     "IS NULL" in clean_condition.upper()
                     or "IS NOT NULL" in clean_condition.upper()
@@ -565,51 +584,42 @@ def extract_random_condition(
             limit_value = re.search(
                 r"\bLIMIT\s+(\d+)", chosen_condition, flags=re.IGNORECASE
             ).group(1)
-            return ["LIMIT", limit_value, chosen_condition]
+            post_query = query.replace(f"LIMIT {limit_value}", "LIMIT :payload")
+            return ["LIMIT", limit_value, chosen_condition, post_query]
 
-        # Extract column name and comparison value using improved regex
+        # Extract column name and comparison value using regex
         match = re.match(
-            r"\s*([\w\.]+)\s*((?:NOT\s+)?(?:LIKE|IN)|[=!<>]{1,2})\s*(.*?)(?:\s*)$",
+            r"\s*([\w.]+)\s*((?:NOT\s+)?(?:LIKE|IN)|[=!<>]{1,2})\s*(.*)",
             chosen_condition,
-            re.IGNORECASE,
+            flags=re.IGNORECASE,
         )
         if match:
             column_name = match.group(1)
-            operator = match.group(2)
-            comparison_value = (
-                match.group(3).strip("()'\"")
-                if match.group(3)
-                else "NULL"
-                if "NULL" in operator
-                else "No explicit value"
+            comparison_value = match.group(3).strip()
+            comparison_value_clean = (
+                match.group(3)
+                .strip()
+                .replace("(", "")
+                .replace(")", "")
+                .replace("'", "")
+                .replace('"', "")
             )
-            return [column_name, comparison_value, chosen_condition]
+            logging.info(f"The value is {match.group(3)}")
+            new_compare = comparison_value.replace(
+                comparison_value_clean, ":payload"
+            )
+            new_condition = f"{column_name} {match.group(2)} {new_compare}"
+            post_query = query.replace(chosen_condition, new_condition)
+            logging.info(f"New POST query: {post_query}")
+            return [column_name, comparison_value, chosen_condition, post_query]
         else:
             logging.error(
                 "Error when extracting column and value from the condition."
             )
-            return [None, None, None]
+            return
     else:
         logging.error("No suitable condition found in the query.")
-        return [None, None, None]
-
-
-def regenerate_filter_with_payload(query, value, condition, payload) -> str:
-    """
-    Generate a new query with the payload according to the SQLi vulnerability.
-    :param query: SQL query
-    :param value: Column name
-    :param condition: Comparison operator
-    :param payload: Payload to inject
-    :return: New SQL query
-    """
-    if "LIMIT" in condition:
-        query = query.replace(condition, f"LIMIT {payload}")
-    else:
-        query = query.replace(value, payload)
-
-    logging.debug(f"Generated request with the new payload: {query}")
-    return query
+        return
 
 
 def generate_default_queries_auth() -> List[str] or None:
@@ -624,9 +634,15 @@ def generate_default_queries_auth() -> List[str] or None:
     password_payload = add_parenthesis(password_payload)
     if random.choice([True, False]):
         # Add parentheses around the where
-        query = f"SELECT username, password FROM auth_bypass WHERE (username={username_payload} AND password={password_payload}) LIMIT 1"
+        query = (
+            f"SELECT username, password FROM auth_bypass WHERE (username={username_payload}"
+            f" AND password={password_payload}) LIMIT 1"
+        )
     else:
-        query = f"SELECT username, password FROM auth_bypass WHERE username={username_payload} AND password={password_payload} LIMIT 1"
+        query = (
+            f"SELECT username, password FROM auth_bypass WHERE username={username_payload}"
+            f" AND password={password_payload} LIMIT 1"
+        )
     return query
 
 

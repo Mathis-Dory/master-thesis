@@ -4,7 +4,16 @@ import re
 from typing import Tuple, List, Any
 
 from flask import current_app
-from sqlalchemy import String, Text, inspect, Integer, Float, DateTime, Date, Time
+from sqlalchemy import (
+    String,
+    Text,
+    inspect,
+    Integer,
+    Float,
+    DateTime,
+    Date,
+    Time,
+)
 
 from app.database import db
 
@@ -32,7 +41,12 @@ SQLI_ARCHETYPES = [
     "No vulnerabilities + Errors",
 ]
 
-TEMPLATES = ["filter", "filter", "filter", "auth"]  # 75% filter, 25% auth_bypass
+TEMPLATES = [
+    "filter",
+    "filter",
+    "filter",
+    "auth",
+]  # 75% filter, 25% auth_bypass
 
 
 def find_columns_in_query(query: str) -> List[str]:
@@ -110,7 +124,9 @@ def find_group_functions(query: str) -> bool:
     :return: boolean
     """
     functions_to_find = NUMERIC_FUNCTIONS + ["CONCAT"]
-    pattern = r"(\b" + r"\b|\b".join(functions_to_find) + r"\b)\s*\(\s*([^)]+)\s*\)"
+    pattern = (
+        r"(\b" + r"\b|\b".join(functions_to_find) + r"\b)\s*\(\s*([^)]+)\s*\)"
+    )
 
     # Find all occurrences of numerical functions in the query
     matches = re.findall(pattern, query)
@@ -166,7 +182,9 @@ def exclude_tables(
     :param excluded_tables: List of table names to exclude
     :return: List of tables without the excluded ones
     """
-    return [t for t in available_tables if t.__tablename__ not in excluded_tables]
+    return [
+        t for t in available_tables if t.__tablename__ not in excluded_tables
+    ]
 
 
 def filter_flags(query, columns):
@@ -182,7 +200,9 @@ def filter_flags(query, columns):
         return query  # No columns to filter, return the original query
 
     # Start building the condition string
-    conditions = " AND ".join(f"{col} NOT LIKE '%flag_challenge%'" for col in columns)
+    conditions = " AND ".join(
+        f"{col} NOT LIKE '%flag_challenge%'" for col in columns
+    )
 
     # Check if the query already contains a WHERE clause
     if " WHERE " in query:
@@ -217,9 +237,18 @@ def log_challenges(templates: List[str], queries: List[str]) -> None:
     """
     archetypes = current_app.config["INIT_DATA"]["ARCHETYPES"]
     for idx, template in enumerate(templates):
-        logging.info(
-            f"Challenge number {idx + 1} has template {template} with query {queries[idx]} and SQLi archetype {archetypes[idx]}."
-        )
+        if template == "auth":
+            logging.info(
+                f"Challenge number {idx + 1} has POST template {template} "
+                f"with query {queries[idx]} and SQLi archetype {archetypes[idx]}."
+            )
+        elif template == "filter":
+            logging.info(
+                f"Challenge number {idx + 1} has GET template {template} "
+                f"with query {queries[idx]} and SQLi archetype {archetypes[idx]}."
+            )
+        else:
+            logging.error("Unknown template !")
 
 
 def add_quotes(payload) -> str:
@@ -231,7 +260,10 @@ def add_quotes(payload) -> str:
     quotes = random.choice(["'", '"'])
     if quotes == "'":
         return f"'{payload}'"
-    elif quotes == '"' and current_app.config["INIT_DATA"]["DBMS"] != "postgres:latest":
+    elif (
+        quotes == '"'
+        and current_app.config["INIT_DATA"]["DBMS"] != "postgres:latest"
+    ):
         return f'"{payload}"'
     return payload
 
