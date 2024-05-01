@@ -18,46 +18,47 @@
   </style>
 </head>
 <body>
-<h1>Filter</h1>
-{% if column == "LIMIT" %}
-<form method="POST">
-  Choose a number of max results:
-  <input type="number" name="payload" placeholder="Max Results">
-  <button type="submit">Set Limit</button>
-</form>
-{% elif column %}
-<form method="POST">
-  Filter the column {{ column }}:
-  {% if numerical_condition %}
-  <input type="number" name="payload" placeholder="Enter a number">
-  {% else %}
-  <input type="text" name="payload" placeholder="Enter value">
+  <h1>Filter</h1>
+  {% if column == "LIMIT" %}
+    <form method="POST">
+      <label for="payload1">Choose a number of max results:</label>
+      <input type="number" id="payload1" name="payload" placeholder="Max Results">
+      <button type="submit">Set Limit</button>
+    </form>
+  {% elif column %}
+    <form method="POST">
+      {% if numerical_condition %}
+        <label for="payload2">Filter the column {{ column }}:</label>
+        <input type="number" id="payload2" name="payload" placeholder="Enter a number">
+      {% else %}
+        <label for="payload3">Filter the column {{ column }}:</label>
+        <input type="text" id="payload3" name="payload" placeholder="Enter value">
+      {% endif %}
+      <button type="submit">Search</button>
+    </form>
   {% endif %}
-  <button type="submit">Search</button>
-</form>
-{% endif %}
-{% if items %}
-<table>
-  <thead>
-  <tr>
-    {% for header in items[0].keys() %}
-    <th>{{ header }}</th>
-    {% endfor %}
-  </tr>
-  </thead>
-  <tbody>
-  {% for item in items %}
-  <tr>
-    {% for value in item.values() %}
-    <td>{{ value }}</td>
-    {% endfor %}
-  </tr>
-  {% endfor %}
-  </tbody>
-</table>
-{% endif %}
-{% if sql_error %}
-<h3>{{ sql_error }}</h3>
-{% endif %}
+  {% if items %}
+  <table>
+    <thead>
+      <tr>
+        {% for header in items[0].keys() %}
+          <th>{{ header }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        {% for value in item.values() %}
+          <td>{{ value }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+  {% if sql_error %}
+    <h3>{{ sql_error }}</h3>
+  {% endif %}
 </body>
 </html>
