@@ -604,13 +604,11 @@ def extract_random_condition(
                 .replace("'", "")
                 .replace('"', "")
             )
-            logging.info(f"The value is {match.group(3)}")
             new_compare = comparison_value.replace(
                 comparison_value_clean, ":payload"
             )
             new_condition = f"{column_name} {match.group(2)} {new_compare}"
             post_query = query.replace(chosen_condition, new_condition)
-            logging.info(f"New POST query: {post_query}")
             return [column_name, comparison_value, chosen_condition, post_query]
         else:
             logging.error(
