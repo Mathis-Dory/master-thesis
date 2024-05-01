@@ -135,9 +135,13 @@ def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
                 username=faker.user_name(),
                 password=faker.password(),
                 age=(
-                    random.randint(1, 99) if random.random() > null_frequency else None
+                    random.randint(1, 99)
+                    if random.random() > null_frequency
+                    else None
                 ),
-                email=faker.email() if random.random() > null_frequency else None,
+                email=(
+                    faker.email() if random.random() > null_frequency else None
+                ),
             )
         elif model == Product:
             entry = Product(
@@ -148,16 +152,22 @@ def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
                     else None
                 ),
                 description=(
-                    faker.sentence() if random.random() > null_frequency else None
+                    faker.sentence()
+                    if random.random() > null_frequency
+                    else None
                 ),
             )
         elif model == Order:
             entry = Order(
                 url=faker.url(),
                 product=faker.word(),
-                destination=faker.city() if random.random() > null_frequency else None,
+                destination=(
+                    faker.city() if random.random() > null_frequency else None
+                ),
                 amount=(
-                    random.randint(1, 100) if random.random() > null_frequency else None
+                    random.randint(1, 100)
+                    if random.random() > null_frequency
+                    else None
                 ),
                 price=(
                     random.uniform(1, 1000)
@@ -167,7 +177,11 @@ def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
             )
         elif model == Comment:
             entry = Comment(
-                opinion=faker.sentence() if random.random() > null_frequency else None,
+                opinion=(
+                    faker.sentence()
+                    if random.random() > null_frequency
+                    else None
+                ),
                 username=faker.user_name(),
             )
         elif model == Grade:
@@ -175,7 +189,9 @@ def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
                 grade=random.uniform(0, 10),
                 student=faker.user_name(),
                 classroom=(
-                    random.randint(1, 15) if random.random() > null_frequency else None
+                    random.randint(1, 15)
+                    if random.random() > null_frequency
+                    else None
                 ),
             )
         elif model == Menu:
@@ -183,12 +199,16 @@ def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
                 name=faker.word(),
                 price=random.uniform(1, 100),
                 description=(
-                    faker.sentence() if random.random() > null_frequency else None
+                    faker.sentence()
+                    if random.random() > null_frequency
+                    else None
                 ),
             )
         elif model == Car:
             entry = Car(
-                model=faker.word() if random.random() > null_frequency else None,
+                model=(
+                    faker.word() if random.random() > null_frequency else None
+                ),
                 brand=faker.word(),
                 year=(
                     random.randint(1, 2024)
@@ -201,7 +221,9 @@ def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
             entry = Movie(
                 title=faker.word(),
                 year=random.randint(1, 2024),
-                genre=faker.word() if random.random() > null_frequency else None,
+                genre=(
+                    faker.word() if random.random() > null_frequency else None
+                ),
                 rating=random.uniform(0, 10),
             )
         elif model == Book:
@@ -228,21 +250,29 @@ def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
                     if random.random() > null_frequency
                     else None
                 ),
-                genre=faker.word() if random.random() > null_frequency else None,
+                genre=(
+                    faker.word() if random.random() > null_frequency else None
+                ),
             )
         elif model == Equipment:
             entry = Equipment(
                 name=faker.word(),
-                brand=faker.word() if random.random() > null_frequency else None,
+                brand=(
+                    faker.word() if random.random() > null_frequency else None
+                ),
                 price=random.uniform(1, 1000),
                 description=(
-                    faker.sentence() if random.random() > null_frequency else None
+                    faker.sentence()
+                    if random.random() > null_frequency
+                    else None
                 ),
             )
         elif model == AuthBypass:
             continue
         else:
-            logging.error(f"Error when faking data because of unknown model: {model}")
+            logging.error(
+                f"Error when faking data because of unknown model: {model}"
+            )
             return
         db.session.add(entry)
     db.session.commit()
@@ -278,17 +308,19 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
     logging.info("Random data and flags inserted.")
     logging.info("Generating default queries ...")
 
-    queries, extracted_queries = generate_default_queries(available_tables=selected_tables)
+    queries, decomposed_queries = generate_default_queries(
+        created_tables=selected_tables
+    )
 
     current_app.config["QUERIES"] = queries
 
-    current_app.config["EXTRACTED_FILTER_QUERIES"] = extracted_queries
+    current_app.config["DECOMPOSED_FILTER_QUERIES"] = decomposed_queries
 
     log_challenges(templates=templates, queries=queries)
 
 
 def insert_flags(
-        selected_tables: List[db.Model], templates: List[str], flags: List[str]
+    selected_tables: List[db.Model], templates: List[str], flags: List[str]
 ) -> None:
     """
     Randomly insert flags into the database but if it is an auth challenge, insert the
@@ -307,7 +339,9 @@ def insert_flags(
                 # Randomly select one of the selected table, then randomly take one of the string
                 # column and update it by the flag but exclude the AuthBypass table
                 tables_for_random_insertion = [
-                    table for table in selected_tables if table.__name__ != "AuthBypass"
+                    table
+                    for table in selected_tables
+                    if table.__name__ != "AuthBypass"
                 ]
                 table = random.choice(tables_for_random_insertion)
                 columns = [

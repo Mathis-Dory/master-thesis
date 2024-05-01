@@ -4,13 +4,13 @@ from time import sleep
 from typing import Any
 
 from flask import Blueprint, abort, current_app, render_template, request
-from sqlalchemy import text
+from sqlalchemy import text, Result
 from sqlalchemy.exc import SQLAlchemyError
 
 from app import db
 from challenges.generator import (
-    regenerate_filter_with_payload,
-    add_limitations, )
+    add_limitations,
+)
 
 challenges_bp = Blueprint("challenges", __name__)
 
@@ -35,13 +35,14 @@ def challenge(challenge_number: int) -> str:
 
     if selected_template == "filter":
         queries = current_app.config.get("QUERIES")
-        extracted_filter_queries = current_app.config.get(
-            "EXTRACTED_FILTER_QUERIES", {}
+        decomposed_filter_queries = current_app.config.get(
+            "DECOMPOSED_FILTER_QUERIES", []
         )
-        query = queries[challenge_number - 1]
-        [column, value, condition] = extracted_filter_queries[
+        get_query = queries[challenge_number - 1]
+        [column, value, condition, post_query] = decomposed_filter_queries[
             challenge_number - 1
-            ]
+        ]
+        # Used to determine if the condition is numerical one in order to display the correct label in template
         if ("<" or ">" or "<=" or ">=") in condition:
             numerical_condition = True
         else:
@@ -49,34 +50,27 @@ def challenge(challenge_number: int) -> str:
 
         if request.method == "POST":
             payload = request.form.get("payload", "")
-            query = regenerate_filter_with_payload(
-                query=query,
-                value=value,
-                condition=condition,
-                payload=payload,
-            )
-            logging.info(f"Generated query: {query}")
+            if "No vulnerabilities" not in sqli_archetype:
+                post_query = post_query.replace(":payload", payload)
             try:
                 add_limitations(
                     payload, current_app.config["INIT_DATA"]["LIMITATIONS"]
                 )
-                result_proxy = db.session.execute(text(query))
-                response = result_proxy.fetchall()
-                columns = result_proxy.keys()
-                items = [
-                    {col: val for col, val in zip(columns, row)}
-                    for row in response
-                ]
-
-                return select_correct_template(
-                    template=selected_template,
+                if "No vulnerabilities" in sqli_archetype:
+                    result_proxy = db.session.execute(
+                        text(post_query), {"payload": payload}
+                    )
+                    logging.info(f"Generated query: {post_query}")
+                else:
+                    result_proxy = db.session.execute(text(post_query))
+                    logging.info(f"Generated query: {post_query}")
+                return process_filer_response(
+                    result_proxy=result_proxy,
+                    selected_template=selected_template,
                     sqli_archetype=sqli_archetype,
-                    parameters={
-                        "items": items,
-                        "column": column,
-                        "value": value,
-                        "numerical_condition": numerical_condition,
-                    },
+                    column=column,
+                    value=value,
+                    numerical_condition=numerical_condition,
                 )
 
             except SQLAlchemyError as e:
@@ -89,9 +83,9 @@ def challenge(challenge_number: int) -> str:
                         "column": column,
                         "value": value,
                         "numerical_condition": numerical_condition,
-                        "sql_error": error
-                        if "Errors" in sqli_archetype
-                        else None,
+                        "sql_error": (
+                            error if "Errors" in sqli_archetype else None
+                        ),
                     },
                 )
             except ValueError as e:
@@ -107,21 +101,14 @@ def challenge(challenge_number: int) -> str:
                 )
 
         elif request.method == "GET":
-            result_proxy = db.session.execute(text(query))
-            response = result_proxy.fetchall()
-            columns = result_proxy.keys()
-            items = [
-                {col: val for col, val in zip(columns, row)} for row in response
-            ]
-            return select_correct_template(
-                template=selected_template,
+            result_proxy = db.session.execute(text(get_query))
+            return process_filer_response(
+                result_proxy=result_proxy,
+                selected_template=selected_template,
                 sqli_archetype=sqli_archetype,
-                parameters={
-                    "items": items,
-                    "column": column,
-                    "value": value,
-                    "numerical_condition": numerical_condition,
-                },
+                column=column,
+                value=value,
+                numerical_condition=numerical_condition,
             )
         else:
             logging.error(f"Unknown method: {request.method}")
@@ -136,10 +123,13 @@ def challenge(challenge_number: int) -> str:
         elif request.method == "POST":
             payload1 = request.form.get("username_payload")
             payload2 = request.form.get("password_payload")
-            query = current_app.config.get("QUERIES")[challenge_number - 1]
+            get_query = current_app.config.get("QUERIES")[challenge_number - 1]
+
+            # If the challenge has vulnerabilities the payload is used to inject SQL else,
+            # the bind parameters are used directly when calling the execute method
             if "No vulnerabilities" not in sqli_archetype:
-                query = query.replace("payload1", payload1)
-                query = query.replace("payload2", payload2)
+                get_query = get_query.replace("payload1", payload1)
+                get_query = get_query.replace("payload2", payload2)
             try:
                 add_limitations(
                     payload1, current_app.config["INIT_DATA"]["LIMITATIONS"]
@@ -147,11 +137,16 @@ def challenge(challenge_number: int) -> str:
                 add_limitations(
                     payload2, current_app.config["INIT_DATA"]["LIMITATIONS"]
                 )
-                logging.debug(f"Generated query: {query}")
+                logging.info(f"Generated query: {get_query}")
+                # If the challenge has no vulnerabilities, the bind parameters are used to avoid SQL injection
                 if "No vulnerabilities" in sqli_archetype:
-                    result_proxy = db.session.execute(text(query), {'username': payload1, 'password': payload2})
+                    result_proxy = db.session.execute(
+                        text(get_query),
+                        {"username": payload1, "password": payload2},
+                    )
                 else:
-                    result_proxy = db.session.execute(text(query))
+                    result_proxy = db.session.execute(text(get_query))
+
                 response = result_proxy.fetchone()
                 if response:
                     user_dict = {
@@ -174,9 +169,9 @@ def challenge(challenge_number: int) -> str:
                     template=selected_template,
                     sqli_archetype=sqli_archetype,
                     parameters={
-                        "sql_error": error
-                        if "Errors" in sqli_archetype
-                        else None,
+                        "sql_error": (
+                            error if "Errors" in sqli_archetype else None
+                        ),
                     },
                 )
             except ValueError as e:
@@ -198,9 +193,9 @@ def challenge(challenge_number: int) -> str:
 
 
 def select_correct_template(
-        template: str,
-        sqli_archetype: str,
-        parameters: dict[str, bool | list[dict] | Any] = None,
+    template: str,
+    sqli_archetype: str,
+    parameters: dict[str, bool | list[dict] | Any] = None,
 ) -> str:
     """
     Select the correct template based on the SQLi archetype and template
@@ -283,3 +278,36 @@ def select_correct_template(
                 return render_template(
                     f"auth/{template_name}.html", value=parameters["value"]
                 )
+
+
+def process_filer_response(
+    result_proxy: Result,
+    selected_template: str,
+    sqli_archetype: str,
+    column: str,
+    value: str,
+    numerical_condition: bool,
+) -> str:
+    """
+    Process the filter response and return the correct template
+    :param result_proxy: ResultProxy object
+    :param selected_template: Selected template
+    :param sqli_archetype: SQLi archetype
+    :param column: Column name
+    :param value: Value to filter
+    :param numerical_condition: Numerical condition
+    """
+    response = result_proxy.fetchall()
+    columns = result_proxy.keys()
+    items = [{col: val for col, val in zip(columns, row)} for row in response]
+
+    return select_correct_template(
+        template=selected_template,
+        sqli_archetype=sqli_archetype,
+        parameters={
+            "items": items,
+            "column": column,
+            "value": value,
+            "numerical_condition": numerical_condition,
+        },
+    )

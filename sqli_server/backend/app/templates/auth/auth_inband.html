@@ -6,8 +6,10 @@
 <body>
   <h1>Login Page</h1>
   <form method="POST">
-    Username: <input type="text" name="username_payload" placeholder="Enter username">
-    Password: <input type="password" name="password_payload" placeholder="Enter password">
+    <label for="user">Username:</label>
+    <input type="text" id="user" name="username_payload" placeholder="Enter username">
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password_payload" placeholder="Enter password">
     <button type="submit">Login</button>
   </form>
   {% if value %}
@@ -24,7 +26,7 @@
     {% endif %}
   {% endif %}
   {% if sql_error %}
-  <h3>{{ sql_error }}</h3>
+    <h3>{{ sql_error }}</h3>
   {% endif %}
 </body>
 </html>
