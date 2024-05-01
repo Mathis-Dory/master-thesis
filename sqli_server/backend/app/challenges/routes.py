@@ -60,10 +60,10 @@ def challenge(challenge_number: int) -> str:
                     result_proxy = db.session.execute(
                         text(post_query), {"payload": payload}
                     )
-                    logging.info(f"Generated query: {post_query}")
+                    logging.info(f"Sending query: {post_query}")
                 else:
                     result_proxy = db.session.execute(text(post_query))
-                    logging.info(f"Generated query: {post_query}")
+                    logging.info(f"Sending query: {post_query}")
                 return process_filer_response(
                     result_proxy=result_proxy,
                     selected_template=selected_template,
@@ -137,7 +137,7 @@ def challenge(challenge_number: int) -> str:
                 add_limitations(
                     payload2, current_app.config["INIT_DATA"]["LIMITATIONS"]
                 )
-                logging.info(f"Generated query: {get_query}")
+                logging.info(f"Sending query: {get_query}")
                 # If the challenge has no vulnerabilities, the bind parameters are used to avoid SQL injection
                 if "No vulnerabilities" in sqli_archetype:
                     result_proxy = db.session.execute(
