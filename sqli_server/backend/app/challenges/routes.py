@@ -216,13 +216,6 @@ def select_correct_template(
                 if len(parameters["items"]) > 0:
                     sleep(5)  # Add some delay to simulate a time-based attack
 
-        elif "No vulnerabilities" in sqli_archetype:
-            template_name = random.choice(
-                ["filter_inband", "filter_boolean", "filter_time"]
-            )
-            if template_name == "filter_time":
-                sleep(5)
-
         else:
             logging.error(
                 f"Impossible to render a template for : {sqli_archetype}"
