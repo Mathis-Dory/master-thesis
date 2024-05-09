@@ -1,16 +1,16 @@
 import logging
 import random
-from time import sleep
 from typing import Any
 
 from flask import Blueprint, abort, current_app, render_template, request
 from sqlalchemy import text, Result
 from sqlalchemy.exc import SQLAlchemyError
+from time import sleep
 
-from app import db
 from challenges.generator import (
     add_limitations,
 )
+from database import get_session
 
 challenges_bp = Blueprint("challenges", __name__)
 
@@ -22,7 +22,7 @@ def challenge(challenge_number: int) -> str:
     :param challenge_number: Challenge number
     :return: Rendered template
     """
-
+    session = get_session()
     episodes = int(current_app.config["CHALLENGES_EPISODES"])
     templates = current_app.config["INIT_DATA"]["TEMPLATES"]
     challenges = current_app.config["INIT_DATA"]["ARCHETYPES"]
@@ -57,12 +57,12 @@ def challenge(challenge_number: int) -> str:
                     payload, current_app.config["INIT_DATA"]["LIMITATIONS"]
                 )
                 if "No vulnerabilities" in sqli_archetype:
-                    result_proxy = db.session.execute(
+                    result_proxy = session.execute(
                         text(post_query), {"payload": payload}
                     )
                     logging.info(f"Sending query: {post_query}")
                 else:
-                    result_proxy = db.session.execute(text(post_query))
+                    result_proxy = session.execute(text(post_query))
                     logging.info(f"Sending query: {post_query}")
                 return process_filer_response(
                     result_proxy=result_proxy,
@@ -101,7 +101,7 @@ def challenge(challenge_number: int) -> str:
                 )
 
         elif request.method == "GET":
-            result_proxy = db.session.execute(text(get_query))
+            result_proxy = session.execute(text(get_query))
             return process_filer_response(
                 result_proxy=result_proxy,
                 selected_template=selected_template,
@@ -140,12 +140,12 @@ def challenge(challenge_number: int) -> str:
                 logging.info(f"Sending query: {get_query}")
                 # If the challenge has no vulnerabilities, the bind parameters are used to avoid SQL injection
                 if "No vulnerabilities" in sqli_archetype:
-                    result_proxy = db.session.execute(
+                    result_proxy = session.execute(
                         text(get_query),
                         {"username": payload1, "password": payload2},
                     )
                 else:
-                    result_proxy = db.session.execute(text(get_query))
+                    result_proxy = session.execute(text(get_query))
 
                 response = result_proxy.fetchone()
                 if response:

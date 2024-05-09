@@ -7,7 +7,6 @@ from typing import List, Tuple, Any
 from faker import Faker
 from flask import current_app
 
-from app.database import db
 from challenges.utils import (
     get_columns,
     get_column_type,
@@ -26,6 +25,7 @@ from challenges.utils import (
     add_parenthesis,
     add_quotes,
 )
+from database import Base
 
 
 def generate_challenges(nbr: int) -> Tuple[List[str], List[str], List[str]]:
@@ -48,7 +48,7 @@ def generate_challenges(nbr: int) -> Tuple[List[str], List[str], List[str]]:
 
 
 def generate_default_queries(
-    created_tables: List[db.Model],
+    created_tables: List[Base],
 ) -> Tuple[List[str], List[str]] or None:
     """
     Generate a list of default queries for filter and auth challenges.
@@ -101,7 +101,7 @@ def generate_default_queries(
     return queries, decomposed_queries
 
 
-def generate_filter_query(available_tables: List[db.Model]) -> str:
+def generate_filter_query(available_tables: List[Base]) -> str:
     """
     Generate a complex filter query.
     :param available_tables: List of available tables
@@ -154,7 +154,7 @@ def generate_filter_query(available_tables: List[db.Model]) -> str:
 
 
 def basic_query(
-    available_tables: List[db.Model],
+    available_tables: List[Base],
 ) -> Tuple[str, List[str], List[str], List[str], List[str]]:
     """
     Generate a basic query with a random table and columns.
@@ -490,11 +490,11 @@ def generate_union_query(
                     (col for col in columns_union if col in text_columns_union),
                     None,
                 )
-                if current_app.config["INIT_DATA"]["dbms"] == "postgres:latest":
+                if current_app.config["INIT_DATA"]["DBMS"] == "postgres:latest":
                     query_parts.append(
                         f"CASE WHEN {col2} ~ '^[0-9]+(\.[0-9]+)?$' THEN CAST({col2} AS NUMERIC) ELSE NULL END"
                     )
-                elif current_app.config["INIT_DATA"]["dbms"] == "mysql:latest":
+                elif current_app.config["INIT_DATA"]["DBMS"] == "mysql:latest":
                     query_parts.append(
                         f"IF({col2} REGEXP '^-?[0-9]+(\\.[0-9]+)?$',  CAST({col2} AS DECIMAL), NULL)"
                     )

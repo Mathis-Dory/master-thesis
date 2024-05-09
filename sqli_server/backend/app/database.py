@@ -1,12 +1,48 @@
 import logging
-import time
 
 import psycopg2
 import pymysql
+import time
 from flask import current_app
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine, Engine
+from sqlalchemy.orm import sessionmaker, declarative_base, Session
 
-db = SQLAlchemy()
+Base = declarative_base()
+
+
+def get_engine() -> Engine:
+    """
+    Get the database engine.
+    :return: Database engine
+    """
+    db_uri = current_app.config["SQLALCHEMY_DATABASE_URI"]
+    engine = create_engine(
+        db_uri,
+        pool_size=5,
+        max_overflow=0,
+        pool_recycle=280,
+        pool_pre_ping=True,
+    )
+    return engine
+
+
+def get_session() -> Session:
+    """
+    Get the database session.
+    :return: Database session
+    """
+    engine = get_engine()
+    session = sessionmaker(bind=engine)
+    return session()
+
+
+def init_db() -> None:
+    """
+    Initialize the database.
+    :return: None
+    """
+    engine = get_engine()
+    Base.metadata.create_all(engine)
 
 
 def configure_database_uri(dbms: str) -> str or None:
@@ -17,13 +53,9 @@ def configure_database_uri(dbms: str) -> str or None:
     """
     db_password = current_app.config["DB_PASSWORD"]
     if dbms == "mysql:latest":
-        return (
-            f"mysql+pymysql://root:{db_password}@sqli-challenge-db:3306/sqli_challenge"
-        )
+        return f"mysql+pymysql://root:{db_password}@sqli-challenge-db:3306/sqli_challenge"
     elif dbms == "postgres:latest":
-        return (
-            f"postgresql://postgres:{db_password}@sqli-challenge-db:5432/sqli_challenge"
-        )
+        return f"postgresql://postgres:{db_password}@sqli-challenge-db:5432/sqli_challenge"
     else:
         logging.error(f"Error when choosing the DBMS URI for: {dbms}")
         return None
