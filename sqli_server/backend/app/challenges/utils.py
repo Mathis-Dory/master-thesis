@@ -15,7 +15,7 @@ from sqlalchemy import (
     Time,
 )
 
-from app.database import db
+from database import Base
 
 # Define SQL functions and operators
 NUMERIC_FUNCTIONS = ["MAX", "SUM", "AVG", "MIN", "COUNT"]
@@ -165,7 +165,7 @@ def get_column_type(
     return text_columns, numeric_columns, date_time_columns
 
 
-def get_columns(table: db.Model) -> List[str]:
+def get_columns(table: Base) -> List[str]:
     """
     Get the column names of a table except the id one.
     :param table: Table object

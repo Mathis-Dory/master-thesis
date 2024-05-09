@@ -4,131 +4,128 @@ from typing import List
 
 from faker import Faker
 from flask import current_app
-from sqlalchemy import MetaData
+from sqlalchemy import Column, String, Integer, Float, MetaData
 
 from challenges.generator import (
     generate_default_queries,
 )
 from challenges.utils import log_challenges
-from database import db
+from database import Base, get_session
 
 
-class AuthBypass(db.Model):
+class AuthBypass(Base):
     __tablename__ = "auth_bypass"
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), nullable=False)
-    password = db.Column(db.String(80), nullable=False)
+    id = Column(Integer, primary_key=True)
+    username = Column(String(80), nullable=False)
+    password = Column(String(80), nullable=False)
 
 
-class Customers(db.Model):
+class Customers(Base):
     __tablename__ = "customers"
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), nullable=False)
-    password = db.Column(db.String(80), nullable=False)
-    age = db.Column(db.Integer, nullable=True)
-    email = db.Column(db.String(80), nullable=True)
+    id = Column(Integer, primary_key=True)
+    username = Column(String(80), nullable=False)
+    password = Column(String(80), nullable=False)
+    age = Column(Integer, nullable=True)
+    email = Column(String(80), nullable=True)
 
 
-class Product(db.Model):
+class Product(Base):
     __tablename__ = "product"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    price = db.Column(db.Float, nullable=True)
-    description = db.Column(db.String(120), nullable=True)
+    id = Column(Integer, primary_key=True)
+    name = Column(String(80), nullable=False)
+    price = Column(Float, nullable=True)
+    description = Column(String(120), nullable=True)
 
 
-class Order(db.Model):
+class Order(Base):
     __tablename__ = "order"
-    id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String(120), nullable=False)
-    product = db.Column(db.String(80), nullable=False)
-    destination = db.Column(db.String(80), nullable=True)
-    amount = db.Column(db.Integer, nullable=True)
-    price = db.Column(db.Float, nullable=True)
+    id = Column(Integer, primary_key=True)
+    url = Column(String(120), nullable=False)
+    product = Column(String(80), nullable=False)
+    destination = Column(String(80), nullable=True)
+    amount = Column(Integer, nullable=True)
+    price = Column(Float, nullable=True)
 
 
-class Comment(db.Model):
+class Comment(Base):
     __tablename__ = "comment"
-    id = db.Column(db.Integer, primary_key=True)
-    opinion = db.Column(db.String(120), nullable=True)
-    username = db.Column(db.String(80), nullable=False)
+    id = Column(Integer, primary_key=True)
+    opinion = Column(String(120), nullable=True)
+    username = Column(String(80), nullable=False)
 
 
-class Grade(db.Model):
+class Grade(Base):
     __tablename__ = "grade"
-    id = db.Column(db.Integer, primary_key=True)
-    grade = db.Column(db.Float, nullable=False)
-    student = db.Column(db.String(80), nullable=False)
-    classroom = db.Column(db.Integer, nullable=True)
+    id = Column(Integer, primary_key=True)
+    grade = Column(Float, nullable=False)
+    student = Column(String(80), nullable=False)
+    classroom = Column(Integer, nullable=True)
 
 
-class Menu(db.Model):
+class Menu(Base):
     __tablename__ = "menu"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    description = db.Column(db.String(120), nullable=True)
+    id = Column(Integer, primary_key=True)
+    name = Column(String(80), nullable=False)
+    price = Column(Float, nullable=False)
+    description = Column(String(120), nullable=True)
 
 
-class Car(db.Model):
+class Car(Base):
     __tablename__ = "car"
-    id = db.Column(db.Integer, primary_key=True)
-    model = db.Column(db.String(80), nullable=True)
-    brand = db.Column(db.String(80), nullable=False)
-    year = db.Column(db.Integer, nullable=True)
-    price = db.Column(db.Float, nullable=False)
+    id = Column(Integer, primary_key=True)
+    model = Column(String(80), nullable=True)
+    brand = Column(String(80), nullable=False)
+    year = Column(Integer, nullable=True)
+    price = Column(Float, nullable=False)
 
 
-class Movie(db.Model):
+class Movie(Base):
     __tablename__ = "movie"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), nullable=False)
-    year = db.Column(db.Integer, nullable=False)
-    genre = db.Column(db.String(80), nullable=True)
-    rating = db.Column(db.Float, nullable=False)
+    id = Column(Integer, primary_key=True)
+    title = Column(String(80), nullable=False)
+    year = Column(Integer, nullable=False)
+    genre = Column(String(80), nullable=True)
+    rating = Column(Float, nullable=False)
 
 
-class Book(db.Model):
+class Book(Base):
     __tablename__ = "book"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), nullable=False)
-    author = db.Column(db.String(80), nullable=False)
-    year = db.Column(db.Integer, nullable=True)
-    price = db.Column(db.Float, nullable=True)
+    id = Column(Integer, primary_key=True)
+    title = Column(String(80), nullable=False)
+    author = Column(String(80), nullable=False)
+    year = Column(Integer, nullable=True)
+    price = Column(Float, nullable=True)
 
 
-class Music(db.Model):
+class Music(Base):
     __tablename__ = "music"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), nullable=False)
-    artist = db.Column(db.String(80), nullable=False)
-    year = db.Column(db.Integer, nullable=True)
-    genre = db.Column(db.String(80), nullable=True)
+    id = Column(Integer, primary_key=True)
+    title = Column(String(80), nullable=False)
+    artist = Column(String(80), nullable=False)
+    year = Column(Integer, nullable=True)
+    genre = Column(String(80), nullable=True)
 
 
-class Equipment(db.Model):
+class Equipment(Base):
     __tablename__ = "equipment"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    brand = db.Column(db.String(80), nullable=True)
-    price = db.Column(db.Float, nullable=False)
-    description = db.Column(db.String(120), nullable=True)
+    id = Column(Integer, primary_key=True)
+    name = Column(String(80), nullable=False)
+    brand = Column(String(80), nullable=True)
+    price = Column(Float, nullable=False)
+    description = Column(String(120), nullable=True)
 
 
-def create_selected_tables(selected_models: List[db.Model]) -> None:
-    """Create tables for the selected models only."""
-    # Create a new metadata instance
+def create_selected_tables(selected_models):
+    session = get_session()  # Get a new session
     meta = MetaData()
-    # Bind models to the new metadata instance
     for model in selected_models:
-        # Attach each table to the new metadata object
         model.__table__.tometadata(meta)
-    # Create tables
-    meta.create_all(bind=db.engine)
+    meta.create_all(bind=session.bind)  # Use session's bind for engine
 
 
-def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
+def populate_model(model: Base, num_entries: int, faker: Faker) -> None:
     null_frequency = current_app.config["NULL_FREQUENCY"]
+    session = get_session()  # Get a new session
     for _ in range(num_entries):
         if model == Customers:
             entry = Customers(
@@ -274,8 +271,8 @@ def populate_model(model: db.Model, num_entries: int, faker: Faker) -> None:
                 f"Error when faking data because of unknown model: {model}"
             )
             return
-        db.session.add(entry)
-    db.session.commit()
+        session.add(entry)
+    session.commit()
 
 
 def populate_db(templates: List[str], flags: List[str]) -> None:
@@ -286,12 +283,26 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
     """
     faker = Faker(["en_US"])
     Faker.seed(current_app.config["SEED"])
-    tables = current_app.config["DEFINED_TABLES"]
+    tables = [
+        AuthBypass,
+        Customers,
+        Product,
+        Order,
+        Comment,
+        Grade,
+        Menu,
+        Car,
+        Movie,
+        Book,
+        Music,
+        Equipment,
+    ]
     indices_tables = list(
         range(2, len(tables))
     )  # Exclude the User table initially and the AuthBypass table
     n = random.randint(1, len(indices_tables))
     selected_indices = random.sample(indices_tables, n)
+    # Add the Customers table and the AuthBypass table to the selected tables by default
     selected_tables = [tables[i] for i in selected_indices] + [
         Customers,
         AuthBypass,
@@ -320,7 +331,7 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
 
 
 def insert_flags(
-    selected_tables: List[db.Model], templates: List[str], flags: List[str]
+    selected_tables: List[Base], templates: List[str], flags: List[str]
 ) -> None:
     """
     Randomly insert flags into the database but if it is an auth challenge, insert the
@@ -330,11 +341,12 @@ def insert_flags(
     :param flags: List of flags to insert
     """
     logging.info(f"Inserting flags into the database...")
+    session = get_session()
     for idx, flag in enumerate(flags):
         if flag is not None:
             if templates[idx] == "auth":
                 entry = AuthBypass(username=Faker().name(), password=flag)
-                db.session.add(entry)
+                session.add(entry)
             else:
                 # Randomly select one of the selected table, then randomly take one of the string
                 # column and update it by the flag but exclude the AuthBypass table
@@ -347,12 +359,12 @@ def insert_flags(
                 columns = [
                     column
                     for column in table.__table__.columns
-                    if isinstance(column.type, db.String)
+                    if isinstance(column.type, String)
                 ]
                 flag_inserted = False
                 while not flag_inserted:
                     column = random.choice(columns)
-                    rows = table.query.all()
+                    rows = session.query(table).all()
                     if rows:
                         row = random.choice(rows)
                         # Check if the selected cell already contains a flag
@@ -362,11 +374,11 @@ def insert_flags(
                             )
                         else:
                             setattr(row, column.name, flag)
-                            db.session.add(row)
+                            session.add(row)
                             flag_inserted = True
                     else:
                         logging.error("No rows in the table to put the flag")
                         break
-    db.session.commit()
+    session.commit()
 
     logging.info("Flags inserted into the database.")
