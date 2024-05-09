@@ -40,7 +40,6 @@ SQLI_ARCHETYPES = [
     "In-band + No vulnerabilities",
     "Time-based + No vulnerabilities",
     "Boolean-based + No vulnerabilities",
-    "No vulnerabilities + No vulnerabilities",
     "In-band + Errors + No vulnerabilities",
     "Time-based + Errors + No vulnerabilities",
     "Boolean-based + Errors + No vulnerabilities",
