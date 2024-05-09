@@ -3,15 +3,21 @@ import random
 
 import docker
 from docker import DockerClient
-from flask import Flask, jsonify, current_app
+from flask import Flask, current_app, jsonify
 
 from app.challenges.generator import (
     generate_challenges,
     generate_random_settings,
 )
+from app.challenges.routes import challenges_bp
 from app.config import Config
-from challenges.models import populate_db, db
-from .database import configure_database_uri, wait_for_db
+from challenges.models import populate_db
+from .database import (
+    configure_database_uri,
+    wait_for_db,
+    init_db,
+    get_engine,
+)
 
 
 def create_app() -> Flask:
@@ -38,22 +44,23 @@ def create_app() -> Flask:
     logging.getLogger("urllib3").setLevel(logging.ERROR)
 
     with app.app_context():
-        init_data = app.config["INIT_DATA"] = initialize_environment(app)
+        init_data = app.config["INIT_DATA"] = initialize_environment()
 
         if not init_data:
             logging.error("Failed to initialize the challenge environment")
             return app
 
-        app.config.update(init_data)
         dbms = init_data["DBMS"]
         db_uri = configure_database_uri(dbms)
         if not db_uri:
             logging.error("Failed to configure database URI")
             return app
         app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
-        db.init_app(app)
+        init_db()
         populate_db(templates=init_data["TEMPLATES"], flags=init_data["FLAGS"])
         app.config["INIT_DATA"]["LIMITATIONS"] = generate_random_settings()
+
+    app.register_blueprint(challenges_bp, url_prefix="/challenge")
 
     @app.route("/", methods=["GET"])
     def root() -> jsonify:
@@ -64,14 +71,44 @@ def create_app() -> Flask:
         container_info = app.config["INIT_DATA"]
         return jsonify(container_info)
 
-    from app.challenges.routes import challenges_bp
+    @app.route("/reset", methods=["GET"])
+    def reset():
+        """
+        Reset the challenge environment and restart a new db container.
+        :return: JSON response
+        """
+        old_engine = get_engine()
+        old_engine.dispose()
+        init_data = app.config["INIT_DATA"]
+        client = docker.from_env()
+        container = client.containers.get(init_data["CONTAINER_ID"])
+        container.stop()
+        container.remove()
+        logging.info("Database container stopped and removed")
 
-    app.register_blueprint(challenges_bp, url_prefix="/challenge")
+        new_data = app.config["INIT_DATA"] = initialize_environment()
+        if not new_data:
+            logging.error("Failed to initialize the challenge environment")
+            return jsonify({"message": "Failed to reset the environment"})
+
+        dbms = new_data["DBMS"]
+        db_uri = configure_database_uri(dbms)
+        if not db_uri:
+            logging.error("Failed to configure database URI")
+            return jsonify({"message": "Failed to reset the environment"})
+
+        app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
+        init_db()
+        populate_db(templates=new_data["TEMPLATES"], flags=new_data["FLAGS"])
+        app.config["INIT_DATA"] = new_data
+        app.config["INIT_DATA"]["LIMITATIONS"] = generate_random_settings()
+
+        return jsonify({"message": "Environment reset successfully"})
 
     return app
 
 
-def initialize_environment(app: Flask) -> dict or None:
+def initialize_environment() -> dict or None:
     """
     Initialize the challenge environment.
     :param app: Flask application
@@ -79,7 +116,7 @@ def initialize_environment(app: Flask) -> dict or None:
     """
     logging.info("Initializing the challenge environment...")
     client = docker.from_env()
-    selected_dbms = random.choice(app.config["DBMS_IMAGES"])
+    selected_dbms = random.choice(current_app.config["DBMS_IMAGES"])
     container = start_db_instance(client, selected_dbms)
 
     if selected_dbms == "mysql:latest":
@@ -90,7 +127,7 @@ def initialize_environment(app: Flask) -> dict or None:
         logging.error(f"Unable to start DBMS: {selected_dbms}")
         return None
     archetypes, flags, templates = generate_challenges(
-        nbr=app.config["CHALLENGES_EPISODES"]
+        nbr=current_app.config["CHALLENGES_EPISODES"]
     )
     logging.info(
         f"{len(archetypes)} challenges generated and database started with ID: {container.id}"
