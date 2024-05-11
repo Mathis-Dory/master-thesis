@@ -646,7 +646,7 @@ def generate_default_queries_auth() -> List[str] or None:
 
 def generate_random_settings():
     """
-    Generates random settings for the blacklist check and stores them in the session.
+    Generates random settings for the blacklist check.
     """
     blacklist = [
         "like",
@@ -688,13 +688,14 @@ def add_limitations(payload: str, settings: List[Tuple[str, int]]) -> None:
     :param payload: Payload to check
     :param settings: List of settings
     """
-    logging.debug(f"Blacklisted item: {settings}")
-    for item, case_check in settings:
-        if case_check == 1 and item.lower() in payload.lower():
-            raise ValueError("Payload contains a blacklisted element")
-        elif case_check == 2 and item.upper() in payload.upper():
-            raise ValueError("Payload contains a blacklisted element")
-        elif case_check == 3 and (
-            item in payload or item.lower() in payload.lower()
-        ):
-            raise ValueError("Payload contains a blacklisted element")
+    if current_app.config["INIT_DATA"]["ENABLE_BLACKLIST"] == "True":
+        logging.debug(f"Blacklisted item: {settings}")
+        for item, case_check in settings:
+            if case_check == 1 and item.lower() in payload.lower():
+                raise ValueError("Payload contains a blacklisted element")
+            elif case_check == 2 and item.upper() in payload.upper():
+                raise ValueError("Payload contains a blacklisted element")
+            elif case_check == 3 and (
+                item in payload or item.lower() in payload.lower()
+            ):
+                raise ValueError("Payload contains a blacklisted element")

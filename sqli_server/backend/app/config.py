@@ -8,3 +8,4 @@ class Config:
     DB_PASSWORD = os.getenv("DB_PASSWORD", "password")
     SEED = os.getenv("SEED")
     NULL_FREQUENCY = float(os.getenv("NULL_FREQUENCY", 0.1))
+    ENABLE_BLACKLIST = os.getenv("ENABLE_BLACKLIST", "False")
