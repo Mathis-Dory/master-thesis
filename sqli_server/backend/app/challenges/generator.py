@@ -688,7 +688,7 @@ def add_limitations(payload: str, settings: List[Tuple[str, int]]) -> None:
     :param payload: Payload to check
     :param settings: List of settings
     """
-    if current_app.config["INIT_DATA"]["ENABLE_BLACKLIST"] == "True":
+    if current_app.config["ENABLE_BLACKLIST"] == "True":
         logging.debug(f"Blacklisted item: {settings}")
         for item, case_check in settings:
             if case_check == 1 and item.lower() in payload.lower():
