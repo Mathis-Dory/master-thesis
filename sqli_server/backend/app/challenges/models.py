@@ -345,7 +345,7 @@ def insert_flags(
     for idx, flag in enumerate(flags):
         if flag is not None:
             if templates[idx] == "auth":
-                entry = AuthBypass(username=Faker().name(), password=flag)
+                entry = AuthBypass(username=Faker().user_name(), password=flag)
                 session.add(entry)
             else:
                 # Randomly select one of the selected table, then randomly take one of the string
