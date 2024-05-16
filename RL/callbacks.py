@@ -14,12 +14,24 @@ class CustomLoggingCallback(BaseCallback):
         self.successes = 0
         self.episodes = 0
         self.success_rates = []
+        self.success_rates_per_observation = []
         self.image_dir = "images"
         os.makedirs(self.image_dir, exist_ok=True)
         self.save_path = save_path
         os.makedirs(self.save_path, exist_ok=True)
         self.start_time = time.time()  # Record the start time
         self.last_save_time = self.start_time  # Record the last save time
+        self.observation_labels = [
+            "exploit_char_used",
+            "exploit_char_beginning",
+            "comments_used_once",
+            "comments_at_the_end",
+            "no_multiples_op/func/tautologies_in_row",
+            "no_multiples_int_in_row_wth_space",
+            "query_valid",
+            "data_found",
+            "flag_found",
+        ]
 
     def _on_step(self) -> bool:
         if self.n_calls % 100 == 0:
@@ -43,6 +55,9 @@ class CustomLoggingCallback(BaseCallback):
                 self.successes / self.episodes if self.episodes > 0 else 0
             )
             self.success_rates.append(success_rate)
+            self.success_rates_per_observation.append(
+                self.locals["new_obs"][0]
+            )  # Record success rate per observation
 
         # Every 10,000 steps, measure the time taken and save the model
         if self.n_calls % 10000 == 0:
@@ -84,4 +99,23 @@ class CustomLoggingCallback(BaseCallback):
 
         # Save the plot to a file
         plt.savefig(os.path.join(self.image_dir, "success_rate.png"))
+        plt.close()
+
+        # Plot success rates for every observation
+        plt.figure()
+        for i, label in enumerate(self.observation_labels):
+            plt.plot(
+                range(len(self.success_rates_per_observation)),
+                [obs[i] for obs in self.success_rates_per_observation],
+                label=label,
+            )
+        plt.xlabel("Observation Steps")
+        plt.ylabel("Success Rate")
+        plt.title("Success Rate per Observation")
+        plt.legend()
+
+        # Save the plot to a file
+        plt.savefig(
+            os.path.join(self.image_dir, "success_rate_per_observation.png")
+        )
         plt.close()

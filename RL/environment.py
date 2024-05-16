@@ -10,10 +10,10 @@ from stable_baselines3.common.monitor import Monitor
 # Define tokens with more specific SQL elements for better grammar adherence
 tokens = {
     "escape_chars": ["'", '"', ""],
-    "comments": ["--", "#", "//", "/*", "*/"],
+    "comments": ["--", "#", "/*"],
     "functions": ["OFFSET", "LIMIT"],
     "special_chars": [")", "(", " "],
-    "tautologies": ["1=1"],
+    "tautologies": ["1=1", "1=0"],
     "ints": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
     "operators": ["AND", "OR"],
 }
@@ -37,8 +37,10 @@ class SQLiEnv(gym.Env):
         self.action_space = spaces.Box(low=0, high=1, shape=(22,), dtype=np.float32)
 
         # Define the observation space
-        self.observation_space = spaces.Box(low=0, high=1, shape=(5,), dtype=np.float32)
-        # Observation space: [exploit_char_used, query_valid, comments_at_the_end, data_found, flag]
+        self.observation_space = spaces.Box(low=0, high=1, shape=(9,), dtype=np.float32)
+        # Observation space: [exploit_char_used, exploit_char_beginning, comments_used_once, comments_at_the_end,
+        # no_multiples_op/func/tautologies_in_row, no_multiples_int_in_row_wth_space, query_valid, data_found,
+        # flag_found]
 
     def step(self, action):
         if self.exploit_char_found:
@@ -99,51 +101,109 @@ class SQLiEnv(gym.Env):
 
     def analyze_response(self, response_text, payload, response_status):
         state, reward = self.set_flags(payload, response_text, response_status)
-        done = state == [1, 1, 1, 1, 1]
+        done = state == [1, 1, 1, 1, 1, 1, 1, 1, 1]
         return state, reward, done
 
     def set_flags(self, payload, response_text, response_status):
         flag_pattern = rf"flag_{self.current_challenge_id}\{{[^}}]+}}"
-        space = [0, 0, 0, 0, 0]
+        space = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        # Observation space: [exploit_char_used, exploit_char_beginning, comments_used_once, comments_at_the_end,
+        # no_multiples_op/func/tautologies_in_row, no_multiples_int_in_row_wth_space, query_valid, data_found,
+        # flag_found]
+        if self.exploit_char in payload:
+            space[0] = 1  # Exploit character used somewhere in the payload
 
-        if response_status == 200:
-            space[1] = 1
+        if payload.startswith(f"{self.exploit_char} "):
+            space[1] = 1  # Exploit character used at the beginning
 
-        if re.search(flag_pattern, response_text):
-            space[4] = 1
-            space[3] = 1
-        elif "flag_" in response_text:
-            space[3] = 1
-
-        # Check the payload ends with a comment and only one comment is used in the payload
+        # Check only one comment is used in the payload
         comments_in_payload = [comment for comment in self.tokens["comments"] if comment in payload]
-        if any([payload.endswith(comment) for comment in self.tokens["comments"]]) and len(comments_in_payload) == 1:
+        if len(comments_in_payload) == 1:
             space[2] = 1
 
-        if payload.startswith(self.exploit_char + ' ') and self.exploit_char_found:
-            space[0] = 1
+        # Check if the comment is at the end of the payload
+        if any([payload.endswith(comment) for comment in self.tokens["comments"]]):
+            space[3] = 1
+
+        # Reward for not using two operators, functions, or tautologies in a row
+        no_consecutive_invalid_tokens = True
+        payload_tokens = payload.split()
+
+        for i in range(len(payload_tokens) - 1):
+            if (payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens["operators"]) or \
+                    (payload_tokens[i] in self.tokens["functions"] and payload_tokens[i + 1] in self.tokens["functions"]) or \
+                    (payload_tokens[i] in self.tokens["tautologies"] and payload_tokens[i + 1] in self.tokens["tautologies"]):
+                no_consecutive_invalid_tokens = False
+                break
+
+        if no_consecutive_invalid_tokens:
+            space[4] = 1
+
+        # Reward for not using two integers in a row separated by a space
+        no_consecutive_integers = True
+        for i in range(len(payload_tokens) - 1):
+            if payload_tokens[i] in self.tokens["ints"] and payload_tokens[i + 1] in self.tokens["ints"]:
+                no_consecutive_integers = False
+                break
+
+        if no_consecutive_integers:
+            space[5] = 1
+
+        if response_status == 200:
+            space[6] = 1  # Query is valid
+
+        elif "flag_" in response_text:
+            space[7] = 1  # Data found
+
+        if re.search(flag_pattern, response_text):
+            space[7] = 1  # Data found
+            space[8] = 1  # Flag found
 
         reward = self.set_reward(space, payload)
         return space, reward
 
     def set_reward(self, space, payload):
         reward = 0
+
+        # Observation space: [exploit_char_used, exploit_char_beginning, comments_used_once, comments_at_the_end,
+        # no_multiples_op/func/tautologies_in_row, no_multiples_int_in_row_wth_space, query_valid, data_found,
+        # flag_found]
+
         if space[0] == 0:
-            reward -= 100  # Penalty for not using the exploit character at the beginning
+            reward -= 1000  # Penalty for not using the exploit character (very bad)
+
         if space[1] == 0:
+            reward -= 75  # Penalty for not using the exploit character at the beginning (bad but still ok)
+
+        if space[2] == 0:
+            reward -= 150  # Penalty for not using comments once and only once (very bad)
+
+        if space[3] == 0:
+            reward -= 100  # Penalty for not using comments at the end (bad but still ok)
+
+        if space[4] == 0:
+            reward -= 200  # Penalty for using multiple operators, functions, or tautologies in a row (very bad)
+
+        if space[5] == 0:
+            reward -= 175  # Penalty for using multiple integers in a row with a space (very bad)
+
+        if space[6] == 0:
             if not self.exploit_char_found:
-                reward -= 10  # Reward for finding the exploit character by crashing the server
+                reward -= 20  # Reward for finding the exploit character by crashing the server
                 self.exploit_char_found = True
                 self.exploit_char = payload.split(' ')[0]  # Set the first token as the escape character
                 print(f"Exploit character found: {self.exploit_char}")
             else:
-                reward -= 50  # Penalty for crashing the server if we already found the exploit character
+                reward -= 50  # Penalty for crashing the server if we already found the exploit character (bad but ok
+                # because of the exploration)
 
-        if space[2] == 0:
-            reward -= 35  # Reward for using comments at the end and only once
-        if space[3] == 0:
-            reward -= 15  # Reward for dumping data
-        if space == [1, 1, 1, 1, 1]:
+        if space[7] == 0:
+            reward -= 40  # Penalty for not finding any data (bad)
+
+        if space[8] == 1 and space != [1, 1, 1, 1, 1, 1, 1, 1, 1]:
+            reward = -5  # Small penalty for finding the flag but not in optimal conditions
+
+        if space == [1, 1, 1, 1, 1, 1, 1, 1, 1]:
             reward = -1  # High reward for finding the flag
 
         return reward

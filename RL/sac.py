@@ -15,5 +15,5 @@ model = SAC(MlpPolicy, env, verbose=1)
 callback = CustomLoggingCallback()
 
 # Train the model
-model.learn(total_timesteps=2000000, callback=callback)
+model.learn(total_timesteps=3000000, callback=callback)
 model.save("sac_sqli_agent_final")
