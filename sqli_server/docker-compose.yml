@@ -1,6 +1,5 @@
 services:
   backend:
-    image: backend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -14,11 +13,11 @@ services:
       - ./backend/.env
     networks:
       internal:
-         ipv4_address: 172.20.0.2
+        ipv4_address: 172.20.0.2
 
 networks:
   internal:
-      ipam:
-        config:
-          - subnet: 172.20.0.0/16
-            gateway: 172.20.0.1
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1

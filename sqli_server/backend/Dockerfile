@@ -12,10 +12,10 @@ COPY requirements.txt /app
 RUN pip install -r requirements.txt
 
 # Set the PYTHONPATH environment variable to recognize the 'app' package
-ENV PYTHONPATH /app
+ENV PYTHONPATH /app/app
 
 # Expose the port the app runs on
 EXPOSE 5959
 
-# Define the command to run the Flask application
-CMD ["python", "app/main.py"]
+# Define the command to run the Flask application using Waitress
+CMD ["waitress-serve", "--listen=0.0.0.0:5959", "main:app"]
