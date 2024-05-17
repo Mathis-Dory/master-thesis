@@ -1,8 +1,8 @@
 import os
 import time
 
-import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib import pyplot as plt
 from stable_baselines3.common.callbacks import BaseCallback
 
 
@@ -24,7 +24,7 @@ class CustomLoggingCallback(BaseCallback):
         self.observation_labels = [
             "exploit_char_used",
             "exploit_char_beginning",
-            "no_multiples_op/func/tautologies/escape_char_in_row",
+            "no_multiples_op/func/tautologies_in_row",
             "no_multiples_int_in_row_wth_space",
             "query_valid",
             "data_found",
