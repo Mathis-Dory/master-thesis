@@ -49,8 +49,9 @@ class SQLiEnv(gym.Env):
 
         # Define the observation space
         self.observation_space = spaces.Box(low=0, high=1, shape=(7,), dtype=np.float32)
-        # Observation space: [exploit_char_used, exploit_char_beginning, no_multiples_op/func/tautologies_in_row,
-        # no_multiples_int_in_row_wth_space, query_valid, data_found, flag_found]
+        # Observation space: [exploit_char_used, exploit_char_beginning,
+        # no_multiples_op/func/escape_char/tautologies_in_row, no_multiples_int_in_row_wth_space, query_valid,
+        # data_found, flag_found]
 
         # Set up a session with retries
         self.session = requests.Session()
@@ -121,15 +122,17 @@ class SQLiEnv(gym.Env):
     def set_flags(self, payload, response_text, response_status):
         flag_pattern = rf"flag_{self.current_challenge_id}\{{[^}}]+}}"
         space = [0, 0, 0, 0, 0, 0, 0]
-        # Observation space: [exploit_char_used, exploit_char_beginning, no_multiples_op/func/tautologies_in_row,
-        # no_multiples_int_in_row_wth_space, query_valid, data_found, flag_found]
+        # Observation space: [exploit_char_used, exploit_char_beginning,
+        # no_multiples_op/func/escape_char/tautologies_in_row, no_multiples_int_in_row_wth_space, query_valid,
+        # data_found, flag_found]
+
         if self.exploit_char in payload:
             space[0] = 1  # Exploit character used somewhere in the payload
 
         if payload.startswith(f"{self.exploit_char} "):
             space[1] = 1  # Exploit character used at the beginning
 
-        # Reward for not using two operators, functions, or tautologies in a row
+        # Reward for not using two operators, functions, tautologies, escape char in a row
         no_consecutive_invalid_tokens = True
         payload_tokens = payload.split()
 
@@ -138,7 +141,9 @@ class SQLiEnv(gym.Env):
                     (payload_tokens[i] in self.tokens["functions"] and payload_tokens[i + 1] in self.tokens[
                         "functions"]) or \
                     (payload_tokens[i] in self.tokens["tautologies"] and payload_tokens[i + 1] in self.tokens[
-                        "tautologies"]):
+                        "tautologies"]) or \
+                    (payload_tokens[i] in self.tokens["escape_chars"] and payload_tokens[i + 1] in self.tokens[
+                        "escape_chars"]):
                 no_consecutive_invalid_tokens = False
                 break
 
@@ -171,8 +176,9 @@ class SQLiEnv(gym.Env):
     def set_reward(self, space, payload):
         reward = 0
 
-        # Observation space: [exploit_char_used, exploit_char_beginning, no_multiples_op/func/tautologies_in_row,
-        # no_multiples_int_in_row_wth_space, query_valid, data_found, flag_found]
+        # Observation space: [exploit_char_used, exploit_char_beginning,
+        # no_multiples_op/func/escape_char/tautologies_in_row, no_multiples_int_in_row_wth_space, query_valid,
+        # data_found, flag_found]
 
         if space[0] == 0:
             reward -= 1000  # Penalty for not using the exploit character (very bad)
@@ -181,7 +187,8 @@ class SQLiEnv(gym.Env):
             reward -= 75  # Penalty for not using the exploit character at the beginning (bad but still ok)
 
         if space[2] == 0:
-            reward -= 200  # Penalty for using multiple operators, functions, or tautologies in a row (very bad)
+            reward -= 200  # Penalty for using multiple operators, functions, escape char or tautologies in a row (
+            # very bad)
 
         if space[3] == 0:
             reward -= 175  # Penalty for using multiple integers in a row with a space (very bad)
@@ -206,7 +213,7 @@ class SQLiEnv(gym.Env):
             reward = -1  # High reward for finding the flag
 
         # Penalty for overly simplistic payload
-        if len(payload.split()) <= 2:  # if payload is too short
+        if len(payload.split()) <= 4:  # if payload is too short
             reward -= 500
 
         return reward
