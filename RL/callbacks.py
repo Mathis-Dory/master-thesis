@@ -24,8 +24,6 @@ class CustomLoggingCallback(BaseCallback):
         self.observation_labels = [
             "exploit_char_used",
             "exploit_char_beginning",
-            "comments_used_once",
-            "comments_at_the_end",
             "no_multiples_op/func/tautologies_in_row",
             "no_multiples_int_in_row_wth_space",
             "query_valid",
@@ -45,7 +43,7 @@ class CustomLoggingCallback(BaseCallback):
             print(f"Last Payload: {payload}")
             print(f"Current Observation: {self.locals['new_obs']}")
 
-        if self.locals["dones"][0]:
+        if self.locals.get("dones", [False])[0]:
             self.episodes += 1
             if (
                 self.locals["rewards"][0] > 0
@@ -59,13 +57,13 @@ class CustomLoggingCallback(BaseCallback):
                 self.locals["new_obs"][0]
             )  # Record success rate per observation
 
-        # Every 10,000 steps, measure the time taken and save the model
-        if self.n_calls % 10000 == 0:
+        # Every 100,000 steps, measure the time taken and save the model
+        if self.n_calls % 100000 == 0:
             current_time = time.time()
             elapsed_time = current_time - self.last_save_time
             self.last_save_time = current_time
             print(
-                f"Time taken for the last 10,000 steps: {elapsed_time:.2f} seconds"
+                f"Time taken for the last 100,000 steps: {elapsed_time:.2f} seconds"
             )
             self.model.save(
                 os.path.join(self.save_path, f"model_step_{self.n_calls}")
