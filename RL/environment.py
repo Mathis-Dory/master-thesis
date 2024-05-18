@@ -242,6 +242,10 @@ class SQLiEnv(gym.Env):
         if len(payload.split()) <= 5:  # if payload is too short
             reward -= 500
 
+        # Penalty for lack of diversity in token usage
+        if space[8] == 0 and space[9] == 0:
+            reward -= (20 - len(used_tokens)) * 5  # Increase penalty for lower diversity
+
         if space == [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]:
             reward = -1  # High reward for finding the flag
 
