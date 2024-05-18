@@ -15,7 +15,7 @@ env = make_vec_env(lambda: SQLiEnv(), n_envs=1)
 env.seed(seed)
 
 # Instantiate the model
-model = SAC(MlpPolicy, env, verbose=1, seed=seed)
+model = SAC(MlpPolicy, env, verbose=1, seed=seed, device="cuda")
 
 # Create the callback
 callback = CustomLoggingCallback()
@@ -27,3 +27,4 @@ model.learn(total_timesteps=total_timesteps, callback=callback, log_interval=1)
 
 # Save the final model
 model.save("sac_sqli_agent_final")
+

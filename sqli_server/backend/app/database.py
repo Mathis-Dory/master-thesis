@@ -18,7 +18,7 @@ def get_engine() -> Engine:
     db_uri = current_app.config["SQLALCHEMY_DATABASE_URI"]
     engine = create_engine(
         db_uri,
-        pool_size=5,
+        pool_size=200,
         max_overflow=0,
         pool_recycle=280,
         pool_pre_ping=True,
