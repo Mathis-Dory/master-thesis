@@ -245,7 +245,7 @@ class SQLiEnv(gym.Env):
 
         # Penalty for overly simplistic payload
         if len(payload.split()) <= 5:  # if payload is too short
-            reward -= 125
+            reward -= 500
 
         # Penalty for lack of diversity in token usage
         if space[9] == 0 and space[10] == 0:
