@@ -14,7 +14,14 @@ services:
     networks:
       internal:
         ipv4_address: 172.20.0.2
-
+    deploy:
+      resources:
+        limits:
+          cpus: '6'
+          memory: 32g
+        reservations:
+          cpus: '3'
+          memory: 8g
 networks:
   internal:
     ipam:

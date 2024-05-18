@@ -29,6 +29,7 @@ class CustomLoggingCallback(BaseCallback):
             "no_multiples_taut_in_row",
             "no_multiples_esc_in_row",
             "no_multiples_int_in_row_wth_space",
+            "odd_escape_char_count",
             "query_valid",
             "data_found",
             "flag_found",
