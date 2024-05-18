@@ -21,7 +21,7 @@ model = SAC(MlpPolicy, env, verbose=1, seed=seed, device="cuda")
 callback = CustomLoggingCallback()
 
 # Train the model for a specified number of time steps
-total_timesteps = 5000000  # Total number of interactions with the server
+total_timesteps = 3000000  # Total number of interactions with the server
 
 model.learn(total_timesteps=total_timesteps, callback=callback, log_interval=1)
 

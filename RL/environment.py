@@ -48,10 +48,11 @@ class SQLiEnv(gym.Env):
         self.action_space = spaces.Box(low=0, high=1, shape=(22,), dtype=np.float32)
 
         # Define the observation space with more granularity
-        self.observation_space = spaces.Box(low=0, high=1, shape=(11,), dtype=np.float32)
+        self.observation_space = spaces.Box(low=0, high=1, shape=(13,), dtype=np.float32)
         # Observation space: [exploit_char_used, exploit_char_beginning, no_multiples_op_in_row,
         # no_multiples_func_in_row, no_multiples_taut_in_row, no_multiples_esc_in_row,
-        # no_multiples_int_in_row_wth_space, odd_escape_char_count, query_valid, data_found, flag_found]
+        # no_multiples_int_in_row_wth_space, odd_escape_char_count, no_int_or_taut_after_escape,
+        # no_invalid_taut_int_special, query_valid, data_found, flag_found]
 
         # Set up a session with retries
         self.session = requests.Session()
@@ -81,17 +82,17 @@ class SQLiEnv(gym.Env):
         self.last_payload = payload
 
         try:
-            response = self.session.get(f"{self.base_url}{self.current_challenge_id}", timeout=30)
-            if "Login" in response.text:
+            response_get = self.session.get(f"{self.base_url}{self.current_challenge_id}", timeout=30)
+            if "Login" in response_get.text:
                 data = {"username_payload": payload, "password_payload": ""}
-            elif "Filter" in response.text:
+            elif "Filter" in response_get.text:
                 data = {"payload": payload}
 
             start_time = time.time()
             response = self.session.post(f"{self.base_url}{self.current_challenge_id}", data=data, timeout=30)
             end_time = time.time()
 
-            state, reward, done, truncated = self.analyze_response(response.text, payload, response.status_code)
+            state, reward, done, truncated = self.analyze_response(response.text, payload, response.status_code, response_get)
         except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
             logging.error(f"Connection failed: {e}")
             state, reward, done, truncated = np.zeros(self.observation_space.shape), -1000, False, False
@@ -113,18 +114,19 @@ class SQLiEnv(gym.Env):
         self.session.get("http://localhost:5959/reset")
         return np.zeros(self.observation_space.shape), {}
 
-    def analyze_response(self, response_text, payload, response_status):
-        state, reward = self.set_flags(payload, response_text, response_status)
-        done = state == [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    def analyze_response(self, response_text, payload, response_status, response_get):
+        state, reward = self.set_flags(payload, response_text, response_status, response_get)
+        done = state == [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         truncated = False
         return state, reward, done, truncated
 
-    def set_flags(self, payload, response_text, response_status):
+    def set_flags(self, payload, response_text, response_status, response_get):
         flag_pattern = rf"flag_{self.current_challenge_id}\{{[^}}]+}}"
-        space = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        space = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         # Observation space: [exploit_char_used, exploit_char_beginning, no_multiples_op_in_row,
         # no_multiples_func_in_row, no_multiples_taut_in_row, no_multiples_esc_in_row,
-        # no_multiples_int_in_row_wth_space, odd_escape_char_count, query_valid, data_found, flag_found]
+        # no_multiples_int_in_row_wth_space, odd_escape_char_count, no_int_or_taut_after_escape,
+        # no_invalid_taut_int_special, query_valid, data_found, flag_found]
 
         if self.exploit_char in payload:
             space[0] = 1  # Exploit character used somewhere in the payload
@@ -157,7 +159,8 @@ class SQLiEnv(gym.Env):
             if (payload_tokens[i] in self.tokens["functions"] and payload_tokens[i + 1] in self.tokens["tautologies"]) or \
                     (payload_tokens[i] in self.tokens["tautologies"] and payload_tokens[i + 1] in self.tokens["ints"]) or \
                     (payload_tokens[i] in self.tokens["ints"] and payload_tokens[i + 1] in self.tokens["tautologies"]):
-                no_consecutive_invalid_tokens = False  # Penalize invalid sequences of functions, tautologies, and integers
+                no_consecutive_invalid_tokens = False  # Penalize invalid sequences of functions, tautologies,
+                # and integers
 
             used_tokens.add(payload_tokens[i])
         used_tokens.add(payload_tokens[-1])
@@ -182,15 +185,37 @@ class SQLiEnv(gym.Env):
         exploit_char_count = payload.count(self.exploit_char)
         space[7] = 1 if exploit_char_count % 2 == 1 else 0
 
-        if response_status == 200:
-            space[8] = 1  # Query is valid
+        # Check if the first character after an escape character is not an integer or tautology
+        escape_char_indices = [i for i, token in enumerate(payload_tokens) if token in self.tokens["escape_chars"]]
+        for i in escape_char_indices:
+            if (i + 1 < len(payload_tokens) and payload_tokens[i + 1] not in self.tokens["ints"] +
+                    self.tokens["tautologies"]):
+                space[8] = 1
+                break
 
-        elif "flag_" in response_text:
-            space[9] = 1  # Data found
+        # Check for invalid combinations of tautologies, integers, and special characters
+        invalid_taut_int_special = False
+        for i in range(len(payload_tokens) - 1):
+            if (payload_tokens[i] in self.tokens["tautologies"] and payload_tokens[i + 1] in self.tokens["ints"] + self.tokens["special_chars"]) or \
+                    (payload_tokens[i] in self.tokens["ints"] and payload_tokens[i + 1] in self.tokens["tautologies"] + self.tokens["special_chars"]) or \
+                    (payload_tokens[i] in self.tokens["special_chars"] and payload_tokens[i + 1] in self.tokens["tautologies"] + self.tokens["ints"]):
+                invalid_taut_int_special = True
+                break
+
+        if not invalid_taut_int_special:
+            space[9] = 1
+
+        if response_status == 200:
+            space[10] = 1  # Query is valid
+
+        # Successful bypass of the password check
+        elif (response_status == 200 and ("wrong" or "fail") not in response_text.lower()
+              and len(response_text) != len(response_get.text)):
+            space[11] = 1  # Data found
 
         if re.search(flag_pattern, response_text):
-            space[9] = 1  # Data found
-            space[10] = 1  # Flag found
+            space[11] = 1  # Data found
+            space[12] = 1  # Flag found
 
         reward = self.set_reward(space, payload, used_tokens)
         return space, reward
@@ -200,7 +225,8 @@ class SQLiEnv(gym.Env):
 
         # Observation space: [exploit_char_used, exploit_char_beginning, no_multiples_op_in_row,
         # no_multiples_func_in_row, no_multiples_taut_in_row, no_multiples_esc_in_row,
-        # no_multiples_int_in_row_wth_space, odd_escape_char_count, query_valid, data_found, flag_found]
+        # no_multiples_int_in_row_wth_space, odd_escape_char_count, no_int_or_taut_after_escape,
+        # no_invalid_taut_int_special, query_valid, data_found, flag_found]
 
         if space[0] == 0:
             reward -= 1000  # Penalty for not using the exploit character (very bad)
@@ -227,31 +253,40 @@ class SQLiEnv(gym.Env):
         if space[7] == 0:
             reward -= 125  # Adjust the penalty value as needed
 
+        # Penalty for using an integer or tautology immediately after an escape character
         if space[8] == 0:
+            reward -= 125  # Adjust the penalty value as needed
+
+        # Penalty for invalid combinations of tautologies, integers, and special characters
+        if space[9] == 0:
+            reward -= 125  # Penalty for invalid tautologies, integers, and special characters combinations
+
+        if space[10] == 0:
             if not self.exploit_char_found:
                 reward -= 20  # Penalty for not finding the exploit character by crashing the server
                 self.exploit_char_found = True
                 self.exploit_char = payload.split(' ')[0]  # Set the first token as the escape character
                 print(f"Exploit character found: {self.exploit_char}")
             else:
-                reward -= 50  # Penalty for crashing the server if we already found the exploit character
+                reward -= 60  # Penalty for crashing the server if we already found the exploit character
                 # (bad but ok because of the exploration)
 
-        if space[9] == 0:
+        if space[11] == 0:
             reward -= 50  # Penalty for not finding any data (bad)
 
-        if space[10] == 1 and space != [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]:
-            reward -= 5  # Small penalty for finding the flag but not in optimal conditions
+        if space[12] == 1 and space != [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]:
+            reward -= 5  # Small penalty for bypassing password check
 
         # Penalty for overly simplistic payload
         if len(payload.split()) <= 5:  # if payload is too short
             reward -= 500
 
         # Penalty for lack of diversity in token usage
-        if space[9] == 0 and space[10] == 0:
-            reward -= (20 - len(used_tokens)) * 5  # Increase penalty for lower diversity
+        if space == [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0] or space == [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0]:
+            reward -= (20 - len(used_tokens)) * 4
+            # Increase penalty for lower diversity when syntax correct but no data or nearly correct
 
-        if space == [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]:
+        if space == [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]:
             reward = -1  # High reward for finding the flag
 
         return reward
