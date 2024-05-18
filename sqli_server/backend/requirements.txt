@@ -23,4 +23,5 @@ six==1.16.0
 SQLAlchemy==2.0.29
 typing_extensions==4.10.0
 urllib3==2.2.1
+waitress==3.0.0
 Werkzeug==3.0.1

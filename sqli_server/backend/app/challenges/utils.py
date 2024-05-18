@@ -32,25 +32,27 @@ END_OPERATORS = ["ORDER BY", "LIMIT", "DISTINCT", "UNION"]
 # Choices of SQLi vulnerabilities
 SQLI_ARCHETYPES = [
     "In-band",
-    "Time-based",
-    "Boolean-based",
-    "In-band + Errors",
-    "Time-based + Errors",
-    "Boolean-based + Errors",
-    "In-band + No vulnerabilities",
-    "Time-based + No vulnerabilities",
-    "Boolean-based + No vulnerabilities",
-    "In-band + Errors + No vulnerabilities",
-    "Time-based + Errors + No vulnerabilities",
-    "Boolean-based + Errors + No vulnerabilities",
 ]
 
+""" Other choices
+"Time-based",
+"Boolean-based",
+"In-band + Errors",
+"Time-based + Errors",
+"Boolean-based + Errors",
+"In-band + No vulnerabilities",
+"Time-based + No vulnerabilities",
+"Boolean-based + No vulnerabilities",
+"In-band + Errors + No vulnerabilities",
+"Time-based + Errors + No vulnerabilities",
+"Boolean-based + Errors + No vulnerabilities",
+"""
+
 TEMPLATES = [
-    "filter",
-    "filter",
-    "filter",
     "auth",
-]  # 75% filter, 25% auth_bypass
+]  # 100% Auth
+
+# "filter" is another possible choice
 
 
 def find_columns_in_query(query: str) -> List[str]:
