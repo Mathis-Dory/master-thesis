@@ -18,4 +18,4 @@ ENV PYTHONPATH /app/app
 EXPOSE 5959
 
 # Define the command to run the Flask application using Waitress
-CMD ["waitress-serve", "--listen=0.0.0.0:5959", "--threads=32", "--connection-limit=10000", "main:app"]
+CMD ["waitress-serve", "--listen=0.0.0.0:5959", "--threads=8", "--connection-limit=1000", "main:app"]

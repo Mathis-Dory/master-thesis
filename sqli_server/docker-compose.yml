@@ -17,11 +17,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '6'
-          memory: 32g
-        reservations:
-          cpus: '3'
+          cpus: '4'
           memory: 8g
+        reservations:
+          cpus: '2'
+          memory: 2g
 networks:
   internal:
     ipam:

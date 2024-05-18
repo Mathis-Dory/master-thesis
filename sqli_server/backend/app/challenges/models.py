@@ -272,6 +272,10 @@ def populate_model(model: Base, num_entries: int, faker: Faker) -> None:
             )
             return
         session.add(entry)
+    amount_admin = random.randint(0, 2)
+    for _ in range(amount_admin):
+        entry = AuthBypass(username=Faker().user_name(), password=Faker().password())
+        session.add(entry)
     session.commit()
 
 
