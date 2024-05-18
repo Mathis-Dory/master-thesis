@@ -24,7 +24,10 @@ class CustomLoggingCallback(BaseCallback):
         self.observation_labels = [
             "exploit_char_used",
             "exploit_char_beginning",
-            "no_multiples_op/func/tautologies_in_row",
+            "no_multiples_op_in_row",
+            "no_multiples_func_in_row",
+            "no_multiples_taut_in_row",
+            "no_multiples_esc_in_row",
             "no_multiples_int_in_row_wth_space",
             "query_valid",
             "data_found",
@@ -43,7 +46,10 @@ class CustomLoggingCallback(BaseCallback):
             print(f"Last Payload: {payload}")
             print(f"Current Observation: {self.locals['new_obs']}")
 
-        if self.locals.get("dones", [False])[0]:
+        if (
+            self.locals.get("dones", [False])[0]
+            or self.locals.get("truncated", [False])[0]
+        ):
             self.episodes += 1
             if (
                 self.locals["rewards"][0] > 0
