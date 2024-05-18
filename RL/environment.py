@@ -242,8 +242,6 @@ class SQLiEnv(gym.Env):
         if len(payload.split()) <= 5:  # if payload is too short
             reward -= 500
 
-
-
         if space == [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]:
             reward = -1  # High reward for finding the flag
 
