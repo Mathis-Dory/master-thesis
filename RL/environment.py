@@ -48,10 +48,10 @@ class SQLiEnv(gym.Env):
         self.action_space = spaces.Box(low=0, high=1, shape=(22,), dtype=np.float32)
 
         # Define the observation space with more granularity
-        self.observation_space = spaces.Box(low=0, high=1, shape=(10,), dtype=np.float32)
+        self.observation_space = spaces.Box(low=0, high=1, shape=(11,), dtype=np.float32)
         # Observation space: [exploit_char_used, exploit_char_beginning, no_multiples_op_in_row,
         # no_multiples_func_in_row, no_multiples_taut_in_row, no_multiples_esc_in_row,
-        # no_multiples_int_in_row_wth_space, query_valid, data_found, flag_found]
+        # no_multiples_int_in_row_wth_space, odd_escape_char_count, query_valid, data_found, flag_found]
 
         # Set up a session with retries
         self.session = requests.Session()
@@ -115,16 +115,16 @@ class SQLiEnv(gym.Env):
 
     def analyze_response(self, response_text, payload, response_status):
         state, reward = self.set_flags(payload, response_text, response_status)
-        done = state == [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        done = state == [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         truncated = False
         return state, reward, done, truncated
 
     def set_flags(self, payload, response_text, response_status):
         flag_pattern = rf"flag_{self.current_challenge_id}\{{[^}}]+}}"
-        space = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        space = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         # Observation space: [exploit_char_used, exploit_char_beginning, no_multiples_op_in_row,
         # no_multiples_func_in_row, no_multiples_taut_in_row, no_multiples_esc_in_row,
-        # no_multiples_int_in_row_wth_space, query_valid, data_found, flag_found]
+        # no_multiples_int_in_row_wth_space, odd_escape_char_count, query_valid, data_found, flag_found]
 
         if self.exploit_char in payload:
             space[0] = 1  # Exploit character used somewhere in the payload
@@ -146,8 +146,7 @@ class SQLiEnv(gym.Env):
             if payload_tokens[i] in self.tokens["tautologies"] and payload_tokens[i + 1] in self.tokens["tautologies"]:
                 space[4] = 0  # Penalize for consecutive tautologies
                 no_consecutive_invalid_tokens = False
-            if payload_tokens[i] in self.tokens["escape_chars"] and payload_tokens[i + 1] in self.tokens[
-                "escape_chars"]:
+            if payload_tokens[i] in self.tokens["escape_chars"] and payload_tokens[i + 1] in self.tokens["escape_chars"]:
                 space[5] = 0  # Penalize for consecutive escape characters
                 no_consecutive_invalid_tokens = False
 
@@ -155,10 +154,8 @@ class SQLiEnv(gym.Env):
                     (payload_tokens[i] == ")" and payload_tokens[i + 1] == "("):
                 no_consecutive_invalid_tokens = False  # Penalize empty parentheses
 
-            if (payload_tokens[i] in self.tokens["functions"] and payload_tokens[i + 1] in self.tokens[
-                "tautologies"]) or \
-                    (payload_tokens[i] in self.tokens["tautologies"] and payload_tokens[i + 1] in self.tokens[
-                        "ints"]) or \
+            if (payload_tokens[i] in self.tokens["functions"] and payload_tokens[i + 1] in self.tokens["tautologies"]) or \
+                    (payload_tokens[i] in self.tokens["tautologies"] and payload_tokens[i + 1] in self.tokens["ints"]) or \
                     (payload_tokens[i] in self.tokens["ints"] and payload_tokens[i + 1] in self.tokens["tautologies"]):
                 no_consecutive_invalid_tokens = False  # Penalize invalid sequences of functions, tautologies, and integers
 
@@ -181,15 +178,19 @@ class SQLiEnv(gym.Env):
         if no_consecutive_integers:
             space[6] = 1
 
+        # Check for even number of occurrences of the found exploit character
+        exploit_char_count = payload.count(self.exploit_char)
+        space[7] = 1 if exploit_char_count % 2 == 1 else 0
+
         if response_status == 200:
-            space[7] = 1  # Query is valid
+            space[8] = 1  # Query is valid
 
         elif "flag_" in response_text:
-            space[8] = 1  # Data found
+            space[9] = 1  # Data found
 
         if re.search(flag_pattern, response_text):
-            space[8] = 1  # Data found
-            space[9] = 1  # Flag found
+            space[9] = 1  # Data found
+            space[10] = 1  # Flag found
 
         reward = self.set_reward(space, payload, used_tokens)
         return space, reward
@@ -199,7 +200,7 @@ class SQLiEnv(gym.Env):
 
         # Observation space: [exploit_char_used, exploit_char_beginning, no_multiples_op_in_row,
         # no_multiples_func_in_row, no_multiples_taut_in_row, no_multiples_esc_in_row,
-        # no_multiples_int_in_row_wth_space, query_valid, data_found, flag_found]
+        # no_multiples_int_in_row_wth_space, odd_escape_char_count, query_valid, data_found, flag_found]
 
         if space[0] == 0:
             reward -= 1000  # Penalty for not using the exploit character (very bad)
@@ -222,7 +223,11 @@ class SQLiEnv(gym.Env):
         if space[6] == 0:
             reward -= 125  # Penalty for using multiple integers in a row with a space (very bad)
 
+        # Penalty for using an odd number of occurrences of the exploit character
         if space[7] == 0:
+            reward -= 125  # Adjust the penalty value as needed
+
+        if space[8] == 0:
             if not self.exploit_char_found:
                 reward -= 20  # Penalty for not finding the exploit character by crashing the server
                 self.exploit_char_found = True
@@ -232,21 +237,21 @@ class SQLiEnv(gym.Env):
                 reward -= 50  # Penalty for crashing the server if we already found the exploit character
                 # (bad but ok because of the exploration)
 
-        if space[8] == 0:
+        if space[9] == 0:
             reward -= 50  # Penalty for not finding any data (bad)
 
-        if space[9] == 1 and space != [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]:
+        if space[10] == 1 and space != [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]:
             reward -= 5  # Small penalty for finding the flag but not in optimal conditions
 
         # Penalty for overly simplistic payload
         if len(payload.split()) <= 5:  # if payload is too short
-            reward -= 500
+            reward -= 125
 
         # Penalty for lack of diversity in token usage
-        if space[8] == 0 and space[9] == 0:
+        if space[9] == 0 and space[10] == 0:
             reward -= (20 - len(used_tokens)) * 5  # Increase penalty for lower diversity
 
-        if space == [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]:
+        if space == [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]:
             reward = -1  # High reward for finding the flag
 
         return reward
