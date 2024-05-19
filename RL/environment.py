@@ -80,7 +80,9 @@ class SQLiEnv(gym.Env):
 
         payload = ' '.join(payload_tokens)
         self.last_payload = payload
-
+        start_time = 0
+        end_time = 0
+        data = {}
         try:
             response_get = self.session.get(f"{self.base_url}{self.current_challenge_id}", timeout=30)
             if "Login" in response_get.text:
