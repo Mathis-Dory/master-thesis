@@ -235,7 +235,7 @@ class SQLiEnv(gym.Env):
             # (should be forced due to code logic)
 
         if space[2] == 0:
-            reward -= 200 * (0.25 * error_penalty)  # Penalty for using consecutive invalid tokens
+            reward -= 200 + ((0.25 * error_penalty) * 10)  # Penalty for using consecutive invalid tokens
 
         # Penalty for using an odd number of occurrences of the exploit character
         if space[3] == 0:
