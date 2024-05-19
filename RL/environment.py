@@ -137,25 +137,31 @@ class SQLiEnv(gym.Env):
         used_tokens = set()  # Track used tokens for diversity reward
 
         no_consecutive_invalid_tokens = True
+        error_penalty = 0 # Used to proportionally increase the penalty depending on the number of errors
         for i in range(len(payload_tokens) - 1):
             if payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens["operators"]:
                 space[2] = 0  # Penalize for consecutive operators
                 no_consecutive_invalid_tokens = False
+                error_penalty += 1
             if payload_tokens[i] in self.tokens["functions"] and payload_tokens[i + 1] in self.tokens["functions"]:
                 space[2] = 0  # Penalize for consecutive functions
                 no_consecutive_invalid_tokens = False
+                error_penalty += 2
             if payload_tokens[i] in self.tokens["tautologies"] and payload_tokens[i + 1] in self.tokens["tautologies"]:
                 space[2] = 0  # Penalize for consecutive tautologies
                 no_consecutive_invalid_tokens = False
+                error_penalty += 3
             if payload_tokens[i] in self.tokens["escape_chars"] and payload_tokens[i + 1] in self.tokens[
                 "escape_chars"]:
                 space[2] = 0  # Penalize for consecutive escape characters
                 no_consecutive_invalid_tokens = False
+                error_penalty += 4
 
             if ((payload_tokens[i] == "(" and payload_tokens[i + 1] == ")")
                     or
                     (payload_tokens[i] == ")" and payload_tokens[i + 1] == "(")):
                 no_consecutive_invalid_tokens = False  # Penalize empty parentheses () or )(
+                error_penalty += 5
 
             if ((payload_tokens[i] in self.tokens["functions"] and payload_tokens[i + 1] in self.tokens[
                 "tautologies"])
@@ -175,16 +181,20 @@ class SQLiEnv(gym.Env):
                 # 1=1 1
                 # ' 1
                 # ' 1=1
+                error_penalty += 6
             if payload_tokens[i] in self.tokens["ints"] and payload_tokens[i + 1] in self.tokens["ints"]:
                 no_consecutive_invalid_tokens = False  # Penalize consecutive integers
+                error_penalty += 7
 
             if (payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens["ints"]
                     or payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens[
                         "tautologies"]):
-                no_consecutive_invalid_tokens = False  # Penalize if use int or tautologie after operator
+                no_consecutive_invalid_tokens = False  # Penalize using int or tautologies after operator
+                error_penalty += 8
 
             if payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens["comments"]:
                 no_consecutive_invalid_tokens = False  # Penalize if operators are used before comments
+                error_penalty += 9
 
             used_tokens.add(payload_tokens[i])
         used_tokens.add(payload_tokens[-1])
@@ -208,10 +218,10 @@ class SQLiEnv(gym.Env):
             space[5] = 1  # Data found
             space[6] = 1  # Flag found
 
-        reward = self.set_reward(space, payload, used_tokens)
+        reward = self.set_reward(space, payload, used_tokens, error_penalty)
         return space, reward
 
-    def set_reward(self, space, payload, used_tokens):
+    def set_reward(self, space, payload, used_tokens, error_penalty):
         reward = 0
 
         # Observation space: [exploit_char_used, exploit_char_beginning,
@@ -225,7 +235,7 @@ class SQLiEnv(gym.Env):
             # (should be forced due to code logic)
 
         if space[2] == 0:
-            reward -= 200  # Penalty for using weird patterns (very bad)
+            reward -= (200 - error_penalty)  # Penalty for using consecutive invalid tokens
 
         # Penalty for using an odd number of occurrences of the exploit character
         if space[3] == 0:
