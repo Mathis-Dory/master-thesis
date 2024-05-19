@@ -146,22 +146,22 @@ class SQLiEnv(gym.Env):
             if payload_tokens[i] in self.tokens["functions"] and payload_tokens[i + 1] in self.tokens["functions"]:
                 space[2] = 0  # Penalize for consecutive functions
                 no_consecutive_invalid_tokens = False
-                error_penalty += 2
+                error_penalty += 1
             if payload_tokens[i] in self.tokens["tautologies"] and payload_tokens[i + 1] in self.tokens["tautologies"]:
                 space[2] = 0  # Penalize for consecutive tautologies
                 no_consecutive_invalid_tokens = False
-                error_penalty += 3
+                error_penalty += 1
             if payload_tokens[i] in self.tokens["escape_chars"] and payload_tokens[i + 1] in self.tokens[
                 "escape_chars"]:
                 space[2] = 0  # Penalize for consecutive escape characters
                 no_consecutive_invalid_tokens = False
-                error_penalty += 4
+                error_penalty += 1
 
             if ((payload_tokens[i] == "(" and payload_tokens[i + 1] == ")")
                     or
                     (payload_tokens[i] == ")" and payload_tokens[i + 1] == "(")):
                 no_consecutive_invalid_tokens = False  # Penalize empty parentheses () or )(
-                error_penalty += 5
+                error_penalty += 1
 
             if ((payload_tokens[i] in self.tokens["functions"] and payload_tokens[i + 1] in self.tokens[
                 "tautologies"])
@@ -181,20 +181,20 @@ class SQLiEnv(gym.Env):
                 # 1=1 1
                 # ' 1
                 # ' 1=1
-                error_penalty += 6
+                error_penalty += 1
             if payload_tokens[i] in self.tokens["ints"] and payload_tokens[i + 1] in self.tokens["ints"]:
                 no_consecutive_invalid_tokens = False  # Penalize consecutive integers
-                error_penalty += 7
+                error_penalty += 1
 
             if (payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens["ints"]
                     or payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens[
                         "tautologies"]):
                 no_consecutive_invalid_tokens = False  # Penalize using int or tautologies after operator
-                error_penalty += 8
+                error_penalty += 1
 
             if payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens["comments"]:
                 no_consecutive_invalid_tokens = False  # Penalize if operators are used before comments
-                error_penalty += 9
+                error_penalty += 1
 
             used_tokens.add(payload_tokens[i])
         used_tokens.add(payload_tokens[-1])
@@ -235,7 +235,7 @@ class SQLiEnv(gym.Env):
             # (should be forced due to code logic)
 
         if space[2] == 0:
-            reward -= (200 - error_penalty)  # Penalty for using consecutive invalid tokens
+            reward -= 200 * (0.25 * error_penalty)  # Penalty for using consecutive invalid tokens
 
         # Penalty for using an odd number of occurrences of the exploit character
         if space[3] == 0:
