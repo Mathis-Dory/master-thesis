@@ -21,10 +21,8 @@ class CustomLoggingCallback(BaseCallback):
         self.start_time = time.time()  # Record the start time
         self.last_save_time = self.start_time  # Record the last save time
         self.observation_labels = [
-            "exploit_char_used", "exploit_char_beginning", "no_multiples_op_in_row",
-            "no_multiples_func_in_row", "no_multiples_taut_in_row", "no_multiples_esc_in_row",
-            "no_multiples_int_in_row_wth_space", "odd_escape_char_count", "no_int_or_taut_after_escape",
-            "no_invalid_taut_int_special", "query_valid", "data_found", "flag_found"
+            "exploit_char_used", "exploit_char_beginning", "no_weird_pattern",
+            "odd_escape_char_count", "query_valid", "data_found", "flag_found"
         ]
 
     def _on_step(self) -> bool:

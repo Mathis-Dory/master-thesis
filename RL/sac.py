@@ -15,7 +15,7 @@ env = make_vec_env(lambda: SQLiEnv(), n_envs=1)
 env.seed(seed)
 
 # Instantiate the model
-model = SAC(MlpPolicy, env, verbose=1, seed=seed, device="cuda")
+model = SAC(MlpPolicy, env, verbose=1, seed=seed, device="cpu")
 
 # Create the callback
 callback = CustomLoggingCallback()
