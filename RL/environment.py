@@ -21,7 +21,7 @@ NUM_CHALLENGES = int(os.getenv('NUM_CHALLENGES', 1))  # Default to 1 if not set
 tokens = {
     "escape_chars": ["'", '"', ""],
     "comments": ["--", "#", "/*"],
-    "functions": ["OFFSET", "LIMIT"],
+    "int_functions": ["OFFSET", "LIMIT"],
     "special_chars": [")", "(", " "],
     "tautologies": ["1=1", "1=0"],
     "ints": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
@@ -142,14 +142,15 @@ class SQLiEnv(gym.Env):
             if payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens["operators"]:
                 no_consecutive_invalid_tokens = False  # Penalize for consecutive operators
                 error_penalty += 1
-            if payload_tokens[i] in self.tokens["functions"] and payload_tokens[i + 1] in self.tokens["functions"]:
+            if (payload_tokens[i] in self.tokens["int_functions"]
+                    and payload_tokens[i + 1] in self.tokens["int_functions"]):
                 no_consecutive_invalid_tokens = False  # Penalize for consecutive functions
                 error_penalty += 1
             if payload_tokens[i] in self.tokens["tautologies"] and payload_tokens[i + 1] in self.tokens["tautologies"]:
                 no_consecutive_invalid_tokens = False  # Penalize for consecutive tautologies
                 error_penalty += 1
-            if payload_tokens[i] in self.tokens["escape_chars"] and payload_tokens[i + 1] in self.tokens[
-                "escape_chars"]:
+            if (payload_tokens[i] in self.tokens["escape_chars"]
+                    and payload_tokens[i + 1] in self.tokens["escape_chars"]):
                 no_consecutive_invalid_tokens = False  # Penalize for consecutive escape characters
                 error_penalty += 1
 
@@ -159,7 +160,7 @@ class SQLiEnv(gym.Env):
                 no_consecutive_invalid_tokens = False  # Penalize empty parentheses () or )(
                 error_penalty += 1
 
-            if ((payload_tokens[i] in self.tokens["functions"] and payload_tokens[i + 1] in self.tokens[
+            if ((payload_tokens[i] in self.tokens["int_functions"] and payload_tokens[i + 1] in self.tokens[
                 "tautologies"])
                     or
                     (payload_tokens[i] in self.tokens["tautologies"] and payload_tokens[i + 1] in self.tokens["ints"])
@@ -167,9 +168,9 @@ class SQLiEnv(gym.Env):
                     (payload_tokens[i] in self.tokens["ints"] and payload_tokens[i + 1] in self.tokens["tautologies"])
                     or (payload_tokens[i] in self.tokens["escape_chars"]
                         and payload_tokens[i + 1] in self.tokens["tautologies"])
-                    or (
-                            payload_tokens[i] in self.tokens["escape_chars"] and payload_tokens[i + 1] in self.tokens[
-                        "ints"])):
+                    or
+                    (payload_tokens[i] in self.tokens["escape_chars"]
+                     and payload_tokens[i + 1] in self.tokens["ints"])):
                 no_consecutive_invalid_tokens = False  # Penalize invalid sequences of functions, tautologies,
                 # and integers
                 # 1 1=1
@@ -182,18 +183,31 @@ class SQLiEnv(gym.Env):
                 no_consecutive_invalid_tokens = False  # Penalize consecutive integers
                 error_penalty += 1
 
-            if (payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens["ints"]
-                    or payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens[
-                        "tautologies"]):
-                no_consecutive_invalid_tokens = False  # Penalize using int or tautologies after operator
+            if ((payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] not in self.tokens[
+                "tautologies"])
+                    or (payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] != "(")):
+                no_consecutive_invalid_tokens = False  # Penalize using operator not followed by tautology or (
                 error_penalty += 1
 
-            if payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens["comments"]:
-                no_consecutive_invalid_tokens = False  # Penalize if operators are used before comments
+            if ((payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens["comments"])
+                    or
+                    (payload_tokens[i] in self.tokens["int_functions"]
+                     and payload_tokens[i + 1] in self.tokens["comments"])):
+                no_consecutive_invalid_tokens = False
+                error_penalty += 1  # Penalize if operators or int functions are used right before comments
+
+            if payload_tokens[i] in self.tokens["int_functions"] and payload_tokens[i + 1] not in self.tokens["ints"]:
+                no_consecutive_invalid_tokens = False  # Penalize if int functions are not followed by integers
                 error_penalty += 1
 
             used_tokens.add(payload_tokens[i])
         used_tokens.add(payload_tokens[-1])
+
+        # Ensure one ( always has another associated ) after it
+        # Warning we can have more closing ) than opening ( because of potential escape at the beginning
+        if payload_tokens.count("(") > payload_tokens.count(")"):
+            no_consecutive_invalid_tokens = False
+            error_penalty += 1
 
         if no_consecutive_invalid_tokens:
             space[2] = 1
