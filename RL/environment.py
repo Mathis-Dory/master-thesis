@@ -137,24 +137,20 @@ class SQLiEnv(gym.Env):
         used_tokens = set()  # Track used tokens for diversity reward
 
         no_consecutive_invalid_tokens = True
-        error_penalty = 0 # Used to proportionally increase the penalty depending on the number of errors
+        error_penalty = 0  # Used to proportionally increase the penalty depending on the number of errors
         for i in range(len(payload_tokens) - 1):
             if payload_tokens[i] in self.tokens["operators"] and payload_tokens[i + 1] in self.tokens["operators"]:
-                space[2] = 0  # Penalize for consecutive operators
-                no_consecutive_invalid_tokens = False
+                no_consecutive_invalid_tokens = False  # Penalize for consecutive operators
                 error_penalty += 1
             if payload_tokens[i] in self.tokens["functions"] and payload_tokens[i + 1] in self.tokens["functions"]:
-                space[2] = 0  # Penalize for consecutive functions
-                no_consecutive_invalid_tokens = False
+                no_consecutive_invalid_tokens = False  # Penalize for consecutive functions
                 error_penalty += 1
             if payload_tokens[i] in self.tokens["tautologies"] and payload_tokens[i + 1] in self.tokens["tautologies"]:
-                space[2] = 0  # Penalize for consecutive tautologies
-                no_consecutive_invalid_tokens = False
+                no_consecutive_invalid_tokens = False  # Penalize for consecutive tautologies
                 error_penalty += 1
             if payload_tokens[i] in self.tokens["escape_chars"] and payload_tokens[i + 1] in self.tokens[
                 "escape_chars"]:
-                space[2] = 0  # Penalize for consecutive escape characters
-                no_consecutive_invalid_tokens = False
+                no_consecutive_invalid_tokens = False  # Penalize for consecutive escape characters
                 error_penalty += 1
 
             if ((payload_tokens[i] == "(" and payload_tokens[i + 1] == ")")
