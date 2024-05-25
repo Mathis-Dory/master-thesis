@@ -26,9 +26,6 @@ class CustomLoggingCallback(BaseCallback):
         self.last_save_time = self.start_time  # Record the last save time
         self.observation_labels = [
             "exploit_char_used",
-            "exploit_char_beginning",
-            "no_weird_pattern",
-            "odd_escape_char_count",
             "query_valid",
             "data_found",
             "flag_found",
@@ -112,7 +109,11 @@ class CustomLoggingCallback(BaseCallback):
         for i, label in enumerate(self.observation_labels):
             plt.plot(
                 range(len(self.success_rates_per_observation)),
-                [obs[i] for obs in self.success_rates_per_observation],
+                [
+                    obs[i]
+                    for obs in self.success_rates_per_observation
+                    if len(obs) > i
+                ],
                 label=label,
             )
         plt.xlabel("Observation Steps")
@@ -153,7 +154,7 @@ class CustomLoggingCallback(BaseCallback):
                 plt.figure(figsize=(12, 8))
                 plt.plot(
                     range(len(self.observations)),
-                    [obs[0][i] for obs in self.observations],
+                    [obs[0][i] for obs in self.observations if len(obs[0]) > i],
                     label=label,
                 )
                 plt.xlabel("Steps")
