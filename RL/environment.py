@@ -104,6 +104,7 @@ class SQLiEnv(gym.Env):
             grammar = cfg_phase3
             action_index = int(action[0] * (len(list(generate(grammar, n=10))) - 1))
             clause = ' '.join(list(generate(grammar, n=10))[action_index])
+
             # Extract parentheses and comment part from the stored parentheses_structure
             match = re.search(r"(\)+)\s*(--|#|/\*)", self.parentheses_structure)
             if match:
@@ -112,9 +113,12 @@ class SQLiEnv(gym.Env):
                 num_parentheses = len(parentheses)
                 parts = clause.split()
 
-                # Determine valid insertion points for parentheses
-                valid_insertion_points = [i for i in range(len(parts)) if
-                                          parts[i] in ["OR", "AND", "LIMIT", "OFFSET", "ORDER", "BY"]]
+                # Identify CFG tokens by parsing the grammar
+                cfg_tokens = self.extract_tokens_from_grammar(grammar)
+
+                # Determine valid insertion points for parentheses, avoiding CFG tokens
+                valid_insertion_points = self.get_valid_insertion_points(parts, cfg_tokens)
+
                 if not valid_insertion_points:
                     valid_insertion_points = [0]
 
@@ -122,15 +126,16 @@ class SQLiEnv(gym.Env):
                 if group_parentheses:
                     split_index = int(action[2] * len(valid_insertion_points))  # Choose a split index based on action
                     if split_index < len(valid_insertion_points):
-                        parts.insert(valid_insertion_points[split_index] + 1,
+                        parts.insert(valid_insertion_points[split_index],
                                      parentheses)  # Insert all parentheses at the chosen index
                 else:
                     # Distribute parentheses based on action indices
                     split_indices = sorted(
-                        [int(action[i + 2] * len(valid_insertion_points)) for i in range(num_parentheses)])
+                        [int(action[i + 2] * len(valid_insertion_points)) for i in range(num_parentheses)]
+                    )
                     for i, index in enumerate(split_indices):
                         if index < len(valid_insertion_points):
-                            parts.insert(valid_insertion_points[index] + 1 + i,
+                            parts.insert(valid_insertion_points[index] + i,
                                          ')')  # Insert parentheses at chosen indices
 
                 clause_with_parentheses = ' '.join(parts)
@@ -145,6 +150,39 @@ class SQLiEnv(gym.Env):
 
         return payload
 
+    def extract_tokens_from_grammar(self, grammar):
+        """
+        Extract all tokens from the given CFG grammar.
+
+        :param grammar: The CFG grammar to extract tokens from.
+        :return: A set of CFG tokens.
+        """
+        tokens = set()
+        for production in grammar.productions():
+            rhs = production.rhs()
+            for symbol in rhs:
+                if isinstance(symbol, str):
+                    tokens.add(symbol)
+        return tokens
+
+    def get_valid_insertion_points(self, parts, tokens):
+        """
+        Get valid insertion points for parentheses, avoiding splitting CFG tokens.
+
+        :param parts: The list of parts of the clause.
+        :param tokens: The set of CFG tokens to avoid splitting.
+        :return: A list of valid insertion points.
+        """
+        valid_insertion_points = []
+        for i in range(len(parts) + 1):
+            if i < len(parts):
+                if parts[i] in tokens:
+                    continue
+            if i > 0:
+                if parts[i - 1] in tokens:
+                    continue
+            valid_insertion_points.append(i)
+        return valid_insertion_points
 
     def step(self, action: ArrayLike) -> (ArrayLike, float, bool, bool, dict):
         """
