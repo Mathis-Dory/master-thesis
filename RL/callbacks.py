@@ -14,29 +14,22 @@ class CustomLoggingCallback(BaseCallback):
         self.successes = 0
         self.episodes = 0
         self.success_rates = []
-        self.success_rates_per_observation = []
         self.payloads = []
         self.observations = []
         self.rewards = []
+        self.step_rewards = []
+        self.current_episode_length = 0
         self.image_dir = "images"
         os.makedirs(self.image_dir, exist_ok=True)
         self.save_path = save_path
         os.makedirs(self.save_path, exist_ok=True)
         self.start_time = time.time()  # Record the start time
         self.last_save_time = self.start_time  # Record the last save time
-        self.observation_labels = [
-            "exploit_char_used",
-            "query_valid",
-            "data_found",
-            "flag_found",
-        ]
 
     def _on_step(self) -> bool:
         if self.n_calls % 100 == 0:
             env = self.training_env.envs[0].env
-            payload = (
-                env.last_payload
-            )  # Access the last payload generated in the environment
+            payload = env.last_payload
 
             print(f"Step {self.n_calls}")
             print(f"Current Reward: {self.locals['rewards']}")
@@ -47,11 +40,20 @@ class CustomLoggingCallback(BaseCallback):
             self.observations.append(self.locals["new_obs"])
             self.rewards.append(self.locals["rewards"])
 
+        self.step_rewards.append(self.locals["rewards"][0])
+        self.current_episode_length += 1
+
         if (
             self.locals.get("dones", [False])[0]
             or self.locals.get("truncated", [False])[0]
         ):
             self.episodes += 1
+            episode_reward = np.sum(
+                self.step_rewards[-self.current_episode_length :]
+            )
+            self.episode_rewards.append(episode_reward)
+            self.episode_lengths.append(self.current_episode_length)
+
             if (
                 self.locals["rewards"][0] > 0
             ):  # Assuming a positive reward indicates success
@@ -60,11 +62,10 @@ class CustomLoggingCallback(BaseCallback):
                 self.successes / self.episodes if self.episodes > 0 else 0
             )
             self.success_rates.append(success_rate)
-            self.success_rates_per_observation.append(
-                self.locals["new_obs"][0]
-            )  # Record success rate per observation
+            self.current_episode_length = (
+                0  # Reset current episode length for the next episode
+            )
 
-        # Every 100,000 steps, measure the time taken and save the model
         if self.n_calls % 100000 == 0:
             current_time = time.time()
             elapsed_time = current_time - self.last_save_time
@@ -78,24 +79,29 @@ class CustomLoggingCallback(BaseCallback):
 
         return True
 
-    def _on_rollout_end(self) -> None:
-        rollout_rewards = np.sum(self.locals["rewards"])
-        rollout_length = len(self.locals["rewards"])
-        self.episode_rewards.append(rollout_rewards)
-        self.episode_lengths.append(rollout_length)
-
     def _on_training_end(self) -> None:
         total_training_time = (
             time.time() - self.start_time
         )  # Calculate total training time
         print("Training finished.")
         print(f"Total Training Time: {total_training_time:.2f} seconds")
-        print(f"Average Episode Reward: {np.mean(self.episode_rewards)}")
-        print(f"Average Episode Length: {np.mean(self.episode_lengths)}")
+
+        if len(self.episode_rewards) > 0:
+            avg_episode_reward = np.mean(self.episode_rewards)
+        else:
+            avg_episode_reward = 0.0
+
+        if len(self.episode_lengths) > 0:
+            avg_episode_length = np.mean(self.episode_lengths)
+        else:
+            avg_episode_length = 0.0
+
+        print(f"Average Episode Reward: {avg_episode_reward}")
+        print(f"Average Episode Length: {avg_episode_length}")
 
         # Plot success rate over episodes
         episodes = range(1, self.episodes + 1)
-        plt.figure(figsize=(12, 8))  # Increase the figure size
+        plt.figure(figsize=(12, 8))
         plt.plot(episodes, self.success_rates, label="Success Rate")
         plt.xlabel("Episodes")
         plt.ylabel("Success Rate")
@@ -104,70 +110,35 @@ class CustomLoggingCallback(BaseCallback):
         plt.savefig(os.path.join(self.image_dir, "success_rate.png"))
         plt.close()
 
-        # Plot success rates for every observation
-        plt.figure(figsize=(12, 8))  # Increase the figure size
-        for i, label in enumerate(self.observation_labels):
-            plt.plot(
-                range(len(self.success_rates_per_observation)),
-                [
-                    obs[i]
-                    for obs in self.success_rates_per_observation
-                    if len(obs) > i
-                ],
-                label=label,
-            )
-        plt.xlabel("Observation Steps")
-        plt.ylabel("Success Rate")
-        plt.title("Success Rate per Observation")
-        plt.legend(fontsize="small")  # Reduce the font size of the legend
-
-        # Ensure there's enough data to plot
-        if len(self.success_rates_per_observation) > 0:
-            # Set the x-axis scale to represent every 50,000 steps
-            plt.xticks(
-                ticks=np.arange(
-                    0, len(self.success_rates_per_observation), 50000
-                ),
-                labels=np.arange(
-                    0, len(self.success_rates_per_observation), 50000
-                ),
-            )
-
-        # Save the plot to a file
-        plt.savefig(
-            os.path.join(self.image_dir, "success_rate_per_observation.png")
-        )
+        # Plot episode rewards over time
+        plt.figure(figsize=(12, 8))
+        plt.plot(episodes, self.episode_rewards, label="Episode Rewards")
+        plt.xlabel("Episodes")
+        plt.ylabel("Rewards")
+        plt.title("Episode Rewards over Episodes")
+        plt.legend()
+        plt.savefig(os.path.join(self.image_dir, "episode_rewards.png"))
         plt.close()
 
-        # Plot the last payloads and observations
-        if self.payloads:
-            plt.figure(figsize=(12, 8))
-            plt.plot(range(len(self.payloads)), self.rewards, label="Rewards")
-            plt.xlabel("Steps")
-            plt.ylabel("Reward")
-            plt.title("Rewards over Time")
-            plt.legend()
-            plt.savefig(os.path.join(self.image_dir, "rewards_over_time.png"))
-            plt.close()
+        # Plot episode lengths over time
+        plt.figure(figsize=(12, 8))
+        plt.plot(episodes, self.episode_lengths, label="Episode Lengths")
+        plt.xlabel("Episodes")
+        plt.ylabel("Length")
+        plt.title("Episode Lengths over Episodes")
+        plt.legend()
+        plt.savefig(os.path.join(self.image_dir, "episode_lengths.png"))
+        plt.close()
 
-            for i, label in enumerate(self.observation_labels):
-                plt.figure(figsize=(12, 8))
-                plt.plot(
-                    range(len(self.observations)),
-                    [obs[0][i] for obs in self.observations if len(obs[0]) > i],
-                    label=label,
-                )
-                plt.xlabel("Steps")
-                plt.ylabel(label)
-                plt.title(f"{label} over Time")
-                plt.legend()
-                plt.savefig(
-                    os.path.join(
-                        self.image_dir,
-                        f"{label.lower().replace(' ', '_')}_over_time.png",
-                    )
-                )
-                plt.close()
+        # Plot rewards over time
+        plt.figure(figsize=(12, 8))
+        plt.plot(range(len(self.rewards)), self.rewards, label="Rewards")
+        plt.xlabel("Steps")
+        plt.ylabel("Reward")
+        plt.title("Rewards over Time")
+        plt.legend()
+        plt.savefig(os.path.join(self.image_dir, "rewards_over_time.png"))
+        plt.close()
 
         # Save payloads and observations to a text file
         with open(
