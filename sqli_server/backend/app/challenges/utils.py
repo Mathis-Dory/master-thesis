@@ -261,7 +261,7 @@ def add_quotes(payload) -> str:
     """
     Add quotes around the payload
     :param payload: to add quotes
-    :return: The payload with or without quotes
+    :return: The payload with added quotes
     """
     quotes = random.choice(["'", '"'])
     if quotes == "'":
@@ -271,7 +271,8 @@ def add_quotes(payload) -> str:
         and current_app.config["INIT_DATA"]["DBMS"] != "postgres:latest"
     ):
         return f'"{payload}"'
-    return payload
+
+    return f"'{payload}'"  # Default to single quotes
 
 
 def add_parenthesis(payload) -> str:
