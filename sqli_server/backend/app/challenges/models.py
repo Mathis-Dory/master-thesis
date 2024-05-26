@@ -272,10 +272,6 @@ def populate_model(model: Base, num_entries: int, faker: Faker) -> None:
             )
             return
         session.add(entry)
-    amount_admin = random.randint(0, 2)
-    for _ in range(amount_admin):
-        entry = AuthBypass(username=Faker().user_name(), password=Faker().password())
-        session.add(entry)
     session.commit()
 
 
@@ -285,6 +281,7 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
     :param templates: List of templates
     :param flags: List of flags
     """
+    session = get_session()
     faker = Faker(["en_US"])
     Faker.seed(current_app.config["SEED"])
     tables = [
@@ -318,7 +315,13 @@ def populate_db(templates: List[str], flags: List[str]) -> None:
     for model in selected_tables:
         num_entries = random.randint(500, 1000)
         populate_model(model, num_entries, faker)
-
+    amount_admin = random.randint(0, 5)  # Insert between 0 and 5 admin accounts
+    for _ in range(amount_admin):
+        entry = AuthBypass(
+            username=Faker().user_name(), password=Faker().password()
+        )
+        session.add(entry)
+    session.commit()
     insert_flags(selected_tables, templates, flags)
     logging.info("Random data and flags inserted.")
     logging.info("Generating default queries ...")
