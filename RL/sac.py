@@ -21,15 +21,15 @@ action_noise = NormalActionNoise(
     mean=np.zeros(n_actions), sigma=0.1 * np.ones(n_actions)
 )
 
-# Instantiate the model with modified parameters for increased exploration
+# Instantiate the model with a learning rate scheduler
 model = SAC(
     MlpPolicy,
     env,
     verbose=1,
     seed=seed,
     device="cpu",
-    learning_rate=0.0003,  # Adjust the learning rate as needed
-    buffer_size=1000000,  # Increase the replay buffer size
+    learning_rate=0.0003,
+    buffer_size=1000000,
     action_noise=action_noise,  # Add action noise for exploration
     ent_coef="auto_1.0",  # Adjust the temperature parameter for entropy
 )

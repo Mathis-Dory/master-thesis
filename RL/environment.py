@@ -41,7 +41,7 @@ sql_grammar_phase3 = """
 S -> CLAUSE
 CLAUSE -> SIMPLE_CLAUSE | SIMPLE_CLAUSE OPERATION
 SIMPLE_CLAUSE -> " OR 1=1" | " AND 1=1" | " OR 'a'='a'" | " AND 'a'='a'"
-OPERATION -> " LIMIT " NUMBER " OFFSET " NUMBER | " ORDER BY " COLUMN
+OPERATION -> " LIMIT 1 OFFSET " NUMBER | " ORDER BY " COLUMN
 NUMBER -> "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 COLUMN -> "1" | "2" | "3" | "4" | "5"
 """
@@ -68,6 +68,7 @@ class SQLiEnv(gym.Env):
         self.parentheses_structure = ""  # Store the valid parenthesis structure
         self.step_count = 0  # Track the number of steps in the current episode
         self.max_steps_per_episode = 20000  # Maximum steps per episode
+        self.visited_payloads = set()  # Track visited payloads for intrinsic reward
 
         # Define the action and observation spaces
         self.action_space = spaces.Box(low=0, high=1, shape=(25,), dtype=np.float32)
@@ -107,7 +108,7 @@ class SQLiEnv(gym.Env):
             match = re.search(r"(\)+)\s*(--|#|/\*)", self.parentheses_structure)
             if match:
                 parentheses = match.group(1)
-                comment = match.group(2)
+                match.group(2).strip() + " "
                 num_parentheses = len(parentheses)
                 parts = clause.split()
 
@@ -123,10 +124,13 @@ class SQLiEnv(gym.Env):
                         parts.insert(index + i, ')')  # Insert parentheses at chosen indices
 
                 clause_with_parentheses = ' '.join(parts)
-                payload = f"{self.exploit_char} {clause_with_parentheses} {comment}"
+                payload = f"{self.exploit_char} {clause_with_parentheses}".strip()
             else:
-                payload = f"{self.exploit_char} {clause} {self.parentheses_structure.split()[-1]}"  # Use the correct
-                # comment
+                payload = f"{self.exploit_char} {clause}".strip()  # Default fallback
+
+            # Append the comment at the end without escape character
+            payload = f"{payload} {self.parentheses_structure.split()[-1].strip()}"
+
         return payload
 
     def step(self, action: ArrayLike) -> (ArrayLike, float, bool, bool, dict):
@@ -189,13 +193,15 @@ class SQLiEnv(gym.Env):
         self.exploit_char = ""
         self.parentheses_structure = ""
         self.step_count = 0  # Reset step count for new episode
+        self.visited_payloads = set()  # Reset visited payloads
         if NUM_CHALLENGES > 1:
             self.current_challenge_id = (self.current_challenge_id % NUM_CHALLENGES) + 1
         self.session.get("http://localhost:5959/reset")
         initial_observation = np.zeros(self.observation_space.shape)  # Initialize the state properly
         return initial_observation, {}
 
-    def analyze_response(self, response_text: str, payload: str, response_status: int, response_get: Response) -> (ArrayLike, float, bool, bool):
+    def analyze_response(self, response_text: str, payload: str, response_status: int, response_get: Response) -> (
+            ArrayLike, float, bool, bool):
         """
         Analyze the response from the server to determine the new state and reward.
 
@@ -210,7 +216,8 @@ class SQLiEnv(gym.Env):
         truncated = False
         return state, reward, done, truncated
 
-    def set_flags(self, payload: str, response_text: str, response_status: int, response_get: Response) -> (ArrayLike, float):
+    def set_flags(self, payload: str, response_text: str, response_status: int, response_get: Response) -> (
+            ArrayLike, float):
         """
         Set the flags for the current state based on the response from the server.
 
@@ -279,6 +286,11 @@ class SQLiEnv(gym.Env):
 
         if space == [1, 1, 1, 1]:
             reward = -1  # High reward for finding the flag
+
+        # Intrinsic reward for new payloads
+        if payload not in self.visited_payloads:
+            reward += 10  # Small intrinsic reward for trying new payloads
+            self.visited_payloads.add(payload)
 
         return reward
 
