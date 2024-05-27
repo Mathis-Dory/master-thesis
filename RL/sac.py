@@ -38,7 +38,7 @@ model = SAC(
 callback = CustomLoggingCallback()
 
 # Train the model for a specified number of time steps
-total_timesteps = 20000  # Total number of interactions with the server
+total_timesteps = 2000000  # Total number of interactions with the server
 
 model.learn(
     total_timesteps=total_timesteps, callback=callback, log_interval=2500

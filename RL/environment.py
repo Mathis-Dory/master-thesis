@@ -135,17 +135,17 @@ class SQLiEnv(gym.Env):
                     )
                     for i, index in enumerate(split_indices):
                         if index < len(valid_insertion_points):
-                            parts.insert(valid_insertion_points[index] + i,
-                                         ')')  # Insert parentheses at chosen indices
+                            parts.insert(valid_insertion_points[index] + i, ')')
+                            # Insert parentheses at chosen indices
 
                 clause_with_parentheses = ' '.join(parts)
                 payload = f"{self.exploit_char} {clause_with_parentheses}".strip()
             else:
                 # No valid parentheses structure found, generate payload without escape character before comment
                 payload = f"{self.exploit_char} {clause}".strip()
+                # remove the exploit char in the parentheses structure
+                comment = self.parentheses_structure.replace(self.exploit_char, "")
 
-            # Always append the comment at the end
-            comment = self.parentheses_structure.split()[-1].strip() if self.parentheses_structure else "--"
             payload = f"{payload} {comment}"
 
         return payload
@@ -278,7 +278,7 @@ class SQLiEnv(gym.Env):
         :param response_get: The initial GET response.
         :return: A tuple containing the new state and reward.
         """
-        flag_pattern = rf"flag_{self.current_challenge_id}\{{[^}}]+}}"
+        flag_pattern = rf"flag_challenge_{self.current_challenge_id}\{{[^}}]+}}"
         space = [0, 0, 0, 0]
         # Observation space: [exploit_char_used, query_valid, data_found, flag_found]
 
@@ -300,6 +300,7 @@ class SQLiEnv(gym.Env):
         if re.search(flag_pattern, response_text):
             space[2] = 1  # Data found
             space[3] = 1  # Flag found
+            print(f"Flag found: {re.search(flag_pattern, response_text).group()}")
 
         reward = self.set_reward(space, payload)
         return space, reward
