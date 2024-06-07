@@ -67,13 +67,12 @@ class SQLiEnv(gym.Env):
         self.found_parenthesis_structure = False  # Flag for finding the parenthesis structure
         self.parentheses_structure = ""  # Store the valid parenthesis structure
         self.step_count = 0  # Track the number of steps in the current episode
-        self.max_steps_per_episode = 50000  # Maximum steps per episode
-        self.visited_payloads = set()  # Track visited payloads for intrinsic reward
+        self.max_steps_per_episode = 500  # Maximum steps per episode
 
         # Define the action and observation spaces
-        self.action_space = spaces.Box(low=0, high=1, shape=(25,), dtype=np.float32)
-        self.observation_space = spaces.Box(low=0, high=1, shape=(4,), dtype=np.float32)
-        # Observation space: [exploit_char_used, query_valid, data_found, flag_found]
+        self.action_space = spaces.Box(low=0, high=1, shape=(26,), dtype=np.float32)
+        self.observation_space = spaces.Box(low=0, high=1, shape=(3,), dtype=np.float32)
+        # Observation space: [query_valid, data_found, flag_found]
 
         # Set up a session with retries
         self.session = requests.Session()
@@ -88,11 +87,16 @@ class SQLiEnv(gym.Env):
         :param action: The action taken by the agent.
         :return: The generated SQL injection payload.
         """
+        action = np.clip(action, 0, 1)  # Clip the action values to [0, 1]
+
         if phase == 1:
+            # Phase 1: Finding the escape character and comment type
             grammar = cfg_phase1
             action_index = int(action[0] * (len(list(generate(grammar, n=10))) - 1))
             payload = ' '.join(list(generate(grammar, n=10))[action_index])
+
         elif phase == 2:
+            # Phase 2: Finding the valid parentheses structure
             grammar = cfg_phase2
             action_index = int(action[0] * (len(list(generate(grammar, n=10))) - 1))
             parenthesis_payload = ' '.join(list(generate(grammar, n=10))[action_index])
@@ -100,7 +104,9 @@ class SQLiEnv(gym.Env):
                 payload = f"{self.exploit_char} {parenthesis_payload.split()[1]}"
             else:
                 payload = f"{self.exploit_char} {parenthesis_payload}"
+
         else:
+            # Phase 3: Crafting the full SQL injection payload
             grammar = cfg_phase3
             action_index = int(action[0] * (len(list(generate(grammar, n=10))) - 1))
             clause = ' '.join(list(generate(grammar, n=10))[action_index])
@@ -218,8 +224,8 @@ class SQLiEnv(gym.Env):
             response = self.session.post(f"{self.base_url}{self.current_challenge_id}", data=data, timeout=30)
             end_time = time.time()
 
-            state, reward, done, truncated = self.analyze_response(response.text, payload, response.status_code,
-                                                                   response_get)
+            state, reward, done = self.analyze_response(response.text, payload, response.status_code,
+                                                        response_get)
         except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
             logging.error(f"Connection failed: {e}")
             state, reward, done, truncated = np.zeros(self.observation_space.shape), -1000, False, False
@@ -227,6 +233,8 @@ class SQLiEnv(gym.Env):
         # Check if episode should be truncated due to reaching the max steps
         if self.step_count >= self.max_steps_per_episode:
             truncated = True
+        else:
+            truncated = False
 
         info = {"response_time": end_time - start_time}
 
@@ -244,7 +252,6 @@ class SQLiEnv(gym.Env):
         self.exploit_char = ""
         self.parentheses_structure = ""
         self.step_count = 0  # Reset step count for new episode
-        self.visited_payloads = set()  # Reset visited payloads
         if NUM_CHALLENGES > 1:
             self.current_challenge_id = (self.current_challenge_id % NUM_CHALLENGES) + 1
         self.session.get("http://localhost:5959/reset")
@@ -260,12 +267,11 @@ class SQLiEnv(gym.Env):
         :param payload: The payload sent to the server.
         :param response_status: The HTTP status code of the response.
         :param response_get: The initial GET response.
-        :return: A tuple containing the new state, reward, done flag, and truncated flag.
+        :return: A tuple containing the new state, reward, done flag.
         """
         state, reward = self.set_flags(payload, response_text, response_status, response_get)
         done = all(state)
-        truncated = False
-        return state, reward, done, truncated
+        return state, reward, done
 
     def set_flags(self, payload: str, response_text: str, response_status: int, response_get: Response) -> (
             ArrayLike, float):
@@ -279,14 +285,11 @@ class SQLiEnv(gym.Env):
         :return: A tuple containing the new state and reward.
         """
         flag_pattern = rf"flag_challenge_{self.current_challenge_id}\{{[^}}]+}}"
-        space = [0, 0, 0, 0]
-        # Observation space: [exploit_char_used, query_valid, data_found, flag_found]
-
-        if self.exploit_char in payload or self.exploit_char * 2 in payload:
-            space[0] = 1  # Exploit character used somewhere in the payload
+        space = [0, 0, 0]
+        # Observation space: [query_valid, data_found, flag_found]
 
         if response_status == 200:
-            space[1] = 1  # Query is valid
+            space[0] = 1  # Query is valid
             if not self.found_parenthesis_structure and self.exploit_char_found:
                 self.found_parenthesis_structure = True
                 self.parentheses_structure = payload  # Store the valid parenthesis structure
@@ -295,11 +298,11 @@ class SQLiEnv(gym.Env):
         # Successful bypass of the password check
         if (response_status == 200 and ("wrong" or "fail") not in response_text.lower()
                 and len(response_text) != len(response_get.text)):
-            space[2] = 1  # Data found
+            space[1] = 1  # Data found
 
         if re.search(flag_pattern, response_text):
-            space[2] = 1  # Data found
-            space[3] = 1  # Flag found
+            space[1] = 1  # Data found
+            space[2] = 1  # Flag found
             print(f"Flag found: {re.search(flag_pattern, response_text).group()}")
 
         reward = self.set_reward(space, payload)
@@ -315,34 +318,26 @@ class SQLiEnv(gym.Env):
         """
         reward = 0
 
-        # Observation space: [exploit_char_used, query_valid, data_found, flag_found]
+        # Observation space: [query_valid, data_found, flag_found]
 
         if space[0] == 0:
-            reward -= 1000  # Penalty for not using the exploit character (very bad)
-
-        if space[1] == 0:
             if not self.exploit_char_found:
-                reward -= 20  # Penalty for not finding the exploit character by crashing the server
+                reward -= 20  # Penalty for finding the exploit character by crashing the server
                 self.exploit_char_found = True
                 self.exploit_char = payload[0]  # Set the first character as the escape character
                 print(f"Exploit character found: {self.exploit_char}")
             else:
-                reward -= 60  # Penalty for crashing the server if we already found the exploit character
+                reward -= 300  # Penalty for crashing the server if we already found the exploit character
                 # (bad but ok because of the exploration)
 
-        if space[2] == 0:
-            reward -= 40  # Penalty for not finding any data (bad)
+        if space[1] == 0:
+            reward -= 150  # Penalty for not finding any data (bad)
 
-        if space[2] == 1 and space != [1, 1, 1, 1]:
-            reward -= 15  # Small penalty for bypassing the password check but not the good one
+        if space[1] == 1 and space != [1, 1, 1]:
+            reward -= 50  # Small penalty for bypassing the password check but not the good one
 
-        if space == [1, 1, 1, 1]:
+        if space == [1, 1, 1]:
             reward = -1  # High reward for finding the flag
-
-        # Intrinsic reward for new payloads
-        if payload not in self.visited_payloads:
-            reward += 10  # Small intrinsic reward for trying new payloads
-            self.visited_payloads.add(payload)
 
         return reward
 
