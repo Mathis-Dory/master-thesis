@@ -112,15 +112,11 @@ class CustomLoggingCallback(BaseCallback):
         plt.figure(figsize=(12, 8))
         plt.plot(range(len(self.rewards)), self.rewards, label="Rewards")
         # Add red dots at episode end steps
-        valid_episode_end_steps = [step for step in self.episode_end_steps if step < len(self.rewards)]
+        valid_episode_end_steps = [step for step in self.episode_end_steps]
         plt.scatter(valid_episode_end_steps, [self.rewards[i] for i in valid_episode_end_steps], color='red',
                     label="Episode End")
         # Add red line between red points
         plt.plot(valid_episode_end_steps, [self.rewards[i] for i in valid_episode_end_steps], 'r-')
-        # Extend the line to the end of the training
-        if valid_episode_end_steps and valid_episode_end_steps[-1] < len(self.rewards) - 1:
-            plt.plot([valid_episode_end_steps[-1], len(self.rewards) - 1],
-                     [self.rewards[valid_episode_end_steps[-1]], self.rewards[-1]], 'r-')
         plt.xlabel("Steps")
         plt.ylabel("Reward")
         plt.title("Rewards over Steps")
