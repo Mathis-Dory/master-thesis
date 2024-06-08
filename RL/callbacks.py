@@ -4,6 +4,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from stable_baselines3.common.callbacks import BaseCallback
 
+
 class CustomLoggingCallback(BaseCallback):
     def __init__(self, verbose=0, save_path="models"):
         super(CustomLoggingCallback, self).__init__(verbose)
@@ -40,7 +41,7 @@ class CustomLoggingCallback(BaseCallback):
             self.observations.append(self.locals["new_obs"])
             self.rewards.append(self.locals["rewards"][0])
 
-        self.rewards.append(self.locals["rewards"][0])  # Ensure this is updated every step
+        self.rewards.append(self.locals["rewards"][0])
         self.step_rewards.append(self.locals["rewards"][0])
         self.current_episode_length += 1
 
@@ -112,7 +113,8 @@ class CustomLoggingCallback(BaseCallback):
         plt.plot(range(len(self.rewards)), self.rewards, label="Rewards")
         # Add red dots at episode end steps
         valid_episode_end_steps = [step for step in self.episode_end_steps if step < len(self.rewards)]
-        plt.scatter(valid_episode_end_steps, [self.rewards[i] for i in valid_episode_end_steps], color='red', label="Episode End")
+        plt.scatter(valid_episode_end_steps, [self.rewards[i] for i in valid_episode_end_steps], color='red',
+                    label="Episode End")
         # Add red line between red points
         plt.plot(valid_episode_end_steps, [self.rewards[i] for i in valid_episode_end_steps], 'r-')
         # Extend the line to the end of the training
@@ -166,4 +168,3 @@ class CustomLoggingCallback(BaseCallback):
             self.rewards,
             delimiter=",",
         )
-

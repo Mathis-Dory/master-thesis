@@ -67,10 +67,10 @@ class SQLiEnv(gym.Env):
         self.found_parenthesis_structure = False  # Flag for finding the parenthesis structure
         self.parentheses_structure = ""  # Store the valid parenthesis structure
         self.step_count = 0  # Track the number of steps in the current episode
-        self.max_steps_per_episode = 500  # Maximum steps per episode
+        self.max_steps_per_episode = 10000  # Maximum steps per episode
 
         # Define the action and observation spaces
-        self.action_space = spaces.Box(low=0, high=1, shape=(26,), dtype=np.float32)
+        self.action_space = spaces.Box(low=0, high=1, shape=(10,), dtype=np.float32)
         self.observation_space = spaces.Box(low=0, high=1, shape=(3,), dtype=np.float32)
         # Observation space: [query_valid, data_found, flag_found]
 

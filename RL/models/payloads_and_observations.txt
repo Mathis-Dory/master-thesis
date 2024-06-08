@@ -1,0 +1,10000 @@
+Step 0:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 1:
+Payload: '  AND 'a'='a'  # 
+Observation: [[1. 0. 0.]]
+Reward: -170.0
+
+Step 2:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 3:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 4:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 5:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 6:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 7:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  0  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 8:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 9:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  0  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 10:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 11:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 12:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 13:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  0  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 14:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 15:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 16:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  0  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 17:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 18:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 19:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 20:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -1.0
+
+Step 21:
+Payload: '  AND 'a'='a'  # 
+Observation: [[1. 0. 0.]]
+Reward: -150.0
+
+Step 22:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 23:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 24:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 25:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 26:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 27:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  0  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 28:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 29:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 30:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 31:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -170.0
+
+Step 32:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 33:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -450.0
+
+Step 34:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 35:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 36:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 37:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 38:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 39:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 40:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 41:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 42:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 43:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  0  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 44:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 45:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 46:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 47:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 48:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 49:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 50:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 51:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 52:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 53:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 54:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 55:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 56:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 57:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 58:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 59:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 60:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 61:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 62:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 63:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 64:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 65:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 66:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 67:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 68:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 69:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 70:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 71:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 72:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 73:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 74:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 75:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 76:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 77:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 78:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 79:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 80:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 81:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 82:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 83:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 84:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 85:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 86:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 87:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 88:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 89:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 90:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 91:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 92:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  2  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 93:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  1  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 94:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 95:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 96:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 97:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  3  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 98:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 99:
+Payload: '  OR 1=1  LIMIT 1 OFFSET  4  # 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 100:
+Payload: ' OR )) 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 101:
+Payload: ' OR )) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 102:
+Payload: ' AND ) 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 103:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 104:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 105:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 106:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 107:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 108:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 109:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 110:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 111:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 112:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 113:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 114:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 115:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 116:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 117:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 118:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 119:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 120:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 121:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 122:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 123:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 124:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 125:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 126:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 127:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 128:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 129:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 130:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 131:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 132:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 133:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 134:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 135:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 136:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 137:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 138:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 139:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 140:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 141:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 142:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 143:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 144:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 145:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 146:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 147:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 148:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 149:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 150:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 151:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 152:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 153:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 154:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 155:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 156:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 157:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 158:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 159:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 160:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 161:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 162:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 163:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 164:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 165:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 166:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 167:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 168:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 169:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 170:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 171:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 172:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 173:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 174:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 175:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 176:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 177:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 178:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 179:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 180:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 181:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 182:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 183:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 184:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 185:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 186:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 187:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 188:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 189:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 190:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 191:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 192:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 193:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 194:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 195:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 196:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 197:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 198:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 199:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 200:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 201:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 202:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 203:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 204:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 205:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 206:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 207:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 208:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 209:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 210:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 211:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 212:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 213:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 214:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 215:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 216:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 217:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 218:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 219:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 220:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 221:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 222:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 223:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 224:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 225:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 226:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 227:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 228:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 229:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 230:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 231:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 232:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 233:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 234:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 235:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 236:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 237:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 238:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 239:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 240:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 241:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 242:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 243:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 244:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 245:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 246:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 247:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 248:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 249:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 250:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 251:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 252:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 253:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 254:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 255:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 256:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 257:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 258:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 259:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 260:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 261:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 262:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 263:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 264:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 265:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 266:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 267:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 268:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 269:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 270:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 271:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 272:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 273:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 274:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 275:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 276:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 277:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 278:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 279:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 280:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 281:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 282:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 283:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 284:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 285:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 286:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 287:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 288:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 289:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 290:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 291:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 292:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 293:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 294:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 295:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 296:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 297:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 298:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 299:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 300:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 301:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 302:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 303:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 304:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 305:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 306:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 307:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 308:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 309:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 310:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 311:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 312:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 313:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 314:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 315:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 316:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 317:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 318:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 319:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 320:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 321:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 322:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 323:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 324:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 325:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 326:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 327:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 328:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 329:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 330:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 331:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 332:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 333:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 334:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 335:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 336:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 337:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 338:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 339:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 340:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 341:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 342:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 343:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 344:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 345:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 346:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 347:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 348:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 349:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 350:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 351:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 352:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 353:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 354:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 355:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 356:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 357:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 358:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 359:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 360:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 361:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 362:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 363:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 364:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 365:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 366:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 367:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 368:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 369:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 370:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 371:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 372:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 373:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 374:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 375:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 376:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 377:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 378:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 379:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 380:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 381:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 382:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 383:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 384:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 385:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 386:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 387:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 388:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 389:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 390:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 391:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 392:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 393:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 394:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 395:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 396:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 397:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 398:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 399:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 400:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 401:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 402:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 403:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 404:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 405:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 406:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 407:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 408:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 409:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 410:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 411:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 412:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 413:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 414:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 415:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 416:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 417:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 418:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 419:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 420:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 421:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 422:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 423:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 424:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 425:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 426:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 427:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 428:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 429:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 430:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 431:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 432:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 433:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 434:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 435:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 436:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 437:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 438:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 439:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 440:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 441:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 442:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 443:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 444:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 445:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 446:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 447:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 448:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 449:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 450:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 451:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 452:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 453:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 454:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 455:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 456:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 457:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 458:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 459:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 460:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 461:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 462:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 463:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 464:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 465:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 466:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 467:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 468:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 469:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 470:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 471:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 472:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 473:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 474:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 475:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 476:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 477:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 478:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 479:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 480:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 481:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 482:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 483:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 484:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 485:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 486:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 487:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 488:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 489:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 490:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 491:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 492:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 493:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 494:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 495:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 496:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 497:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 498:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 499:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 500:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 501:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 502:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 503:
+Payload: ' OR )) 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 504:
+Payload: ' OR )) 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 505:
+Payload: ' OR )) 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 506:
+Payload: ' ) OR 'a'='a' ) -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 507:
+Payload: ' OR )) 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 508:
+Payload: ' OR )) 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 509:
+Payload: ' OR )) 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 510:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 511:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 512:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 513:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 514:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 515:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 516:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 517:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 518:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 519:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 520:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 521:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 522:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 523:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 524:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 525:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 526:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 527:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 528:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 529:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 530:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 531:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 532:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 533:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 534:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 535:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 536:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 537:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 538:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 539:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 540:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 541:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 542:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 543:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 544:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 545:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 546:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 547:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 548:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 549:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 550:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 551:
+Payload: ' )) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 552:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 553:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 554:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 555:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 556:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 557:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 558:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 559:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 560:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 561:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 562:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 563:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 564:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 565:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 566:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 567:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 568:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 569:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 570:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 571:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 572:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 573:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 574:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 575:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 576:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 577:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 578:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 579:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 580:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 581:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 582:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 583:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 584:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 585:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 586:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 587:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 588:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 589:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 590:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 591:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 592:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 593:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 594:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 595:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 596:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 597:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 598:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 599:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 600:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 601:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 602:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 603:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 604:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 605:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 606:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 607:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 608:
+Payload: ' )) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 609:
+Payload: ' )) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 610:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 611:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 612:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 613:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 614:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 615:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 616:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 617:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 618:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 619:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 620:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 621:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 622:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 623:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 624:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 625:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 626:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 627:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 628:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 629:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 630:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 631:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 632:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 633:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 634:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 635:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 636:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 637:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 638:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 639:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 640:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 641:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 642:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 643:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 644:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 645:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 646:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 647:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 648:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 649:
+Payload: " OR ) ) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 650:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 651:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 652:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 653:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 654:
+Payload: " ) OR 1=1 ) LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 655:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 656:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 657:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 658:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 659:
+Payload: " OR ) ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 660:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 661:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 662:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 663:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 664:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 665:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 666:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 667:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 668:
+Payload: " )) AND 'a'='a' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 669:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 670:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 671:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 672:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 673:
+Payload: " )) AND 'a'='a' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 674:
+Payload: " OR )) 'a'='a' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 675:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 676:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 677:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 678:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 679:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 680:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 681:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 682:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 683:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 684:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 685:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 686:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 687:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 688:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 689:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 690:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 691:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 692:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 693:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 694:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 695:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 696:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 697:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 698:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 699:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 700:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 701:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 702:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 703:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 704:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 705:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 706:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 707:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 708:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 709:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 710:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 711:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 712:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 713:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 714:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 715:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 716:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 717:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 718:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 719:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 720:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 721:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 722:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 723:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 724:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 725:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 726:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 727:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 728:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 729:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 730:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 731:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 732:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 733:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 734:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 735:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 736:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 737:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 738:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 739:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 740:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 741:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 742:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 743:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 744:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 745:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 746:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 747:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 748:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 749:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 750:
+Payload: " ) ) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 751:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 752:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 753:
+Payload: " OR 1=1 ) ) LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 754:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 755:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 756:
+Payload: " OR 1=1 ) ) LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 757:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 758:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 759:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 760:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 761:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 762:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 763:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 764:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 765:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 766:
+Payload: " ) AND 'a'='a' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 767:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 768:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 769:
+Payload: " OR ) ) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 770:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 771:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 772:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 773:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 774:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 775:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 776:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 777:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 778:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 779:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 780:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 781:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 782:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 783:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 784:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 785:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 786:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 787:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 788:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 789:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 790:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 791:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 792:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 793:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 794:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 795:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 796:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -150.0
+
+Step 797:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 798:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 799:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 800:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 801:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 802:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 803:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 804:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 805:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 806:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 807:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 808:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 809:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 810:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 811:
+Payload: " OR 1=1 ) ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 812:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 813:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 814:
+Payload: " OR 1=1 ) ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 815:
+Payload: " OR 1=1 ) ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 816:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 817:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 818:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 819:
+Payload: " ) OR 1=1 ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 820:
+Payload: " OR 1=1 ) ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 821:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 822:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 823:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 824:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 825:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 826:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 827:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 828:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 829:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 830:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 831:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 832:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 833:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 834:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 835:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 836:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 837:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 838:
+Payload: " OR 1=1 )) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 839:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 840:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 841:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 842:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 843:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 844:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 845:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 846:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 847:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 848:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 849:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 850:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 851:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 852:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 853:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 854:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 855:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 856:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 857:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 858:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 859:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 860:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 861:
+Payload: " OR ) ) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 862:
+Payload: " OR ) ) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 863:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 864:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 865:
+Payload: " OR ) ) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 866:
+Payload: " OR ) ) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 867:
+Payload: " ) AND 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 868:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 869:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 870:
+Payload: " ) OR 1=1 ) LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 871:
+Payload: " ) OR 1=1 ) LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 872:
+Payload: " ) OR 1=1 ) LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 873:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 874:
+Payload: " OR ) ) 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 875:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 876:
+Payload: " OR 1=1 ) ) LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 877:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 878:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 879:
+Payload: " OR 1=1 ) ) LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 880:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 881:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 882:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 883:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 884:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 885:
+Payload: " OR ) ) 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 886:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 887:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 888:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 889:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 890:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 891:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 892:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 893:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 894:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 895:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 896:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 897:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 898:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 899:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 900:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 901:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 902:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 903:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 904:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 905:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 906:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 907:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 908:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 909:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 910:
+Payload: " ) OR ) 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 911:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 912:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 913:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 914:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 915:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 916:
+Payload: " OR ) ) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 917:
+Payload: " OR ) ) 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 918:
+Payload: " OR ) ) 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 919:
+Payload: " )) OR 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 920:
+Payload: " ) AND 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 921:
+Payload: " ) OR 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 922:
+Payload: " ) OR 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 923:
+Payload: " ) OR 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 924:
+Payload: " ) OR 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 925:
+Payload: " ) OR 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 926:
+Payload: " ) OR 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 927:
+Payload: " ) OR 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 928:
+Payload: " ) AND 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 929:
+Payload: " ) AND 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 930:
+Payload: " ) AND 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 931:
+Payload: " AND ) 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 932:
+Payload: " ) AND 'a'='a' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 933:
+Payload: " AND ) ) 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 934:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 935:
+Payload: " ) AND ) 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 936:
+Payload: " AND ) ) 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 937:
+Payload: " AND )) 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 938:
+Payload: " AND ) ) 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 939:
+Payload: " AND ) ) 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 940:
+Payload: " AND ) ) 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 941:
+Payload: " AND ) ) 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 942:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 943:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 944:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -150.0
+
+Step 945:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 946:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 947:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 948:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 949:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 950:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 951:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 952:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 953:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 954:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 955:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 956:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 957:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 958:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 959:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 960:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 961:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 962:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 963:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 964:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 965:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 966:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 967:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 968:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 969:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 970:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 971:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 972:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 973:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 974:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 975:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 976:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 977:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 978:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 979:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 980:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 981:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 982:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 983:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 984:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 985:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 986:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 987:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 988:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 989:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 990:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 991:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 992:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 993:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 994:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 995:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 996:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 997:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 998:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 999:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1000:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1001:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1002:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1003:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1004:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1005:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1006:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1007:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1008:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1009:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1010:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1011:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1012:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1013:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1014:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1015:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1016:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1017:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1018:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1019:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1020:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1021:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1022:
+Payload: " ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1023:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1024:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1025:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1026:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1027:
+Payload: " ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1028:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1029:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1030:
+Payload: " ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1031:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1032:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 0 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1033:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1034:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1035:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1036:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 0 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1037:
+Payload: " ) OR 1=1 ) LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1038:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1039:
+Payload: " OR ) 1=1 ) LIMIT 1 OFFSET 0 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1040:
+Payload: " ) OR 1=1 ) LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1041:
+Payload: " OR )) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1042:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1043:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1044:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1045:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -150.0
+
+Step 1046:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1047:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1048:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1049:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1050:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1051:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1052:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1053:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1054:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1055:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1056:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1057:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1058:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1059:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1060:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1061:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1062:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 4 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1063:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1064:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1065:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1066:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1067:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1068:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1069:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1070:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1071:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1072:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1073:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1074:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1075:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1076:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1077:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 3 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1078:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1079:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1080:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1081:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1082:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1083:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1084:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1085:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1086:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1087:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1088:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1089:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1090:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1091:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1092:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1093:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1094:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1095:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1096:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1097:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1098:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1099:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1100:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1101:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1102:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1103:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1104:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -150.0
+
+Step 1105:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1106:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1107:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1108:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1109:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1110:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1111:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1112:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1113:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1114:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1115:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1116:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1117:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1118:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1119:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1120:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1121:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1122:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1123:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 2 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1124:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1125:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1126:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1127:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1128:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1129:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1130:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1131:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1132:
+Payload: " OR 1=1 ) LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1133:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1134:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1135:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1136:
+Payload: " ) OR 1=1 LIMIT 1 OFFSET 0 /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1137:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1138:
+Payload: " OR ) 1=1 LIMIT 1 OFFSET 1 /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1139:
+Payload: " ) OR 'a'='a' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1140:
+Payload: " ) AND 'a'='a' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1141:
+Payload: " ) AND 'a'='a' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1142:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1143:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1144:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1145:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1146:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1147:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1148:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1149:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1150:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1151:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1152:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1153:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1154:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1155:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1156:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1157:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1158:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1159:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1160:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1161:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1162:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1163:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1164:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1165:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1166:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1167:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1168:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1169:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1170:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1171:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1172:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1173:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1174:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1175:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1176:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1177:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1178:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1179:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1180:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1181:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1182:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1183:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1184:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1185:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1186:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1187:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1188:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1189:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1190:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1191:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1192:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1193:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1194:
+Payload: " # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1195:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1196:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1197:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1198:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1199:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1200:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1201:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1202:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1203:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1204:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1205:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1206:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1207:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1208:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1209:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1210:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1211:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1212:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1213:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1214:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1215:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1216:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1217:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1218:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1219:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1220:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1221:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1222:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1223:
+Payload: " -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1224:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1225:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1226:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1227:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1228:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1229:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1230:
+Payload: ' /* 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1231:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1232:
+Payload: ' -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1233:
+Payload: ' -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1234:
+Payload: ' -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1235:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1236:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1237:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1238:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1239:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1240:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1241:
+Payload: ' -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1242:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1243:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -150.0
+
+Step 1244:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1245:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1246:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1247:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1248:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1249:
+Payload: ' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1250:
+Payload: ' ) OR 'a'='a' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1251:
+Payload: ' ) AND 'a'='a' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1252:
+Payload: ' ) AND 'a'='a' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1253:
+Payload: ' AND ) 'a'='a' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1254:
+Payload: ' ) AND 'a'='a' # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1255:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1256:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1257:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1258:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1259:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1260:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1261:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1262:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1263:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1264:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1265:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1266:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1267:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1268:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1269:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1270:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1271:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1272:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1273:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1274:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1275:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1276:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1277:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1278:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1279:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1280:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1281:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1282:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1283:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1284:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1285:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1286:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1287:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1288:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 0 # 
+Observation: [[1. 0. 0.]]
+Reward: -150.0
+
+Step 1289:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1290:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1291:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1292:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1293:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1294:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1295:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1296:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1297:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1298:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1299:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1300:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1301:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1302:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1303:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1304:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1305:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1306:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1307:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1308:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1309:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1310:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 4 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1311:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1312:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1313:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1314:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1315:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1316:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1317:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 4 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1318:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1319:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1320:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1321:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1322:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1323:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1324:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1325:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1326:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1327:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1328:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1329:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 3 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1330:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1331:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1332:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1333:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1334:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1335:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1336:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1337:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1338:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1339:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1340:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 1 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1341:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 2 # 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1342:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1343:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1344:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1345:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1346:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1347:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1348:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1349:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1350:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1351:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1352:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1353:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1354:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1355:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1356:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1357:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1358:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1359:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1360:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1361:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1362:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1363:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1364:
+Payload: ' ) AND 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1365:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1366:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1367:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1368:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1369:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1370:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1371:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1372:
+Payload: ' ) AND 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1373:
+Payload: ' ) AND 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1374:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1375:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1376:
+Payload: ' OR ) 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1377:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1378:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1379:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 1380:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1381:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1382:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1383:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1384:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1385:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1386:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1387:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1388:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1389:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1390:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 3 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1391:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1392:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 4 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1393:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1394:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 3 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1395:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 1396:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1397:
+Payload: ' OR 1=1 ) LIMIT 1 OFFSET 0 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1398:
+Payload: ' AND 1=1 ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1399:
+Payload: ' OR 1=1 ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1400:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1401:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1402:
+Payload: ' OR 1=1 ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1403:
+Payload: ' OR 1=1 ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1404:
+Payload: ' OR 1=1 ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1405:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1406:
+Payload: ' OR 1=1 ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1407:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1408:
+Payload: ' OR 1=1 ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1409:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1410:
+Payload: ' ) AND 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1411:
+Payload: ' OR 1=1 ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1412:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1413:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1414:
+Payload: ' OR ) 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1415:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1416:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1417:
+Payload: ' OR ) 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1418:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1419:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1420:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1421:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1422:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1423:
+Payload: ' ) AND 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1424:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1425:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1426:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1427:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 1428:
+Payload: ' ) OR 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1429:
+Payload: ' OR ) 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1430:
+Payload: ' ) AND 'a'='a' -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1431:
+Payload: ' ) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1432:
+Payload: ' OR ) 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1433:
+Payload: ' OR ) 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1434:
+Payload: ' AND ) 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1435:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1436:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1437:
+Payload: ' ) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1438:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1439:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1440:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1441:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1442:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1443:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1444:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1445:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1446:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1447:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1448:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1449:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1450:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1451:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1452:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1453:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1454:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1455:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1456:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1457:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1458:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1459:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 1460:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1461:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1462:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1463:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1464:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1465:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1466:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1467:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1468:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1469:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1470:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1471:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1472:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1473:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1474:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1475:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1476:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1477:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1478:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1479:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1480:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 1481:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1482:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1483:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1484:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1485:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1486:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1487:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1488:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1489:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1490:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1491:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1492:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1493:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1494:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1495:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1496:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1497:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1498:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1499:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1500:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1501:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1502:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1503:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1504:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1505:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1506:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1507:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1508:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1509:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1510:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1511:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1512:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1513:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1514:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1515:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1516:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1517:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1518:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1519:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 1520:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1521:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1522:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1523:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1524:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1525:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1526:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 1527:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1528:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1529:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1530:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1531:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1532:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1533:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1534:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1535:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1536:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1537:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1538:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1539:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1540:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1541:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1542:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1543:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1544:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1545:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1546:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1547:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1548:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1549:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1550:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1551:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1552:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1553:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1554:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1555:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1556:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1557:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1558:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1559:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1560:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1561:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1562:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1563:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1564:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 1565:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1566:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1567:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1568:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1569:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1570:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1571:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1572:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1573:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1574:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1575:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1576:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 1577:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1578:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1579:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1580:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1581:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1582:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1583:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1584:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1585:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1586:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1587:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1588:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1589:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1590:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1591:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1592:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1593:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1594:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1595:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1596:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1597:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1598:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1599:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1600:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1601:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1602:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1603:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1604:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1605:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1606:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1607:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1608:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1609:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1610:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1611:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1612:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1613:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1614:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1615:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1616:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1617:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1618:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1619:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1620:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1621:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1622:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1623:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1624:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1625:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1626:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1627:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1628:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1629:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1630:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1631:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1632:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1633:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1634:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1635:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1636:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1637:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1638:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1639:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1640:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1641:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1642:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1643:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1644:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1645:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1646:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1647:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1648:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1649:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1650:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1651:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1652:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1653:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1654:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1655:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1656:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1657:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1658:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1659:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1660:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1661:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1662:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1663:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1664:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1665:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1666:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1667:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1668:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1669:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1670:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1671:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1672:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1673:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1674:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1675:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1676:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1677:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1678:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1679:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1680:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1681:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1682:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1683:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1684:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1685:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1686:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1687:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1688:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1689:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1690:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1691:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1692:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1693:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1694:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1695:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1696:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1697:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1698:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1699:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1700:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1701:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1702:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1703:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1704:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1705:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1706:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1707:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1708:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 1709:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1710:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1711:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1712:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1713:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1714:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1715:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1716:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1717:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1718:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1719:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1720:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1721:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1722:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1723:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -150.0
+
+Step 1724:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1725:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1726:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1727:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1728:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1729:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1730:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1731:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1732:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1733:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1734:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1735:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1736:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1737:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1738:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1739:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1740:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1741:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1742:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1743:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1744:
+Payload: ' ) AND 1=1 ) -- 
+Observation: [[1. 0. 0.]]
+Reward: -150.0
+
+Step 1745:
+Payload: ' ) OR 'a'='a' ) -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1746:
+Payload: ' ) OR 1=1 ) -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1747:
+Payload: ' ) AND 1=1 ) -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1748:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1749:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1750:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1751:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1752:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1753:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1754:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1755:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1756:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1757:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1758:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1759:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1760:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1761:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1762:
+Payload: ' ) # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1763:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1764:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1765:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1766:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1767:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1768:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1769:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1770:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1771:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1772:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1773:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1774:
+Payload: ' ) -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1775:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1776:
+Payload: ' ) /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1777:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1778:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1779:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1780:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1781:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1782:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1783:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1784:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1785:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1786:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1787:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1788:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1789:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1790:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1791:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1792:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1793:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1794:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1795:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1796:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1797:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1798:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1799:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1800:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1801:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1802:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1803:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1804:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1805:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1806:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1807:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1808:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1809:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1810:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1811:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1812:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1813:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1814:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1815:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1816:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1817:
+Payload: ' /* 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1818:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1819:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1820:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1821:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1822:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1823:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1824:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1825:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1826:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1827:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1828:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1829:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1830:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1831:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1832:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1833:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1834:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1835:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1836:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1837:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1838:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1839:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1840:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1841:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1842:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1843:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1844:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1845:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1846:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1847:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1848:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1849:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1850:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1851:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1852:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1853:
+Payload: ' -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1854:
+Payload: ' -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1855:
+Payload: " -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1856:
+Payload: " # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1857:
+Payload: " -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1858:
+Payload: ' ) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1859:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1860:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1861:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1862:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1863:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1864:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1865:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1866:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1867:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1868:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1869:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1870:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1871:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1872:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1873:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1874:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1875:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1876:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1877:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1878:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1879:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1880:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1881:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1882:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1883:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1884:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1885:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1886:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1887:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1888:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1889:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1890:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1891:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1892:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1893:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1894:
+Payload: ' )) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1895:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1896:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1897:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1898:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1899:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1900:
+Payload: ' ) OR 1=1 ) LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1901:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1902:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1903:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1904:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1905:
+Payload: ' ) OR 1=1 ) -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1906:
+Payload: ' )) OR 'a'='a' -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1907:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1908:
+Payload: ' )) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1909:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1910:
+Payload: ' )) OR 1=1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1911:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1912:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1913:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1914:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1915:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 4 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1916:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1917:
+Payload: ' )) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1918:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1919:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1920:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1921:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1922:
+Payload: ' )) OR 1=1 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1923:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1924:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -150.0
+
+Step 1925:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1926:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1927:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1928:
+Payload: ' ) OR ) 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1929:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1930:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1931:
+Payload: ' )) OR 'a'='a' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1932:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 3 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1933:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1934:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1935:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1936:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1937:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1938:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1939:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1940:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1941:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1942:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1943:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1944:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1945:
+Payload: ' )) AND 1=1 -- 
+Observation: [[1. 0. 0.]]
+Reward: -50.0
+
+Step 1946:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1947:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 0 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1948:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1949:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1950:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1951:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1952:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1953:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1954:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1955:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1956:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 2 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1957:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1958:
+Payload: ' )) OR 1=1 LIMIT 1 OFFSET 1 -- 
+Observation: [[1. 1. 0.]]
+Reward: -50.0
+
+Step 1959:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1960:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1961:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1962:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1963:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1964:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1965:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1966:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1967:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1968:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1969:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1970:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1971:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1972:
+Payload: ' # 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1973:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1974:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1975:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1976:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1977:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1978:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1979:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1980:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1981:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1982:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1983:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1984:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1985:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1986:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1987:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1988:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1989:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1990:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1991:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1992:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1993:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1994:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1995:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1996:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1997:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1998:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
+Step 1999:
+Payload: ' -- 
+Observation: [[0. 0. 0.]]
+Reward: -50.0
+
