@@ -15,7 +15,6 @@ class CustomLoggingCallback(BaseCallback):
         self.payloads = []
         self.observations = []
         self.rewards = []
-        self.step_rewards = []
         self.current_episode_length = 0
         self.best_mean_reward = -np.inf
         self.best_model_path = os.path.join(save_path, "best_model")
@@ -26,34 +25,45 @@ class CustomLoggingCallback(BaseCallback):
         self.start_time = time.time()  # Record the start time
         self.last_save_time = self.start_time  # Record the last save time
         self.episode_end_steps = []  # Track steps where episodes end
+        self.cumulative_reward = []
+        self.exploration_vs_exploitation = []
+        self.action_distribution = []
 
     def _on_step(self) -> bool:
+        env = self.training_env.envs[0].env
+        payload = env.last_payload
         if self.n_calls % 100 == 0:
-            env = self.training_env.envs[0].env
-            payload = env.last_payload
-
             print(f"Step {self.n_calls}")
             print(f"Current Reward: {self.locals['rewards']}")
             print(f"Last Payload: {payload}")
             print(f"Current Observation: {self.locals['new_obs']}")
 
-            self.payloads.append(payload)
-            self.observations.append(self.locals["new_obs"])
-            self.rewards.append(self.locals["rewards"][0])
-
+        self.payloads.append(payload)
+        self.observations.append(self.locals["new_obs"])
         self.rewards.append(self.locals["rewards"][0])
-        self.step_rewards.append(self.locals["rewards"][0])
         self.current_episode_length += 1
+
+        # Track cumulative reward
+        if len(self.cumulative_reward) > 0:
+            self.cumulative_reward.append(self.cumulative_reward[-1] + self.locals["rewards"][0])
+        else:
+            self.cumulative_reward.append(self.locals["rewards"][0])
+
+        # Track exploration vs exploitation (assuming action[0] > 0.5 means exploitation)
+        self.exploration_vs_exploitation.append(int(np.mean(self.locals["actions"]) > 0.5))
+
+        # Track action distribution
+        self.action_distribution.extend(self.locals["actions"])
 
         if (
                 self.locals.get("dones", [False])[0]
                 or self.locals.get("truncated", [False])[0]
         ):
             self.episodes += 1
-            episode_reward = np.mean(self.step_rewards[-self.current_episode_length:])
+            episode_reward = np.mean(self.rewards[-self.current_episode_length:])
             self.episode_rewards.append(episode_reward)
             self.episode_lengths.append(self.current_episode_length)
-            self.episode_end_steps.append(self.n_calls)  # Record the step number
+            self.episode_end_steps.append(self.n_calls - 1)  # Record the step number
 
             # Update the success rate if the episode is successful
             success = 1 if self.locals["rewards"][0] == -1 else 0
@@ -72,6 +82,17 @@ class CustomLoggingCallback(BaseCallback):
         return True
 
     def _on_training_end(self) -> None:
+        # Ensure the last episode end step is captured
+        if self.current_episode_length > 0:
+            self.episodes += 1
+            episode_reward = np.mean(self.rewards[-self.current_episode_length:])
+            self.episode_rewards.append(episode_reward)
+            self.episode_lengths.append(self.current_episode_length)
+            self.episode_end_steps.append(self.n_calls - 1)
+            success = 1 if self.rewards[-1] == -1 else 0
+            self.successes.append(success)
+            self.current_episode_length = 0
+
         total_training_time = (
                 time.time() - self.start_time
         )  # Calculate total training time
@@ -145,6 +166,38 @@ class CustomLoggingCallback(BaseCallback):
         plt.savefig(os.path.join(self.image_dir, "episode_lengths.png"))
         plt.close()
 
+        # Plot cumulative reward over time
+        plt.figure(figsize=(12, 8))
+        plt.plot(range(len(self.cumulative_reward)), self.cumulative_reward, label="Cumulative Reward")
+        plt.xlabel("Steps")
+        plt.ylabel("Cumulative Reward")
+        plt.title("Cumulative Reward over Steps")
+        plt.legend()
+        plt.savefig(os.path.join(self.image_dir, "cumulative_reward.png"))
+        plt.close()
+
+        # Plot exploration vs exploitation
+        plt.figure(figsize=(12, 8))
+        plt.plot(range(len(self.exploration_vs_exploitation)), self.exploration_vs_exploitation,
+                 label="Exploration vs Exploitation")
+        plt.xlabel("Steps")
+        plt.ylabel("Exploration (0) / Exploitation (1)")
+        plt.title("Exploration vs Exploitation over Steps")
+        plt.legend()
+        plt.savefig(os.path.join(self.image_dir, "exploration_vs_exploitation.png"))
+        plt.close()
+
+        # Plot action distribution
+        actions = np.array(self.action_distribution)
+        plt.figure(figsize=(12, 8))
+        plt.hist(actions.flatten(), bins=50, label="Action Distribution")
+        plt.xlabel("Action Values")
+        plt.ylabel("Frequency")
+        plt.title("Action Distribution")
+        plt.legend()
+        plt.savefig(os.path.join(self.image_dir, "action_distribution.png"))
+        plt.close()
+
         # Save payloads and observations to a text file
         with open(
                 os.path.join(self.save_path, "payloads_and_observations.txt"), "w"
@@ -164,3 +217,7 @@ class CustomLoggingCallback(BaseCallback):
             self.rewards,
             delimiter=",",
         )
+
+
+# Use the custom callback
+callback = CustomLoggingCallback()

