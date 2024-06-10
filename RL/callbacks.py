@@ -3,6 +3,7 @@ import time
 import numpy as np
 from matplotlib import pyplot as plt
 from stable_baselines3.common.callbacks import BaseCallback
+import torch
 
 
 class CustomLoggingCallback(BaseCallback):
@@ -26,8 +27,10 @@ class CustomLoggingCallback(BaseCallback):
         self.last_save_time = self.start_time  # Record the last save time
         self.episode_end_steps = []  # Track steps where episodes end
         self.cumulative_reward = []
-        self.exploration_vs_exploitation = []
+        self.entropies = []  # Track entropy of actions
         self.action_distribution = []
+        self.best_model_steps = []  # Track steps when best model was saved
+        self.best_model_episodes = []  # Track episodes when best model was saved
 
     def _on_step(self) -> bool:
         env = self.training_env.envs[0].env
@@ -49,11 +52,15 @@ class CustomLoggingCallback(BaseCallback):
         else:
             self.cumulative_reward.append(self.locals["rewards"][0])
 
-        # Track exploration vs exploitation (assuming action[0] > 0.5 means exploitation)
-        self.exploration_vs_exploitation.append(int(np.mean(self.locals["actions"]) > 0.5))
+        # Track entropy of the actions
+        actions = self.locals["actions"]
+        if isinstance(actions, torch.Tensor):
+            actions = actions.cpu().detach().numpy()
+        entropy = -np.sum(actions * np.log(actions + 1e-10), axis=-1).mean()
+        self.entropies.append(entropy)
 
         # Track action distribution
-        self.action_distribution.extend(self.locals["actions"])
+        self.action_distribution.extend(actions)
 
         if (
                 self.locals.get("dones", [False])[0]
@@ -77,6 +84,8 @@ class CustomLoggingCallback(BaseCallback):
             if mean_reward > self.best_mean_reward:
                 self.best_mean_reward = mean_reward
                 self.model.save(self.best_model_path)
+                self.best_model_steps.append(self.n_calls)
+                self.best_model_episodes.append(self.episodes)
                 print(f"New best model saved with mean reward: {self.best_mean_reward}")
 
         return True
@@ -117,6 +126,11 @@ class CustomLoggingCallback(BaseCallback):
         print("Episode Rewards:", self.episode_rewards)
         print("Episode Lengths:", self.episode_lengths)
         print("Success Rates:", self.successes)
+
+        # Print when the best model was saved
+        print("Best model was saved at the following steps and episodes:")
+        for step, episode in zip(self.best_model_steps, self.best_model_episodes):
+            print(f"Step: {step}, Episode: {episode}")
 
         # Plot success rate over episodes
         episodes = range(1, self.episodes + 1)
@@ -176,15 +190,14 @@ class CustomLoggingCallback(BaseCallback):
         plt.savefig(os.path.join(self.image_dir, "cumulative_reward.png"))
         plt.close()
 
-        # Plot exploration vs exploitation
+        # Plot action entropy over steps
         plt.figure(figsize=(12, 8))
-        plt.plot(range(len(self.exploration_vs_exploitation)), self.exploration_vs_exploitation,
-                 label="Exploration vs Exploitation")
+        plt.plot(range(len(self.entropies)), self.entropies, label="Action Entropy")
         plt.xlabel("Steps")
-        plt.ylabel("Exploration (0) / Exploitation (1)")
-        plt.title("Exploration vs Exploitation over Steps")
+        plt.ylabel("Entropy")
+        plt.title("Action Entropy over Steps")
         plt.legend()
-        plt.savefig(os.path.join(self.image_dir, "exploration_vs_exploitation.png"))
+        plt.savefig(os.path.join(self.image_dir, "action_entropy.png"))
         plt.close()
 
         # Plot action distribution

@@ -1,12 +1,11 @@
 import os
-
 import numpy as np
 from stable_baselines3 import SAC
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.sac.policies import MlpPolicy
-
 from callbacks import CustomLoggingCallback
 from environment import SQLiEnv
+from stable_baselines3.common.noise import NormalActionNoise
 
 # Set random seeds for reproducibility
 seed = 42
@@ -16,12 +15,18 @@ np.random.seed(seed)
 env = make_vec_env(lambda: SQLiEnv(), n_envs=1)
 env.seed(seed)
 
-# Instantiate the model with a learning rate scheduler
+# Define the noise to add to actions
+n_actions = env.action_space.shape[-1]
+action_noise = NormalActionNoise(mean=np.zeros(n_actions), sigma=0.5 * np.ones(n_actions))
+
+# Instantiate the model with a higher entropy coefficient and action noise
 model = SAC(
     MlpPolicy,
     env,
     verbose=1,
     seed=seed,
+    ent_coef=0.2,  # Increase entropy coefficient to encourage exploration
+    action_noise=action_noise,
     device="cpu"
 )
 
