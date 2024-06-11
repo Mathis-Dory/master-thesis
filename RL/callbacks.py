@@ -143,22 +143,6 @@ class CustomLoggingCallback(BaseCallback):
         plt.savefig(os.path.join(self.image_dir, "success_rate.png"))
         plt.close()
 
-        # Plot reward over time
-        plt.figure(figsize=(12, 8))
-        plt.plot(range(len(self.rewards)), self.rewards, label="Rewards")
-        # Add red dots at episode end steps
-        valid_episode_end_steps = [step for step in self.episode_end_steps]
-        plt.scatter(valid_episode_end_steps, [self.rewards[i] for i in valid_episode_end_steps], color='red',
-                    label="Episode End")
-        # Add red line between red points
-        plt.plot(valid_episode_end_steps, [self.rewards[i] for i in valid_episode_end_steps], 'r-')
-        plt.xlabel("Steps")
-        plt.ylabel("Reward")
-        plt.title("Rewards over Steps")
-        plt.legend()
-        plt.savefig(os.path.join(self.image_dir, "rewards_over_steps.png"))
-        plt.close()
-
         # Plot average episode rewards over episodes
         plt.figure(figsize=(12, 8))
         plt.plot(episodes, self.episode_rewards, label="Episode Rewards")
