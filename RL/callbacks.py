@@ -80,7 +80,7 @@ class CustomLoggingCallback(BaseCallback):
                 0  # Reset current episode length for the next episode
             )
 
-            mean_reward = np.mean(self.episode_rewards[-100:])
+            mean_reward = np.mean(self.episode_rewards[-10:])
             if mean_reward > self.best_mean_reward:
                 self.best_mean_reward = mean_reward
                 self.model.save(self.best_model_path)
