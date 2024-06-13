@@ -10,7 +10,7 @@ import time
 
 from environment import SQLiEnv
 
-# Load the best saved model
+# Load the desired saved model
 best_model_path = "final_model/model.zip"
 model = SAC.load(best_model_path)
 
