@@ -18,12 +18,11 @@ COMMENT -> "-- " | "# " | "/* "
 # Modify sql_grammar_phase3 to distribute parentheses more flexibly
 sql_grammar_phase3 = """
 S -> CLAUSE
-CLAUSE -> SIMPLE_CLAUSE | SIMPLE_CLAUSE OPERATION | SIMPLE_CLAUSE PARENTHESIS | CLAUSE PARENTHESIS | CLAUSE PARENTHESIS CLAUSE
+CLAUSE -> SIMPLE_CLAUSE | SIMPLE_CLAUSE OPERATION
 SIMPLE_CLAUSE -> "OR 1=1" | "AND 1=1" | "OR 'a'='a'" | "AND 'a'='a'"
 OPERATION -> "LIMIT 1 OFFSET" NUMBER | "ORDER BY" COLUMN
 NUMBER -> "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 COLUMN -> "1" | "2" | "3" | "4" | "5"
-PARENTHESIS -> ")"
 """
 
 

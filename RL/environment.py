@@ -13,7 +13,8 @@ from stable_baselines3.common.monitor import Monitor
 
 from cfg import cfg_phase1, cfg_phase2, cfg_phase3
 from utils import (
-    setup_session, update_cfg_with_comment, )
+    setup_session, update_cfg_with_parenthesis,
+    distribute_parentheses, extract_flat_tokens)
 
 # Load environment variables from .env file
 load_dotenv()
@@ -107,13 +108,13 @@ class SQLiEnv(gym.Env):
 
     def _build_complex_payload(self, action: ArrayLike) -> str:
         """
-        Construct a SQL injection payload based on dynamically generated CFG with parentheses structure and comment.
+        Build the payload for phase 3, distributing parentheses and ensuring CFG adherence.
 
-        :param action: ArrayLike, the action vector influencing payload structure.
-        :return: Fully constructed SQL injection payload as a string.
+        :param action: ArrayLike, action vector influencing payload structure.
+        :return: Fully constructed SQL injection payload.
         """
-        # Update the CFG to include the current comment character
-        dynamic_cfg = update_cfg_with_comment(cfg_phase3, self.comment_char)
+        # Update the CFG with the current parentheses structure
+        dynamic_cfg = update_cfg_with_parenthesis(cfg_phase3, len(self.parentheses_structure))
 
         # Generate the clause using the updated CFG
         generated_clauses = list(generate(dynamic_cfg, n=10))
@@ -121,13 +122,14 @@ class SQLiEnv(gym.Env):
         # Select a generated clause based on the action
         selected_clause = generated_clauses[int(action[0] * (len(generated_clauses) - 1))]
 
-        # Insert the parentheses structure from phase 2 into the payload if it exists
-        if self.parentheses_structure:
-            # Insert parentheses structure at the appropriate position in the payload
-            selected_clause.insert(1, self.parentheses_structure)  # Adjust index as necessary
+        # Flatten tokens while respecting CFG rules
+        flat_tokens = extract_flat_tokens(dynamic_cfg, selected_clause)
 
-        # Join parts of the selected clause into a single payload string
-        payload = " ".join(selected_clause)
+        # Distribute parentheses across valid positions
+        flat_tokens_with_parentheses = distribute_parentheses(flat_tokens, len(self.parentheses_structure))
+
+        # Reconstruct the payload
+        payload = " ".join(flat_tokens_with_parentheses)
 
         # Ensure the escape character is included at the start of the payload if identified
         if self.exploit_char:
@@ -137,6 +139,7 @@ class SQLiEnv(gym.Env):
         payload_with_comment = f"{payload} {self.comment_char} "
 
         return payload_with_comment
+
 
     def step(self, action: ArrayLike) -> tuple[np.ndarray, float, bool, bool, dict]:
         """

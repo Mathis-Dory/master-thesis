@@ -11,62 +11,6 @@ def setup_session():
     return session
 
 
-def get_valid_insertion_points(parts, tokens):
-    """
-    Get valid insertion points for parentheses, ensuring no token is split.
-
-    :param parts: List of parts of the clause.
-    :param tokens: Set of CFG tokens to avoid splitting.
-    :return: List of valid insertion points.
-    """
-    valid_insertion_points = []
-    for i in range(len(parts) + 1):
-        if i < len(parts) and (parts[i] in tokens):
-            continue  # Avoid insertion before or after CFG tokens
-        if i > 0 and (parts[i - 1] in tokens):
-            continue
-        valid_insertion_points.append(i)
-    return valid_insertion_points
-
-
-def extract_tokens_from_grammar(grammar):
-    """
-    Extract all tokens from the given CFG grammar.
-
-    :param grammar: The CFG grammar to extract tokens from.
-    :return: A set of CFG tokens.
-    """
-    tokens = set()
-    for production in grammar.productions():
-        rhs = production.rhs()
-        for symbol in rhs:
-            if isinstance(symbol, str):
-                tokens.add(symbol)
-    return tokens
-
-
-def update_cfg_with_comment(cfg, comment_char):
-    """
-    Dynamically modify the CFG to incorporate both the parentheses structure and the comment character.
-
-    :param cfg: Original CFG object.
-    :param comment_char: The comment character (e.g., '--') to be included at the end of the payload.
-    :return: A modified CFG with the comment character embedded.
-    """
-
-    # Define the comment structure rule (e.g., '--' or any other form of comment)
-    comment_rule = f'Comment -> "{comment_char}"'
-
-    # Extract the original CFG rules as a string
-    original_rules = "\n".join(str(rule) for rule in cfg.productions())
-
-    # Append the comment structure to the original rules
-    updated_cfg_rules = f"{original_rules}\n{comment_rule}"
-
-    # Create a new CFG with the updated rules
-    return CFG.fromstring(updated_cfg_rules)
-
-
 def update_cfg_with_parenthesis(cfg, parentheses_count):
     """
     Dynamically modify the CFG to incorporate the correct number of parentheses for phase 3.
@@ -76,7 +20,8 @@ def update_cfg_with_parenthesis(cfg, parentheses_count):
     :return: A modified CFG with the correct number of parentheses.
     """
     # Generate the parentheses rule based on the parentheses count
-    parentheses_rule = f'PARENTHESIS -> {"".join([")"] * parentheses_count)}'
+    parentheses_terminals = " ".join(['")"'] * parentheses_count)
+    parentheses_rule = f"PARENTHESIS -> {parentheses_terminals}"
 
     # Extract the original CFG rules as a string
     original_rules = "\n".join(str(rule) for rule in cfg.productions())
@@ -84,5 +29,77 @@ def update_cfg_with_parenthesis(cfg, parentheses_count):
     # Append the dynamic parentheses rule to the original rules
     updated_cfg_rules = f"{original_rules}\n{parentheses_rule}"
 
-    # Create a new CFG with the updated rules
+    # Parse the updated CFG
     return CFG.fromstring(updated_cfg_rules)
+
+
+def extract_valid_parenthesis_positions(flat_tokens):
+    """
+    Determine valid positions for parentheses insertion between flattened tokens.
+
+    :param flat_tokens: List of flattened tokens.
+    :return: A list of valid positions for parentheses insertion.
+    """
+    valid_positions = [0]  # Start of the payload
+    for i in range(1, len(flat_tokens)):
+        valid_positions.append(i)
+    valid_positions.append(len(flat_tokens))  # End of the payload
+    return valid_positions
+
+
+def distribute_parentheses(flat_tokens, parentheses_count):
+    """
+    Distribute closing parentheses across valid positions within the payload.
+
+    :param flat_tokens: List of flattened tokens.
+    :param parentheses_count: Number of closing parentheses to insert.
+    :return: Tokens with parentheses distributed appropriately.
+    """
+    valid_positions = extract_valid_parenthesis_positions(flat_tokens)
+
+    # Ensure parentheses are distributed
+    for _ in range(parentheses_count):
+        if not valid_positions:
+            break
+        # Pick a random valid position to distribute parentheses
+        insert_pos = valid_positions.pop(0)  # Pop from the front for simplicity
+        flat_tokens.insert(insert_pos, ")")
+
+    return flat_tokens
+
+
+def extract_flat_tokens(cfg, clause):
+    """
+    Flatten tokens from a clause based on the CFG rules, preserving compound tokens.
+
+    :param cfg: The CFG object.
+    :param clause: The generated clause (list of strings).
+    :return: A list of flattened tokens, respecting CFG compound structures.
+    """
+    rules = {
+        str(prod.lhs()): [str(rhs) for rhs in prod.rhs()]
+        for prod in cfg.productions()
+    }
+    tokens = []
+    i = 0
+
+    while i < len(clause):
+        matched = False
+        # Try to match multi-token rules
+        for lhs, rhs_list in rules.items():
+            for rhs in rhs_list:
+                rhs_tokens = rhs.split()
+                if clause[i : i + len(rhs_tokens)] == rhs_tokens:
+                    tokens.append(" ".join(rhs_tokens))  # Treat as one token
+                    i += len(rhs_tokens)
+                    matched = True
+                    break
+            if matched:
+                break
+
+        # If no match, treat the current word as a single token
+        if not matched:
+            tokens.append(clause[i])
+            i += 1
+
+    return tokens
