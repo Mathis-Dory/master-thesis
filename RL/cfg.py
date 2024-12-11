@@ -26,19 +26,6 @@ COLUMN -> "1" | "2" | "3" | "4" | "5"
 """
 
 
-# Define CFG for time-based blind SQL injection
-sql_grammar_time = """
-S -> " IF (1=1) THEN SLEEP(5) -- " | " IF (1=0) THEN SLEEP(5) -- "
-"""
-
-# Define CFG for boolean-based blind SQL injection
-sql_grammar_boolean = """
-S -> " IF (1=1) THEN 1 ELSE 0 -- " | " IF (1=0) THEN 1 ELSE 0 -- "
-"""
-
-cfg_phase_boolean = CFG.fromstring(sql_grammar_boolean)
-cfg_phase_time = CFG.fromstring(sql_grammar_time)
-
 cfg_phase1 = CFG.fromstring(sql_grammar_phase1)
 cfg_phase2 = CFG.fromstring(sql_grammar_phase2)
 cfg_phase3 = CFG.fromstring(sql_grammar_phase3)

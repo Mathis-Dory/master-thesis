@@ -1,5 +1,5 @@
 import requests
-from nltk import CFG
+from nltk.parse.generate import generate
 from requests.adapters import HTTPAdapter
 from urllib3 import Retry
 
@@ -11,95 +11,41 @@ def setup_session():
     return session
 
 
-def update_cfg_with_parenthesis(cfg, parentheses_count):
+def generate_atomic_clause(cfg, n=1):
     """
-    Dynamically modify the CFG to incorporate the correct number of parentheses for phase 3.
+    Generate atomic clauses from CFG, ensuring no splitting of complex RHS units.
 
-    :param cfg: Original CFG object for phase 3.
-    :param parentheses_count: The number of parentheses to include.
-    :return: A modified CFG with the correct number of parentheses.
+    :param cfg: The context-free grammar.
+    :param n: Number of clauses to generate.
+    :return: List of atomic clauses (preserving CFG unit structure).
     """
-    # Generate the parentheses rule based on the parentheses count
-    parentheses_terminals = " ".join(['")"'] * parentheses_count)
-    parentheses_rule = f"PARENTHESIS -> {parentheses_terminals}"
+    clauses = list(generate(cfg, n=n))
+    atomic_clauses = []
 
-    # Extract the original CFG rules as a string
-    original_rules = "\n".join(str(rule) for rule in cfg.productions())
-
-    # Append the dynamic parentheses rule to the original rules
-    updated_cfg_rules = f"{original_rules}\n{parentheses_rule}"
-
-    # Parse the updated CFG
-    return CFG.fromstring(updated_cfg_rules)
-
-
-def extract_valid_parenthesis_positions(flat_tokens):
-    """
-    Determine valid positions for parentheses insertion between flattened tokens.
-
-    :param flat_tokens: List of flattened tokens.
-    :return: A list of valid positions for parentheses insertion.
-    """
-    valid_positions = [0]  # Start of the payload
-    for i in range(1, len(flat_tokens)):
-        valid_positions.append(i)
-    valid_positions.append(len(flat_tokens))  # End of the payload
-    return valid_positions
-
-
-def distribute_parentheses(flat_tokens, parentheses_count):
-    """
-    Distribute closing parentheses across valid positions within the payload.
-
-    :param flat_tokens: List of flattened tokens.
-    :param parentheses_count: Number of closing parentheses to insert.
-    :return: Tokens with parentheses distributed appropriately.
-    """
-    valid_positions = extract_valid_parenthesis_positions(flat_tokens)
-
-    # Ensure parentheses are distributed
-    for _ in range(parentheses_count):
-        if not valid_positions:
-            break
-        # Pick a random valid position to distribute parentheses
-        insert_pos = valid_positions.pop(0)  # Pop from the front for simplicity
-        flat_tokens.insert(insert_pos, ")")
-
-    return flat_tokens
-
-
-def extract_flat_tokens(cfg, clause):
-    """
-    Flatten tokens from a clause based on the CFG rules, preserving compound tokens.
-
-    :param cfg: The CFG object.
-    :param clause: The generated clause (list of strings).
-    :return: A list of flattened tokens, respecting CFG compound structures.
-    """
-    rules = {
-        str(prod.lhs()): [str(rhs) for rhs in prod.rhs()]
-        for prod in cfg.productions()
-    }
-    tokens = []
-    i = 0
-
-    while i < len(clause):
-        matched = False
-        # Try to match multi-token rules
-        for lhs, rhs_list in rules.items():
-            for rhs in rhs_list:
-                rhs_tokens = rhs.split()
-                if clause[i : i + len(rhs_tokens)] == rhs_tokens:
-                    tokens.append(" ".join(rhs_tokens))  # Treat as one token
-                    i += len(rhs_tokens)
-                    matched = True
-                    break
-            if matched:
-                break
-
-        # If no match, treat the current word as a single token
-        if not matched:
-            tokens.append(clause[i])
+    for clause in clauses:
+        atomic_clause = []
+        i = 0
+        while i < len(clause):
+            unit = clause[i]
+            if (
+                unit == "LIMIT 1 OFFSET"
+                and i + 1 < len(clause)
+                and clause[i + 1].isdigit()
+            ):
+                # Combine "LIMIT 1 OFFSET" and NUMBER into a single atomic unit
+                atomic_clause.append(f"{unit} {clause[i + 1]}")
+                i += 1  # Skip the next unit as it has been merged
+            elif (
+                unit == "ORDER BY"
+                and i + 1 < len(clause)
+                and clause[i + 1].isdigit()
+            ):
+                # Combine "ORDER BY" and COLUMN into a single atomic unit
+                atomic_clause.append(f"{unit} {clause[i + 1]}")
+                i += 1  # Skip the next unit as it has been merged
+            else:
+                atomic_clause.append(unit)
             i += 1
 
-    return tokens
+        atomic_clauses.append(atomic_clause)
+    return atomic_clauses
