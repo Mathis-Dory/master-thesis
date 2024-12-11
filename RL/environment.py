@@ -21,7 +21,7 @@ load_dotenv()
 NUM_CHALLENGES = int(os.getenv("NUM_CHALLENGES", 1))  # Default to 1 if not set
 
 # Configure logging for detailed tracking
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 cfg_phase3_rules = [
     (rule.lhs, rule.rhs)
@@ -128,7 +128,8 @@ class SQLiEnv(gym.Env):
         parentheses_actions = action[1:]  # Use remaining actions for parentheses placement
         num_parentheses = len(self.parentheses_structure)
         insertion_indices = sorted(
-            [min(int(a * len(selected_clause_units)), len(selected_clause_units)) for a in parentheses_actions[:num_parentheses]]
+            [min(int(a * len(selected_clause_units)), len(selected_clause_units)) for
+             a in parentheses_actions[:num_parentheses]]
         )
 
         # Insert parentheses into the clause
@@ -150,7 +151,7 @@ class SQLiEnv(gym.Env):
         # Combine the clause with the escape character and comment
         selected_clause = " ".join(clause_with_parentheses)
         payload = f"{self.exploit_char} {selected_clause}" if self.exploit_char else selected_clause
-        payload_with_comment = f"{payload} {self.comment_char}".strip()
+        payload_with_comment = f"{payload} {self.comment_char}"
 
         return payload_with_comment
 
