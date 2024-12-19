@@ -1,9 +1,11 @@
 import os
 import time
+
 import numpy as np
+import seaborn as sns
+import torch
 from matplotlib import pyplot as plt
 from stable_baselines3.common.callbacks import BaseCallback
-import torch
 
 
 class CustomLoggingCallback(BaseCallback):
@@ -12,209 +14,270 @@ class CustomLoggingCallback(BaseCallback):
         self.episode_rewards = []
         self.episode_lengths = []
         self.successes = []
-        self.episodes = 0
+        self.failures = []
         self.payloads = []
         self.observations = []
         self.rewards = []
-        self.current_episode_length = 0
+        self.entropies = []
+        self.action_distribution = []
+        self.cumulative_reward = []
         self.best_mean_reward = -np.inf
-        self.best_model_path = os.path.join(save_path, "best_model")
-        self.image_dir = "images"
-        os.makedirs(self.image_dir, exist_ok=True)
+        self.best_model_steps = []
+        self.best_model_episodes = []
+        self.episode_end_steps = []
+        self.current_episode_length = 0
+        self.episodes = 0
+
+        # Paths for saving
         self.save_path = save_path
         os.makedirs(self.save_path, exist_ok=True)
-        self.start_time = time.time()  # Record the start time
-        self.last_save_time = self.start_time  # Record the last save time
-        self.episode_end_steps = []  # Track steps where episodes end
-        self.cumulative_reward = []
-        self.entropies = []  # Track entropy of actions
-        self.action_distribution = []
-        self.best_model_steps = []  # Track steps when best model was saved
-        self.best_model_episodes = []  # Track episodes when best model was saved
+        self.image_dir = os.path.join(self.save_path, "images")
+        os.makedirs(self.image_dir, exist_ok=True)
+        self.best_model_path = os.path.join(self.save_path, "best_model")
+        self.start_time = time.time()
 
     def _on_step(self) -> bool:
         env = self.training_env.envs[0].env
-        payload = env.last_payload
+        payload = getattr(env, "last_payload", "Unknown")
+        reward = self.locals["rewards"][0]
+        actions = self.locals["actions"]
+        new_obs = self.locals["new_obs"]
+        done = self.locals.get("dones", [False])[0]
+
+        # Log current step information
         if self.n_calls % 100 == 0:
-            print(f"Step {self.n_calls}")
-            print(f"Current Reward: {self.locals['rewards']}")
-            print(f"Last Payload: {payload}")
-            print(f"Current Observation: {self.locals['new_obs']}")
+            print(
+                f"Step {self.n_calls}: Reward: {reward}, Payload: {payload}, Observation: {new_obs}"
+            )
 
         self.payloads.append(payload)
-        self.observations.append(self.locals["new_obs"])
-        self.rewards.append(self.locals["rewards"][0])
+        self.observations.append(new_obs)
+        self.rewards.append(reward)
         self.current_episode_length += 1
 
-        # Track cumulative reward
-        if len(self.cumulative_reward) > 0:
-            self.cumulative_reward.append(self.cumulative_reward[-1] + self.locals["rewards"][0])
-        else:
-            self.cumulative_reward.append(self.locals["rewards"][0])
+        # Cumulative reward
+        self.cumulative_reward.append(
+            self.cumulative_reward[-1] + reward
+            if self.cumulative_reward
+            else reward
+        )
 
-        # Track entropy of the actions
-        actions = self.locals["actions"]
+        # Action entropy and distribution
         if isinstance(actions, torch.Tensor):
             actions = actions.cpu().detach().numpy()
         entropy = -np.sum(actions * np.log(actions + 1e-10), axis=-1).mean()
         self.entropies.append(entropy)
+        self.action_distribution.extend(actions.flatten())
 
-        # Track action distribution
-        self.action_distribution.extend(actions)
-
-        if (
-                self.locals.get("dones", [False])[0]
-                or self.locals.get("truncated", [False])[0]
-        ):
-            self.episodes += 1
-            episode_reward = np.mean(self.rewards[-self.current_episode_length:])
-            self.episode_rewards.append(episode_reward)
-            self.episode_lengths.append(self.current_episode_length)
-            self.episode_end_steps.append(self.n_calls - 1)  # Record the step number
-
-            # Update the success rate if the episode is successful
-            success = 1 if self.locals["rewards"][0] == -1 else 0
-            self.successes.append(success)
-
-            self.current_episode_length = (
-                0  # Reset current episode length for the next episode
-            )
-
-            mean_reward = np.mean(self.episode_rewards[-10:])
-            if mean_reward > self.best_mean_reward:
-                self.best_mean_reward = mean_reward
-                self.model.save(self.best_model_path)
-                self.best_model_steps.append(self.n_calls)
-                self.best_model_episodes.append(self.episodes)
-                print(f"New best model saved with mean reward: {self.best_mean_reward}")
+        # Handle episode end
+        if done:
+            self._log_episode()
 
         return True
 
-    def _on_training_end(self) -> None:
-        # Ensure the last episode end step is captured
-        if self.current_episode_length > 0:
-            self.episodes += 1
-            episode_reward = np.mean(self.rewards[-self.current_episode_length:])
-            self.episode_rewards.append(episode_reward)
-            self.episode_lengths.append(self.current_episode_length)
-            self.episode_end_steps.append(self.n_calls - 1)
-            success = 1 if self.rewards[-1] == -1 else 0
-            self.successes.append(success)
-            self.current_episode_length = 0
+    def _log_episode(self):
+        # Log metrics for completed episode
+        episode_reward = np.sum(self.rewards[-self.current_episode_length :])
+        self.episode_rewards.append(episode_reward)
+        self.episode_lengths.append(self.current_episode_length)
+        self.episode_end_steps.append(self.n_calls)
+        self.episodes += 1
 
-        total_training_time = (
-                time.time() - self.start_time
-        )  # Calculate total training time
-        print("Training finished.")
-        print(f"Total Training Time: {total_training_time:.2f} seconds")
+        # Log success and failure
+        success = (
+            1 if self.rewards[-1] == -1 else 0
+        )  # Adjust success logic as needed
+        self.successes.append(success)
+        self.failures.append(1 - success)  # Opposite of success
+
+        mean_reward = np.mean(
+            self.episode_rewards[-25:]
+        )  # mean of 25 last episodes
+        if mean_reward > self.best_mean_reward:
+            self.best_mean_reward = mean_reward
+            self.model.save(self.best_model_path)
+            self.best_model_steps.append(self.n_calls)
+            self.best_model_episodes.append(self.episodes)
+            print(
+                f"New best model saved at step {self.n_calls}, episode {self.episodes}, with mean reward {mean_reward:.2f}"
+            )
+
+        self.current_episode_length = 0
+
+    def _on_training_end(self):
+        # Final logging and plotting
+        self._finalize_training()
+
+    def _finalize_training(self):
+        total_time = time.time() - self.start_time
+        print(f"Training finished in {total_time:.2f} seconds.")
         print(f"Total Episodes: {self.episodes}")
+        print(f"Successful Episodes: {np.sum(self.successes)}")
+        print(f"Failed Episodes: {np.sum(self.failures)}")
+        print(f"Average Episode Reward: {np.mean(self.episode_rewards):.2f}")
+        print(f"Average Episode Length: {np.mean(self.episode_lengths):.2f}")
 
-        if len(self.episode_rewards) > 0:
-            avg_episode_reward = np.mean(self.episode_rewards)
-        else:
-            avg_episode_reward = 0.0
+        # Save payloads and observations
+        self._save_payloads_and_observations()
 
-        if len(self.episode_lengths) > 0:
-            avg_episode_length = np.mean(self.episode_lengths)
-        else:
-            avg_episode_length = 0.0
+        # Generate plots
+        self._generate_plots()
 
-        print(f"Average Episode Reward: {avg_episode_reward}")
-        print(f"Average Episode Length: {avg_episode_length}")
+    def _save_payloads_and_observations(self):
+        save_file = os.path.join(
+            self.save_path, "payloads_and_observations.txt"
+        )
+        with open(save_file, "w") as f:
+            for step, (payload, obs, reward) in enumerate(
+                zip(self.payloads, self.observations, self.rewards)
+            ):
+                f.write(
+                    f"Step {step}:\nPayload: {payload}\nObservation: {obs}\nReward: {reward}\n\n"
+                )
 
-        # Debugging: Print all collected data
-        print("Episode Rewards:", self.episode_rewards)
-        print("Episode Lengths:", self.episode_lengths)
-        print("Success Rates:", self.successes)
-
-        # Print when the best model was saved
-        print("Best model was saved at the following steps and episodes:")
-        for step, episode in zip(self.best_model_steps, self.best_model_episodes):
-            print(f"Step: {step}, Episode: {episode}")
-
-        # Plot success rate over episodes
+    def _generate_plots(self):
         episodes = range(1, self.episodes + 1)
-        plt.figure(figsize=(12, 8))
-        plt.plot(episodes, self.successes, label="Success Indicator", marker='o')
-        plt.xlabel("Episodes")
-        plt.ylabel("Success Indicator")
-        plt.title("Success Indicator over Episodes")
-        plt.legend()
-        plt.savefig(os.path.join(self.image_dir, "success_rate.png"))
+        steps = range(len(self.cumulative_reward))
+
+        sns.set(style="whitegrid", palette="muted", font_scale=1.2)
+
+        # Success and failure rate
+        plt.figure(figsize=(12, 6))
+        sns.lineplot(
+            x=episodes,
+            y=self.successes,
+            label="Success Indicator",
+            marker="o",
+            color="blue",
+            linewidth=2,
+        )
+        sns.lineplot(
+            x=episodes,
+            y=self.failures,
+            label="Failure Indicator",
+            marker="x",
+            color="red",
+            linewidth=2,
+        )
+        plt.title("Success and Failure Rates Over Episodes", fontsize=16)
+        plt.xlabel("Episodes", fontsize=14)
+        plt.ylabel("Indicator (0 or 1)", fontsize=14)
+        plt.legend(fontsize=12)
+        plt.tight_layout()
+        plt.savefig(os.path.join(self.image_dir, "success_and_failure.png"))
         plt.close()
 
-        # Plot average episode rewards over episodes
-        plt.figure(figsize=(12, 8))
-        plt.plot(episodes, self.episode_rewards, label="Episode Rewards")
-        plt.xlabel("Episodes")
-        plt.ylabel("Rewards")
-        plt.title("Average Episode Rewards over Episodes")
-        plt.legend()
-        plt.ylim([min(self.episode_rewards), max(self.episode_rewards) * 1.1])  # Adjust the scale dynamically
-        plt.savefig(os.path.join(self.image_dir, "average_episode_rewards.png"))
+        # Episode rewards and success rate combined
+        plt.figure(figsize=(12, 6))
+        sns.lineplot(
+            x=episodes,
+            y=self.successes,
+            label="Success Indicator",
+            marker="o",
+            color="blue",
+            linewidth=2,
+        )
+        sns.lineplot(
+            x=episodes,
+            y=self.episode_rewards,
+            label="Episode Rewards",
+            color="green",
+            linewidth=2,
+        )
+        plt.title("Success Indicator and Episode Rewards", fontsize=16)
+        plt.xlabel("Episodes", fontsize=14)
+        plt.ylabel("Value", fontsize=14)
+        plt.legend(fontsize=12)
+        plt.tight_layout()
+        plt.savefig(os.path.join(self.image_dir, "success_and_rewards.png"))
         plt.close()
 
-        # Plot episode lengths over time
-        plt.figure(figsize=(12, 8))
-        plt.plot(episodes, self.episode_lengths, label="Episode Lengths")
-        plt.xlabel("Episodes")
-        plt.ylabel("Length")
-        plt.title("Episode Lengths over Episodes")
-        plt.legend()
+        # Episode lengths
+        plt.figure(figsize=(12, 6))
+        sns.lineplot(
+            x=episodes,
+            y=self.episode_lengths,
+            label="Episode Lengths",
+            color="orange",
+            linewidth=2,
+        )
+        plt.title("Episode Lengths Over Episodes", fontsize=16)
+        plt.xlabel("Episodes", fontsize=14)
+        plt.ylabel("Length (Steps)", fontsize=14)
+        plt.legend(fontsize=12)
+        plt.tight_layout()
         plt.savefig(os.path.join(self.image_dir, "episode_lengths.png"))
         plt.close()
 
-        # Plot cumulative reward over time
-        plt.figure(figsize=(12, 8))
-        plt.plot(range(len(self.cumulative_reward)), self.cumulative_reward, label="Cumulative Reward")
-        plt.xlabel("Steps")
-        plt.ylabel("Cumulative Reward")
-        plt.title("Cumulative Reward over Steps")
-        plt.legend()
-        plt.savefig(os.path.join(self.image_dir, "cumulative_reward.png"))
+        # Entropy
+        plt.figure(figsize=(12, 6))
+        sns.lineplot(
+            x=steps[: len(self.entropies)],
+            y=self.entropies,
+            label="Entropy",
+            color="purple",
+            linewidth=2,
+        )
+        plt.title("Entropy Over Steps", fontsize=16)
+        plt.xlabel("Steps", fontsize=14)
+        plt.ylabel("Entropy", fontsize=14)
+        plt.legend(fontsize=12)
+        plt.tight_layout()
+        plt.savefig(os.path.join(self.image_dir, "entropy.png"))
         plt.close()
 
-        # Plot action entropy over steps
-        plt.figure(figsize=(12, 8))
-        plt.plot(range(len(self.entropies)), self.entropies, label="Action Entropy")
-        plt.xlabel("Steps")
-        plt.ylabel("Entropy")
-        plt.title("Action Entropy over Steps")
-        plt.legend()
-        plt.savefig(os.path.join(self.image_dir, "action_entropy.png"))
+        # Cumulative rewards
+        plt.figure(figsize=(12, 6))
+        sns.lineplot(
+            x=steps,
+            y=self.cumulative_reward,
+            label="Cumulative Reward",
+            color="red",
+            linewidth=2,
+        )
+        plt.title("Cumulative Reward Over Steps", fontsize=16)
+        plt.xlabel("Steps", fontsize=14)
+        plt.ylabel("Cumulative Reward", fontsize=14)
+        plt.legend(fontsize=12)
+        plt.tight_layout()
+        plt.savefig(os.path.join(self.image_dir, "cumulative_rewards.png"))
         plt.close()
 
-        # Plot action distribution
-        actions = np.array(self.action_distribution)
-        plt.figure(figsize=(12, 8))
-        plt.hist(actions.flatten(), bins=50, label="Action Distribution")
-        plt.xlabel("Action Values")
-        plt.ylabel("Frequency")
-        plt.title("Action Distribution")
-        plt.legend()
+        # Action distribution
+        plt.figure(figsize=(12, 6))
+        sns.histplot(
+            self.action_distribution,
+            bins=50,
+            kde=True,
+            color="green",
+            label="Action Distribution",
+            linewidth=0,
+        )
+        plt.title("Action Distribution", fontsize=16)
+        plt.xlabel("Action Values", fontsize=14)
+        plt.ylabel("Frequency", fontsize=14)
+        plt.legend(fontsize=12)
+        plt.tight_layout()
         plt.savefig(os.path.join(self.image_dir, "action_distribution.png"))
         plt.close()
 
-        # Save payloads and observations to a text file
-        with open(
-                os.path.join(self.save_path, "payloads_and_observations.txt"), "w"
-        ) as f:
-            for step, (payload, obs, reward) in enumerate(
-                    zip(self.payloads, self.observations, self.rewards)
-            ):
-                f.write(f"Step {step}:\n")
-                f.write(f"Payload: {payload}\n")
-                f.write(f"Observation: {obs}\n")
-                f.write(f"Reward: {reward}\n")
-                f.write("\n")
-
-        # Save rewards to a CSV file
-        np.savetxt(
-            os.path.join(self.save_path, "rewards.csv"),
-            self.rewards,
-            delimiter=",",
+        # Reward distribution
+        plt.figure(figsize=(12, 6))
+        sns.histplot(
+            self.episode_rewards,
+            bins=30,
+            kde=True,
+            color="blue",
+            label="Reward Distribution",
+            linewidth=0,
         )
+        plt.title("Reward Distribution Across Episodes", fontsize=16)
+        plt.xlabel("Reward", fontsize=14)
+        plt.ylabel("Frequency", fontsize=14)
+        plt.legend(fontsize=12)
+        plt.tight_layout()
+        plt.savefig(os.path.join(self.image_dir, "reward_distribution.png"))
+        plt.close()
 
 
-# Use the custom callback
 callback = CustomLoggingCallback()

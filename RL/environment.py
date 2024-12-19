@@ -49,7 +49,7 @@ class SQLiEnv(gym.Env):
 
         # Define the action and observation spaces
         self.action_space = spaces.Box(
-            low=0, high=1, shape=(3,), dtype=np.float32
+            low=0, high=1, shape=(4,), dtype=np.float32
         )
         self.observation_space = spaces.Box(
             low=0, high=1, shape=(3,), dtype=np.float32
@@ -58,8 +58,8 @@ class SQLiEnv(gym.Env):
 
         # Pre-generate sequences
         self.phase1_sequences = list(generate(cfg_phase1, n=10))
-        self.phase2_sequences = list(generate(cfg_phase2, n=10))
-        self.phase3_sequences = list(generate(cfg_phase3, n=10))
+        self.phase2_sequences = list(generate(cfg_phase2, n=50))
+        self.phase3_sequences = list(generate(cfg_phase3, n=0))  # We use the atomic ones later
 
     def _initialize_flags(self):
         """Initialize tracking flags for the environment's state."""
@@ -229,7 +229,7 @@ class SQLiEnv(gym.Env):
                 self.found_parenthesis_structure = True
                 self.parentheses_structure = ''.join(re.findall(r'[)]+', payload))
                 self.comment_char = f"{payload.split()[-1]} "  # Ensure adding whitespace after comment character
-                logging.info(f"Phase 2 success - Parentheses structure found: {self.parentheses_structure or 
+                logging.info(f"Phase 2 success - Parentheses structure found: {self.parentheses_structure or
                                                                                'Without parentheses'}")
         if response_status == 200 and ("fail" or "wrong") not in response_text.lower():
             state[1] = 1

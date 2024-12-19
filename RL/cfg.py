@@ -10,7 +10,7 @@ ESC -> "'" | '"'
 sql_grammar_phase2 = """
 S -> ESC_COMMENT | CLOSE_PAREN COMMENT
 ESC_COMMENT -> COMMENT
-CLOSE_PAREN -> ")" | "))" | ")))" | "))))" | ")))))"
+CLOSE_PAREN -> ")" | "))" | ")))"
 COMMENT -> "-- " | "# " | "/* "
 """
 
