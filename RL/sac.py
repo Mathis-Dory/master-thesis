@@ -38,9 +38,9 @@ model = SAC(
 callback = CustomLoggingCallback()
 
 # Train the model
-total_timesteps = 400000
+total_timesteps = 1000000
 model.learn(
-    total_timesteps=total_timesteps, callback=callback, log_interval=1000
+    total_timesteps=total_timesteps, callback=callback, log_interval=100
 )
 
 # Save the final model
