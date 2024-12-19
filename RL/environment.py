@@ -49,7 +49,7 @@ class SQLiEnv(gym.Env):
 
         # Define the action and observation spaces
         self.action_space = spaces.Box(
-            low=0, high=1, shape=(10,), dtype=np.float32
+            low=0, high=1, shape=(3,), dtype=np.float32
         )
         self.observation_space = spaces.Box(
             low=0, high=1, shape=(3,), dtype=np.float32
@@ -118,24 +118,23 @@ class SQLiEnv(gym.Env):
         :return: Fully constructed SQL injection payload.
         """
         # Generate atomic clauses from CFG
-        generated_clauses = generate_atomic_clause(cfg_phase3, n=10)
+        generated_clauses = generate_atomic_clause(cfg_phase3, n=100)  # Generate array of 100 atomic clauses
 
         # Select a generated clause based on the action
         action_index = int(action[0] * (len(generated_clauses) - 1))
-        selected_clause_units = generated_clauses[action_index]  # List of atomic CFG units
+
+        selected_clause_units = generated_clauses[action_index]  # Select 1 atomic clause
 
         # Map actions to parentheses placement
         parentheses_actions = action[1:]  # Use remaining actions for parentheses placement
         num_parentheses = len(self.parentheses_structure)
         insertion_indices = sorted(
-            [min(int(a * len(selected_clause_units)), len(selected_clause_units)) for
-             a in parentheses_actions[:num_parentheses]]
+            [round(a * (len(selected_clause_units))) for a in parentheses_actions[:num_parentheses]]
         )
 
         # Insert parentheses into the clause
         clause_with_parentheses = []
         last_index = 0
-
         for idx in insertion_indices:
             clause_with_parentheses.extend(selected_clause_units[last_index:idx])
             clause_with_parentheses.append(")")  # Insert parenthesis at the specified index
@@ -143,16 +142,10 @@ class SQLiEnv(gym.Env):
 
         clause_with_parentheses.extend(selected_clause_units[last_index:])
 
-        # Append remaining parentheses at the end if needed
-        remaining_parentheses = num_parentheses - len(insertion_indices)
-        if remaining_parentheses > 0:
-            clause_with_parentheses.append(")" * remaining_parentheses)
-
         # Combine the clause with the escape character and comment
         selected_clause = " ".join(clause_with_parentheses)
         payload = f"{self.exploit_char} {selected_clause}" if self.exploit_char else selected_clause
         payload_with_comment = f"{payload} {self.comment_char}"
-
         return payload_with_comment
 
     def step(self, action: ArrayLike) -> tuple[np.ndarray, float, bool, bool, dict]:
@@ -236,7 +229,8 @@ class SQLiEnv(gym.Env):
                 self.found_parenthesis_structure = True
                 self.parentheses_structure = ''.join(re.findall(r'[)]+', payload))
                 self.comment_char = f"{payload.split()[-1]} "  # Ensure adding whitespace after comment character
-                logging.info(f"Phase 2 success - Parentheses structure found: {self.parentheses_structure}")
+                logging.info(f"Phase 2 success - Parentheses structure found: {self.parentheses_structure or 
+                                                                               'Without parentheses'}")
         if response_status == 200 and ("fail" or "wrong") not in response_text.lower():
             state[1] = 1
         if re.search(rf"flag_challenge_{self.current_challenge_id}\{{[^}}]+}}", response_text):
@@ -294,5 +288,3 @@ class SQLiEnv(gym.Env):
 
 
 env = Monitor(SQLiEnv(), "logs", allow_early_resets=True)
-
-# Todo prevent parenthesis to cut tokens
