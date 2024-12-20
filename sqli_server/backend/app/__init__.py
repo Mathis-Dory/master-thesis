@@ -2,15 +2,15 @@ import logging
 import random
 
 import docker
-from docker import DockerClient
-from flask import Flask, current_app, jsonify
-
 from app.challenges.generator import (
     generate_challenges,
     generate_random_settings,
 )
 from app.challenges.routes import challenges_bp
 from app.config import Config
+from docker import DockerClient
+from flask import Flask, current_app, jsonify
+
 from challenges.models import populate_db
 from .database import (
     configure_database_uri,
@@ -62,15 +62,6 @@ def create_app() -> Flask:
 
     app.register_blueprint(challenges_bp, url_prefix="/challenge")
 
-    @app.route("/", methods=["GET"])
-    def root() -> jsonify:
-        """
-        Display the container information
-        :return: JSON response
-        """
-        container_info = app.config["INIT_DATA"]
-        return jsonify(container_info)
-
     @app.route("/reset", methods=["GET"])
     def reset():
         """
@@ -81,11 +72,67 @@ def create_app() -> Flask:
         old_engine.dispose()
         init_data = app.config["INIT_DATA"]
         client = docker.from_env()
-        container = client.containers.get(init_data["CONTAINER_ID"])
-        container.stop()
-        container.remove()
-        logging.info("Database container stopped and removed")
 
+        # Stop and remove the existing container
+        try:
+            container = client.containers.get(init_data["CONTAINER_ID"])
+            container.stop()
+            container.remove()
+            logging.info("Database container stopped and removed")
+        except docker.errors.NotFound:
+            logging.warning("No database container found to stop or remove.")
+        except Exception as e:
+            logging.error(f"Error stopping/removing container: {e}")
+
+        # List and remove associated volumes
+        try:
+            volumes = client.volumes.list(
+                filters={"label": "app=sqli_challenge"}
+            )
+            if volumes:
+                for volume in volumes:
+                    logging.info(
+                        f"Found volume: {volume.name} with labels: {volume.attrs['Labels']}"
+                    )
+                    try:
+                        volume.remove(force=True)
+                        logging.info(f"Removed volume: {volume.name}")
+                    except Exception as e:
+                        logging.error(
+                            f"Failed to remove volume {volume.name}: {e}"
+                        )
+            else:
+                logging.info(
+                    "No volumes found with label 'app=sqli_challenge'."
+                )
+        except Exception as e:
+            logging.error(f"Error listing/removing volumes: {e}")
+
+        # Remove dangling images based on label
+        try:
+            images = client.images.list(
+                filters={"dangling": True, "label": "app=sqli_challenge"}
+            )
+            if images:
+                for image in images:
+                    logging.info(
+                        f"Found dangling image: {image.id} with labels: {image.attrs['Labels']}"
+                    )
+                    try:
+                        client.images.remove(image.id, force=True)
+                        logging.info(f"Removed dangling image: {image.id}")
+                    except Exception as e:
+                        logging.error(
+                            f"Failed to remove dangling image {image.id}: {e}"
+                        )
+            else:
+                logging.info(
+                    "No dangling images found with label 'app=sqli_challenge'."
+                )
+        except Exception as e:
+            logging.error(f"Error listing/removing dangling images: {e}")
+
+        # Restart the environment
         new_data = app.config["INIT_DATA"] = initialize_environment()
         if not new_data:
             logging.error("Failed to initialize the challenge environment")
@@ -156,6 +203,7 @@ def start_db_instance(
         return None
 
     container_name = "sqli-challenge-db"
+    volume_name = f"sqli_challenge_volume"
     try:
         container = client.containers.get(container_name)
         logging.info(
@@ -163,11 +211,25 @@ def start_db_instance(
         )
         container.stop()
         container.remove()
-        logging.info("Removing unused images and volumes")
-        client.images.prune()
-        client.volumes.prune()
+        logging.info("Removing unused volumes")
+        client.volumes.prune(
+            filters={"label": "app=sqli_challenge"}
+        )  # Remove previous unused volumes
+        client.images.prune()  # Remove previous unused images
     except docker.errors.NotFound:
         logging.info("No existing container to remove.")
+
+    try:
+        volume = client.volumes.create(
+            name=volume_name,
+            labels={"app": "sqli_challenge", "purpose": "database"},
+        )
+        logging.info(
+            f"Created volume: {volume.name} with labels {volume.attrs['Labels']}"
+        )
+    except Exception as e:
+        logging.error(f"Failed to create volume: {e}")
+        return None
 
     if db_image == "mysql:latest":
         environment = {
@@ -175,16 +237,19 @@ def start_db_instance(
             "MYSQL_DATABASE": "sqli_challenge",
         }
         ports = {"3306/tcp": 3306}
+        volume_binding = {volume_name: {"bind": "/var/lib/mysql", "mode": "rw"}}
     elif db_image == "postgres:latest":
         environment = {
             "POSTGRES_PASSWORD": current_app.config["DB_PASSWORD"],
             "POSTGRES_DB": "sqli_challenge",
         }
         ports = {"5432/tcp": 5432}
-
+        volume_binding = {
+            volume_name: {"bind": "/var/lib/postgresql/data", "mode": "rw"}
+        }
     else:
         logging.error(
-            f"Can not assign environment variables for DBMS: {db_image}"
+            f"Cannot assign environment variables for DBMS: {db_image}"
         )
         return None
 
@@ -197,9 +262,10 @@ def start_db_instance(
             ports=ports,
             detach=True,
             network="sqli_server_internal",
+            volumes=volume_binding,
+            labels={"app": "sqli_challenge"},
         )
-        container.reload()
-        logging.info("Database started")
+        logging.info(f"Database started with volume: {volume_name}")
         return container
     except Exception as e:
         logging.error(f"Failed to start database container: {e}")
