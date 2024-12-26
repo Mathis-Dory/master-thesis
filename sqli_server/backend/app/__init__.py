@@ -158,7 +158,6 @@ def create_app() -> Flask:
 def initialize_environment() -> dict or None:
     """
     Initialize the challenge environment.
-    :param app: Flask application
     :return: Dictionary with the DBMS, archetypes types, and container ID
     """
     logging.info("Initializing the challenge environment...")
@@ -196,14 +195,16 @@ def start_db_instance(
     Starts a new DB instance in a Docker container.
     :param client: Docker client
     :param db_image: Docker image to use
-    :return Container object or None
+    :return: Container object or None
     """
     if db_image not in current_app.config["DBMS_IMAGES"]:
         logging.error(f"Unsupported DBMS image: {db_image}")
         return None
 
     container_name = "sqli-challenge-db"
-    volume_name = f"sqli_challenge_volume"
+    volume_name = "sqli_challenge_volume"
+
+    # Stop and remove the existing container, if any
     try:
         container = client.containers.get(container_name)
         logging.info(
@@ -211,22 +212,34 @@ def start_db_instance(
         )
         container.stop()
         container.remove()
-        logging.info("Removing unused volumes")
-        client.volumes.prune(
-            filters={"label": "app=sqli_challenge"}
-        )  # Remove previous unused volumes
-        client.images.prune()  # Remove previous unused images
     except docker.errors.NotFound:
         logging.info("No existing container to remove.")
+    except Exception as e:
+        logging.error(f"Error stopping/removing container: {e}")
 
+    # Remove any old volumes with the specific label
+    try:
+        volumes = client.volumes.list(filters={"label": "app=sqli_challenge"})
+        if volumes:
+            for volume in volumes:
+                logging.info(f"Removing old volume: {volume.name}")
+                try:
+                    volume.remove(force=True)
+                    logging.info(f"Volume {volume.name} removed.")
+                except Exception as e:
+                    logging.error(f"Failed to remove volume {volume.name}: {e}")
+        else:
+            logging.info("No old volumes found to remove.")
+    except Exception as e:
+        logging.error(f"Error listing/removing volumes: {e}")
+
+    # Create a new volume
     try:
         volume = client.volumes.create(
             name=volume_name,
-            labels={"app": "sqli_challenge", "purpose": "database"},
+            labels={"app": "sqli_challenge"},
         )
-        logging.info(
-            f"Created volume: {volume.name} with labels {volume.attrs['Labels']}"
-        )
+        logging.info(f"Created new volume: {volume.name}")
     except Exception as e:
         logging.error(f"Failed to create volume: {e}")
         return None
@@ -254,7 +267,7 @@ def start_db_instance(
         return None
 
     try:
-        logging.info(f"Starting database: {db_image} ...")
+        logging.info(f"Starting database container with image: {db_image}")
         container = client.containers.run(
             image=db_image,
             name=container_name,
@@ -265,7 +278,7 @@ def start_db_instance(
             volumes=volume_binding,
             labels={"app": "sqli_challenge"},
         )
-        logging.info(f"Database started with volume: {volume_name}")
+        logging.info(f"Database container started with volume: {volume_name}")
         return container
     except Exception as e:
         logging.error(f"Failed to start database container: {e}")
